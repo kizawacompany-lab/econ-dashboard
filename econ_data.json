@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-11 08:21",
+  "updated": "2026-05-11 08:53",
   "gdp": {
     "growth_yoy": -0.7,
     "growth_qoq": 0.2,
@@ -41,33 +41,33 @@
   "fx": {
     "usdjpy": 157.2,
     "eurjpy": 171.3,
-    "usdjpy_change": -3.1,
-    "eurjpy_change": -3.4,
+    "usdjpy_change": 0.8,
+    "eurjpy_change": 0.9,
     "history_labels": [
       "26/04",
       "26/04",
       "26/04",
       "26/04",
       "26/04",
-      "26/04",
+      "26/05",
       "26/05"
     ],
     "usdjpy_history": [
-      159.6,
       159.6,
       159.8,
       159.8,
       159.8,
       160.3,
+      156.3,
       157.2
     ],
     "eurjpy_history": [
-      173.9,
       174.0,
       174.2,
       174.2,
       174.2,
       174.7,
+      170.4,
       171.3
     ]
   },
@@ -826,7 +826,7 @@
       3.1
     ]
   },
-  "summary": "# キザワ・アンド・カンパニー 月次マクロ経済サマリー\n**作成日：2026年5月11日**\n\n---\n\n## 【総括】世界経済の全体像と主要リスク\n\n世界経済は緩やかな成長軌道（IMF予測3.1%）を維持していますが、地域別のばらつきが拡大しています。米国は堅調（GDP2.0%）一方、日本のマイナス成長が懸念材料であり、インフレ圧力（世界平均3.7%）も依然として残存。**主要リスクは日本の経済停滞、米中の成長格差の継続、および商品価格の変動性**です。\n\n---\n\n## 【日本経済】景況と注目点\n\n日本経済は明らかに足踏み状態にあります。GDP前年比-0.7%、工作機械受注193.5億円と投資意欲の冷え込みが顕著です。一方、失業率2.7%と雇用は堅調で、日銀短観DI17ptは企業心理の底堅さを示唆していますが、**実質成長への転換には強いリーダーシップと構造的な改革が急務**です。円安進行（157.2円）はインフレ圧力（CPI3.6%）をもたらし、家計実質所得の圧迫につながっています。\n\n---\n\n## 【海外経済】米国・中国・世界経済の動向\n\n米国は底堅い成長を継続し、FF金利4.5%の高金利環境でも経済を支えています。中国はGDP4.8%の予測増にとどまり、デフレ圧力（CPI-0.1%、PPI-2.5%）が深刻化。貿易黒字974億ドルと外需依存度は高いまま。**世界的な需要減速の中で、米中の景気サイクルが乖離し続けている**のが構造的課題です。\n\n---\n\n## 【経営への示唆】経営者へのアドバイス\n\n①**コスト構造の最適化が不可欠**：日本の実質成長が限定的である中、値上げのみでは競争力を失う恐れがあり、生産性向上とコスト削減を同時進行させてください。②**海外市場シフトの加速**：米国は相対的に成長機会が大きく、中国は選別的な展開に。③**為替リスク管理の徹底**：157円水準での円安は一時的な収益増をもたらしますが、長期的な価格競争力低下を招く可能性があり、ヘッジ戦略の再評価を推奨します。",
-  "summary_date": "2026年05月11日 08:21",
-  "summary_en": "# MONTHLY MACROECONOMIC SUMMARY\n**May 2026 | Kizawa & Company Board Brief**\n\n---\n\n## OVERVIEW: Global Economic Landscape & Key Risks\n\nThe global economy remains in a moderate growth phase with synchronized expansion across major economies, though underlying vulnerabilities are emerging. While world GDP growth forecasts remain healthy at 3.1%, Japan's unexpected contraction signals shifting regional dynamics that warrant close attention. The primary risks center on persistent inflation (3.7% globally) despite central bank tightening, currency volatility (JPY weakness at 157.2), and potential stagflation in specific sectors. Commodity price stability (WTI $93.2/bbl) provides some cushion, but geopolitical and supply-chain uncertainties could rapidly destabilize this equilibrium.\n\n---\n\n## JAPAN ECONOMY: Structural Concerns & Domestic Headwinds\n\nJapan's economy contracted 0.7% YoY—a concerning reversal amid global growth—suggesting structural challenges beyond cyclical factors. Despite a tight labor market (2.7% unemployment), domestic demand appears weakened, as evidenced by machine tool orders declining to 193.5B¥ and a modest Tankan DI of 17pt, indicating business sentiment remains cautiously optimistic but not robust. The BOJ's measured rate at 0.73% and elevated 10Y JGB yields (2.87%) reflect policy normalization, yet JPY weakness (157.2 vs. USD) creates cost pressures for importers while supporting exporters unevenly. CPI holding at 3.6% suggests inflation persistence despite economic softness—a stagflationary mix requiring careful policy calibration.\n\n---\n\n## GLOBAL ECONOMY: Divergent Growth & China's Deflationary Pressures\n\nThe US economy demonstrates resilience with 2.0% QoQ annualized growth and moderate CPI (3.1%), supporting the Fed's 4.5% rate stance; however, unemployment at 4.2% signals labor market normalization after years of tightness. China's forecast 4.8% growth masks deeper concerns: deflation (-0.1% CPI, -2.5% PPI) and a $97.4B trade surplus point to weak domestic demand and excess supply, creating potential drag on commodity prices and global manufacturing. The divergence between US stability and China's disinflationary pressures—coupled with Europe's unstated but implied softness—creates an unbalanced global growth profile vulnerable to external shocks.\n\n---\n\n## STRATEGIC IMPLICATIONS: Executive Recommendations\n\n**Immediate Actions:** Reassess Japan operations for demand weakness; prioritize cost optimization and pricing power in domestic markets, while hedging currency exposure given JPY volatility. Strengthen supply chain flexibility to capitalize on trade imbalances between US-China while managing deflationary risk in cost-sensitive sectors.\n\n**Medium-term Positioning:** Maintain conservative capital expenditure guidance until Japan's contraction reverses and business sentiment (Tankan) strengthens materially. Monitor Fed policy closely—the 4.5% rate ceiling may constrain US growth by H2 2026, creating M&A and investment opportunities. Increase exposure to commodity-linked sectors cautiously, as China's deflation could suppress WTI and raw material prices further.\n\n**Risk Management:** Implement quarterly FX rebalancing protocols given 157.2 USD/JPY levels; diversify revenue streams beyond Japan to reduce country-specific exposure; stress-test scenarios assuming continued Japanese weakness and potential China stimulus (which could reverse deflation suddenly)."
+  "summary": "# キザワ・アンド・カンパニー 月次マクロ経済サマリー\n**2026年5月11日作成**\n\n---\n\n## 【総括】現在の世界経済の全体像と主要リスク\n\n世界経済は3.1%の緩やかな成長を続けていますが、地域別の成長格差が拡大しています。米国は堅調な2.0%成長を維持する一方、日本の前年比マイナス成長が顕著であり、中国も減速基調が続いています。主要リスクは**日本の需要不足**と**為替円安圧力（157円台）**による輸入インフレの継続、および中国のデフレ傾向（PPI -2.5%）がグローバルなサプライチェーンに与える影響です。\n\n---\n\n## 【日本経済】日本の景況と注目点\n\n日本経済は前年比-0.7%のマイナス成長に陥り、構造的な課題を露呈しています。失業率2.7%と労働市場は底堅いものの、**工作機械受注193.5億円の低迷**と日銀短観DI 17ptは企業の先行き不安を示唆しており、設備投資意欲の減退が懸念されます。CPI 3.6%の物価上昇と日銀金利0.73%の引き上げが実質金利を高め、消費と投資の双方を圧迫している状況です。\n\n---\n\n## 【海外経済】米国・中国・世界経済の動向\n\n米国は失業率4.2%で底堅く、FF金利4.5%の高金利政策を維持しながらもGDP 2.0%の安定成長を確保しています。これに対し中国はGDP 4.8%予測に留まり、**CPI -0.1%、PPI -2.5%のデフレスパイラル傾向**が懸念材料です。貿易収支974億ドルの黒字を背景に、中国は市場シェア拡大を狙った価格競争を激化させる可能性が高く、グローバルなインフレ沈静化につながる一方で日本企業の価格競争力を脅かします。\n\n---\n\n## 【経営への示唆】コンサルティング会社として経営者へのアドバイス\n\n**提言①：円安活用の時限性を認識する**  \n157円の円安は輸出企業に有利ですが、日銀の金利引き上げ基調により反転リスクが高まっています。円安メリットは一時的と判断し、構造競争力強化に投資を振り向けるべき局面です。\n\n**提言②：中国市場の価格競争激化に備える**  \n中国のデフレと過剰供給が、低価格競争を加速させます。コスト競争ではなく、**付加価値・ブランド・サービス品質**での差別化戦略へシフトが急務です。\n\n**提言③：国内需要開拓と多地域展開のバランス**  \n日本国内のマイナス成長は続く見通しです。米国の堅調さを活かしたアメリカシフト、および新興国での新規市場開拓を並行推進してください。",
+  "summary_date": "2026年05月11日 08:54",
+  "summary_en": "# MONTHLY MACROECONOMIC SUMMARY\n**Kizawa & Company Board of Directors**\n**May 2026**\n\n---\n\n## [OVERVIEW]\n**Global Economic Landscape and Key Risks**\n\nThe global economy remains in a delicate balancing act, with the IMF forecasting 3.1% growth amid persistent inflation averaging 3.7% across major economies. While developed markets show resilience, Japan's contraction and China's moderating growth present headwinds that could cascade into supply chain disruptions affecting export-dependent sectors. Currency volatility—particularly the strong yen at 157.2 against the dollar—combined with elevated bond yields (10Y UST at 4.38%, 10Y JGB at 2.87%) signals tightening financial conditions that may constrain capital investment through H2 2026.\n\nThe primary risks are: (1) stagflation dynamics in Japan despite low unemployment, (2) potential Fed rate durability at 4.5% pressuring emerging market currencies, and (3) China's deflationary pressures (-0.1% CPI, -2.5% PPI) suggesting weakening domestic demand that could impact global commodity prices and manufacturing activity.\n\n---\n\n## [JAPAN ECONOMY]\n**Current Conditions and Strategic Concerns**\n\nJapan's economy is contracting at -0.7% YoY despite historically tight labor markets (2.7% unemployment), indicating structural productivity challenges rather than cyclical weakness. The BOJ's measured rate of 0.73% remains accommodative but the 10Y JGB yield at 2.87% reflects market expectations of gradual normalization, creating a challenging environment for long-term planning and capex decisions. Machine tool orders (193.5B¥) and Tankan sentiment (17pt) show weakness in industrial confidence, suggesting manufacturers are delaying investment decisions amid export uncertainty.\n\nThe elevated yen (157.2 USD/JPY) is a double-edged sword: it reduces import costs but erodes competitiveness for Japanese exporters, particularly impacting automotive and electronics sectors that are core to Japan Inc. CPI at 3.6% remains elevated relative to growth, necessitating careful wage management.\n\n---\n\n## [GLOBAL ECONOMY]\n**US, China, and World Trends**\n\nThe United States maintains solid momentum with 2.0% QoQ annualized GDP growth and moderate 4.2% unemployment, though the Fed's 4.5% rate stance continues restraining credit availability and capital markets. China's economy, while forecasted at 4.8% growth, exhibits concerning deflationary signals (-0.1% CPI, -2.5% PPI) and a massive trade surplus ($97.4B), indicating internal demand weakness masked by export strength—a pattern historically preceding policy corrections. Commodity pressures are easing (WTI $93.2/bbl, CRB 298.5) but remain elevated enough to sustain inflationary expectations.\n\nGlobal trade volume growth is slowing to 2.9%, well below pre-pandemic trends, suggesting protective measures or weakening import demand across developed economies. This environment favors quality exporters but penalizes domestic demand-dependent businesses.\n\n---\n\n## [STRATEGIC IMPLICATIONS]\n**Executive Recommendations**\n\n**Near-term (6 months):** Assume cautious global growth of 2.5-3.0% rather than IMF consensus; prioritize operational efficiency over expansion given rising funding costs (10Y yields above 4.3%). Diversify supply chains away from China given deflationary pressures and strengthen yen-denominated revenues through pricing power before further currency appreciation.\n\n**Medium-term (12-18 months):** Prepare for potential BOJ rate increases toward 1.5-2.0% as JGB yields normalize, which will increase capital costs but reduce carry-trade risks. Build hedging strategies around USD/JPY volatility (target range: 150-160); avoid aggressive capex until Japan's GDP inflection becomes evident or global trade volumes accelerate.\n\n**Capital allocation:** Redirect funds toward defensive sectors (healthcare, utilities, food) and high-margin services; reduce exposure to price-sensitive manufacturing dependent on Chinese demand. Monitor China's policy response to deflation (likely stimulus in H2 2026) as a trigger for repositioning."
 }
