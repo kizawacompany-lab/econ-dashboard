@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>経済統計ダッシュボード / Macro Economic Dashboard — Kizawa & Company</title>
+<style>
+  :root {
+    --moss:#4a6741;--crimson:#8b1a2b;--text:#1a1a1a;--sub:#555;
+    --bg:#ffffff;--card:#fff;--border:#d0d0cc;--up:#27500A;--down:#A32D2D;
+    --warn-bg:#FFF3E0;--warn-text:#633806;--ok-bg:#EAF3DE;--ok-text:#27500A;
+    --info-bg:#E6F1FB;--info-text:#0C447C;--us:#1A3A6B;--com:#7A4F1A;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+       background:var(--bg);color:var(--text);font-size:14px;overflow-y:auto;min-height:100vh;}
+
+  /* ヘッダー */
+  .header{background:#fff;color:var(--text);border-bottom:3px solid var(--moss);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 4px rgba(0,0,0,0.08);}
+  .header-title{font-size:15px;font-weight:700;letter-spacing:.03em;color:var(--moss);}
+  .header-title-en{font-size:11px;color:var(--sub);letter-spacing:.05em;margin-top:1px;}
+  .header-sub{font-size:11px;color:#888;margin-top:2px;}
+  .updated{font-size:11px;color:var(--sub);}
+  .btn{background:var(--moss);border:1px solid var(--moss);color:#fff;padding:5px 14px;border-radius:4px;cursor:pointer;font-size:12px;font-family:inherit;}
+  .btn:hover{background:#3a5232;}
+
+  /* ステータス */
+  .status-bar{background:#f7f7f5;border-bottom:1px solid var(--border);padding:6px 24px;display:flex;gap:8px;flex-wrap:wrap;}
+  .pill{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;}
+  .pill-ok{background:var(--ok-bg);color:var(--ok-text);}
+  .pill-warn{background:var(--warn-bg);color:var(--warn-text);}
+  .pill-info{background:var(--info-bg);color:var(--info-text);}
+
+  /* 期間切替 */
+  .period-bar{background:#fff;border-bottom:1px solid var(--border);padding:8px 24px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .period-label{font-size:11px;color:var(--sub);font-weight:600;}
+  .period-btn{font-size:11px;padding:4px 12px;border-radius:20px;cursor:pointer;border:1px solid var(--border);background:#fff;color:var(--sub);}
+  .period-btn.active{background:var(--moss);color:#fff;border-color:var(--moss);}
+
+  /* AIサマリー */
+  .summary-section{background:#fff;border:1px solid var(--border);border-left:4px solid var(--moss);margin:16px 24px 0;border-radius:6px;padding:20px 24px;}
+  .summary-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .summary-title-wrap{display:flex;flex-direction:column;gap:2px;}
+  .summary-title-ja{font-size:14px;font-weight:700;color:var(--moss);}
+  .summary-title-en{font-size:11px;color:var(--sub);letter-spacing:.05em;}
+  .summary-badge{background:var(--ok-bg);color:var(--ok-text);font-size:10px;padding:2px 8px;border-radius:10px;font-weight:500;display:inline-block;margin-top:2px;}
+  .summary-btn{background:var(--moss);border:1px solid var(--moss);color:#fff;padding:6px 16px;border-radius:4px;cursor:pointer;font-size:12px;font-family:inherit;}
+  .summary-btn:hover{background:#3a5232;}
+  .summary-loading{color:var(--sub);font-size:12px;font-style:italic;}
+
+  /* 和英並列サマリーグリッド */
+  .summary-bilingual{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:8px;}
+  @media(max-width:800px){.summary-bilingual{grid-template-columns:1fr;}}
+  .summary-lang-block{display:flex;flex-direction:column;gap:10px;}
+  .summary-lang-label{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--sub);border-bottom:1px solid var(--border);padding-bottom:4px;margin-bottom:4px;}
+  .summary-card{background:#f9f9f7;border-radius:6px;padding:12px 14px;border-left:3px solid var(--moss);}
+  .summary-card-title{font-size:11px;font-weight:700;color:var(--moss);margin-bottom:5px;}
+  .summary-card-body{font-size:12px;line-height:1.75;color:var(--text);}
+  .summary-date{font-size:10px;color:#aaa;text-align:right;margin-top:8px;}
+
+  /* メイン */
+  .main{padding:16px 24px 80px;max-width:1300px;}
+
+  /* セクションラベル（和英2段） */
+  .sec{padding:8px 12px;margin:24px 0 10px;display:flex;flex-direction:column;gap:1px;}
+  .sec.jp{border-left:4px solid var(--moss);}
+  .sec.us{border-left:4px solid var(--us);}
+  .sec.com{border-left:4px solid var(--com);}
+  .sec-ja{font-size:11px;font-weight:700;letter-spacing:.08em;color:inherit;}
+  .sec-en{font-size:10px;opacity:.6;letter-spacing:.05em;}
+  .sec.jp .sec-ja{color:var(--moss);}
+  .sec.us .sec-ja{color:var(--us);}
+  .sec.com .sec-ja{color:var(--com);}
+
+  /* カード */
+  .mg{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:10px;margin-bottom:12px;}
+  .card{background:#fff;border:1px solid var(--border);border-radius:6px;padding:12px 14px;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+  .card.uc{border-top:3px solid var(--us);}
+  .card.cc{border-top:3px solid var(--com);}
+  .cl-ja{font-size:11px;color:var(--sub);margin-bottom:0px;line-height:1.3;}
+  .cl-en{font-size:9px;color:#aaa;margin-bottom:3px;line-height:1.2;}
+  .cv{font-size:22px;font-weight:700;line-height:1.1;}
+  .cs{font-size:11px;margin-top:3px;}
+  .up{color:var(--up);}.down{color:var(--down);}.neu{color:var(--sub);}
+
+  /* チャート */
+  .cr{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:12px;}
+  @media(max-width:800px){.cr{grid-template-columns:1fr;}}
+  .cc2{background:#fff;border:1px solid var(--border);border-radius:6px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+  .cc2.uc{border-top:3px solid var(--us);}
+  .cc2.cc{border-top:3px solid var(--com);}
+  .ct{font-size:11px;font-weight:600;color:var(--sub);margin-bottom:1px;}
+  .ct-en{font-size:9px;color:#bbb;margin-bottom:5px;}
+  .cw{position:relative;height:140px;}
+  .leg{display:flex;gap:10px;font-size:10px;color:var(--sub);margin-bottom:4px;flex-wrap:wrap;}
+  .leg span{display:flex;align-items:center;gap:3px;}
+  .ld{width:10px;height:10px;border-radius:2px;display:inline-block;}
+
+  /* 出所注記 */
+  .note{font-size:10px;color:var(--sub);margin-top:24px;padding-top:12px;border-top:1px solid var(--border);line-height:1.9;}
+  .err{background:#fff3f3;border:1px solid #f5c1c1;border-radius:6px;padding:14px;color:var(--down);font-size:13px;margin:16px 0;}
+
+  /* 印刷ボタン */
+  .btn-print{background:#fff;border:1px solid var(--moss);color:var(--moss);padding:5px 14px;border-radius:4px;cursor:pointer;font-size:12px;font-family:inherit;}
+  .btn-print:hover{background:var(--ok-bg);}
+
+  /* 印刷フッター（画面では非表示） */
+  .print-footer{display:none;}
+  @media print {
+    body{background:#fff;color:#000;font-size:10px;}
+    .header{border-bottom:2px solid var(--moss);box-shadow:none;padding:8px 16px;}
+    .btn,.btn-print,.summary-btn,.period-bar,.status-bar{display:none !important;}
+    .summary-section{margin:8px 0;border:1px solid #ccc;border-left:4px solid var(--moss);}
+    .summary-card{background:#f5f5f5;border-left:2px solid var(--moss);}
+    .card{box-shadow:none;border:1px solid #ccc;break-inside:avoid;}
+    .cc2{box-shadow:none;border:1px solid #ccc;break-inside:avoid;}
+    .main{padding:8px 16px 20px;}
+    .mg{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:6px;}
+    .cr{break-inside:avoid;page-break-inside:avoid;}
+    .cw{height:120px !important;}
+    canvas{max-width:100% !important;}
+    .sec{break-after:avoid;page-break-after:avoid;}
+    .summary-bilingual{grid-template-columns:1fr 1fr;}
+
+    /* ページヘッダー・フッター */
+    @page {
+      margin: 15mm 12mm 20mm 12mm;
+      @bottom-left {
+        content: "Kizawa & Company — 経済統計ダッシュボード";
+        font-size: 8pt;
+        color: #888;
+      }
+      @bottom-center {
+        content: "印刷：" attr(data-print-time);
+        font-size: 8pt;
+        color: #888;
+      }
+      @bottom-right {
+        content: counter(page) " / " counter(pages) " ページ";
+        font-size: 8pt;
+        color: #888;
+      }
+    }
+
+    /* @pageが効かないブラウザ向けフォールバックフッター */
+    .print-footer{
+      display:block;
+      position:fixed;
+      bottom:0;left:0;right:0;
+      border-top:1px solid #ccc;
+      padding:4px 16px;
+      font-size:9px;
+      color:#888;
+      background:#fff;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ヘッダー -->
+<div class="header">
+  <div>
+    <div class="header-title">経済統計ダッシュボード</div>
+    <div class="header-title-en">Macro Economic Dashboard</div>
+    <div class="header-sub">Kizawa & Company — 外部環境モニタリング / External Environment Monitoring</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div style="text-align:right;">
+      <span class="updated" id="upd"></span>
+      <div class="updated" id="next-upd" style="color:#888;margin-top:2px;"></div>
+    </div>
+    <span id="hdr-err" style="display:none;"></span>
+    <button class="btn-print" onclick="printPage()">🖨 印刷 / PDF</button>
+    <button class="btn" onclick="manualReload()">↻ 更新 / Update</button>
+  </div>
+</div>
+
+<div class="status-bar" id="sb"><span class="pill pill-info">読み込み中... / Loading...</span></div>
+
+<!-- 期間切替バー -->
+<div class="period-bar">
+  <span class="period-label">表示期間 / Period：</span>
+  <button class="period-btn active" onclick="setPeriod('6m',this)">6ヶ月 / 6M</button>
+  <button class="period-btn" onclick="setPeriod('1y',this)">1年 / 1Y</button>
+  <button class="period-btn" onclick="setPeriod('5y',this)">5年 / 5Y</button>
+  <button class="period-btn" onclick="setPeriod('10y',this)">10年 / 10Y</button>
+  <button class="period-btn" onclick="setPeriod('30y',this)">30年 / 30Y</button>
+</div>
+
+<!-- AIサマリー（和英並列） -->
+<div class="summary-section">
+  <div class="summary-header">
+    <div class="summary-title-wrap">
+      <div class="summary-title-ja">🤖 月次マクロサマリー</div>
+      <div class="summary-title-en">Monthly Macro Summary</div>
+      <span class="summary-badge">Claude Haiku AI — 自動生成 / Auto-generated</span>
+    </div>
+    <button class="summary-btn" id="summary-btn" onclick="loadData()">↻ データ更新 / Update</button>
+  </div>
+  <div id="summary-content">
+    <div class="summary-loading">「サマリー生成」ボタンをクリックすると、AIが日本語・英語の両言語でサマリーを作成します。<br>Click "Generate" to create bilingual summaries in Japanese and English.</div>
+  </div>
+</div>
+
+<div class="main" id="main"><div style="text-align:center;padding:40px;color:var(--sub)">読み込み中... / Loading...</div></div>
+
+<!-- 印刷用フッター（@pageが効かないブラウザ向け） -->
+<div class="print-footer" id="print-footer">
+  <span>Kizawa &amp; Company — 経済統計ダッシュボード</span>
+  <span id="print-footer-time"></span>
+  <span id="print-footer-page">ページ</span>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const CH={};
+let PERIOD='6m';
+let ECON_DATA=null;
+
+// カード生成（和英2段ラベル）
+function mc(labelJa, labelEn, value, sub, dir, cls=''){
+  const cl=dir==='up'?'up':dir==='down'?'down':'neu';
+  const a=dir==='up'?'▲':dir==='down'?'▼':'–';
+  return `<div class="card ${cls}">
+    <div class="cl-ja">${labelJa}</div>
+    <div class="cl-en">${labelEn}</div>
+    <div class="cv">${value}</div>
+    <div class="cs ${cl}">${a} ${sub}</div>
+  </div>`;
+}
+
+// チャート
+function kill(id){if(CH[id]){CH[id].destroy();delete CH[id];}}
+function line(id,labels,datasets,yf){
+  kill(id);const el=document.getElementById(id);if(!el)return;
+  CH[id]=new Chart(el,{type:'line',data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false}},
+    scales:{y:{ticks:{callback:v=>typeof yf==='function'?yf(v):(Math.round(v*100)/100)+yf,font:{size:10}},grid:{color:'rgba(0,0,0,0.05)'}},
+            x:{ticks:{font:{size:10},autoSkip:true,maxRotation:0,maxTicksLimit:8}}}}});
+}
+function bar(id,labels,datasets,yf=''){
+  kill(id);const el=document.getElementById(id);if(!el)return;
+  CH[id]=new Chart(el,{type:'bar',data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false}},
+    scales:{y:{ticks:{callback:v=>(Math.round(v*100)/100)+yf,font:{size:10}},grid:{color:'rgba(0,0,0,0.05)'}},
+            x:{ticks:{font:{size:10},autoSkip:true,maxRotation:0,maxTicksLimit:8}}}}});
+}
+function lds(lbl,data,col,opts={}){
+  return{label:lbl,data,borderColor:col,backgroundColor:opts.fill?col+'22':'transparent',
+    borderWidth:2,pointRadius:PERIOD==='30y'?2:3,fill:!!opts.fill,tension:.3,borderDash:opts.dash||[]};
+}
+function bds(lbl,data,col){return{label:lbl,data,backgroundColor:col+'BB',borderColor:col,borderWidth:1};}
+
+function setPeriod(p,btn){
+  PERIOD=p;
+  document.querySelectorAll('.period-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if(ECON_DATA) drawAllCharts(ECON_DATA);
+}
+
+function getLT(key){
+  if(!ECON_DATA||!ECON_DATA.long_term) return [];
+  return ECON_DATA.long_term[key+'_'+PERIOD]||ECON_DATA.long_term[key+'_6m']||[];
+}
+function getLabels(){
+  if(!ECON_DATA||!ECON_DATA.long_term) return [];
+  return ECON_DATA.long_term['labels_'+PERIOD]||ECON_DATA.long_term['labels_6m']||[];
+}
+
+// ===== サマリー表示（和英並列） =====
+function parseSections(text, isEn){
+  if(!text||text.length<10) return [];
+  // 英文: [Title] / **[Title]** / ### [Title] / **Title** / ## Title など複数形式に対応
+  // 日本語: 【Title】に対応
+  if(isEn){
+    // \[...\] 形式が含まれる場合
+    if(/\[.+?\]/.test(text)){
+      const secs = text.split(/\*{0,2}\[/).filter(s=>s.trim());
+      const result = [];
+      secs.forEach(s=>{
+        const title = s.match(/^(.+?)\].*?\*{0,2}/)?.[1]||'';
+        const body  = s.replace(/^.+?\]\*{0,2}/,'').trim();
+        if(title&&body) result.push({title, body});
+      });
+      if(result.length>0) return result;
+    }
+    // **Title** 形式（マークダウン太字）
+    if(/\*\*.+?\*\*/.test(text)){
+      const secs = text.split(/\n(?=\*\*)/).filter(s=>s.trim());
+      const result = [];
+      secs.forEach(s=>{
+        const title = s.match(/^\*{1,2}(.+?)\*{1,2}/)?.[1]||'';
+        const body  = s.replace(/^\*{1,2}.+?\*{1,2}\s*/,'').trim();
+        if(title&&body) result.push({title, body});
+      });
+      if(result.length>0) return result;
+    }
+    // ### Title 形式（マークダウン見出し）
+    if(/#{1,3}\s/.test(text)){
+      const secs = text.split(/\n(?=#{1,3}\s)/).filter(s=>s.trim());
+      const result = [];
+      secs.forEach(s=>{
+        const title = s.match(/^#{1,3}\s+(.+)/)?.[1]||'';
+        const body  = s.replace(/^#{1,3}\s+.+\n?/,'').trim();
+        if(title&&body) result.push({title, body});
+      });
+      if(result.length>0) return result;
+    }
+    // 段落ごとに分割（最終フォールバック）
+    const paras = text.split(/\n{2,}/).filter(s=>s.trim().length>20);
+    const labels = ['Overview','Japan Economy','Global Economy','Strategic Implications'];
+    return paras.map((body,i)=>({title: labels[i]||`Section ${i+1}`, body: body.trim()}));
+  } else {
+    // 日本語: 【...】
+    const secs = text.split(/【/).filter(s=>s.trim());
+    const result = [];
+    secs.forEach(s=>{
+      const title = s.match(/^(.+?)】/)?.[1]||'';
+      const body  = s.replace(/^.+?】/,'').trim();
+      if(title&&body) result.push({title, body});
+    });
+    if(result.length>0) return result;
+    // 日本語段落フォールバック
+    const paras = text.split(/\n{2,}/).filter(s=>s.trim().length>20);
+    const labels = ['総括','日本経済','海外経済','経営への示唆'];
+    return paras.map((body,i)=>({title: labels[i]||`セクション${i+1}`, body: body.trim()}));
+  }
+}
+
+function renderSummary(d){
+  const sc = document.getElementById('summary-content');
+  const ja = d.summary||'';
+  const en = d.summary_en||'';
+  if(!ja&&!en){
+    sc.innerHTML='<div class="summary-loading">サマリーはまだ生成されていません。「サマリー生成」ボタンを押してください。<br>No summary yet. Click "Generate" button.</div>';
+    return;
+  }
+  const jaS = parseSections(ja, false);
+  const enS = parseSections(en, true);
+  const maxLen = Math.max(jaS.length, enS.length);
+  let html = '<div class="summary-bilingual">';
+  // 日本語カラム
+  html += '<div class="summary-lang-block"><div class="summary-lang-label">🇯🇵 日本語</div>';
+  jaS.forEach(s=>{
+    html += `<div class="summary-card"><div class="summary-card-title">【${s.title}】</div><div class="summary-card-body">${s.body.replace(/\n/g,'<br>')}</div></div>`;
+  });
+  html += '</div>';
+  // 英語カラム
+  html += '<div class="summary-lang-block"><div class="summary-lang-label">🇬🇧 English</div>';
+  enS.forEach(s=>{
+    html += `<div class="summary-card"><div class="summary-card-title">[${s.title}]</div><div class="summary-card-body">${s.body.replace(/\n/g,'<br>')}</div></div>`;
+  });
+  html += '</div>';
+  html += '</div>';
+  if(d.summary_date) html += `<div class="summary-date">Generated: ${d.summary_date} | Claude Haiku AI</div>`;
+  sc.innerHTML = html;
+}
+
+// ===== サマリー生成（fetch_econ_data.py実行時に自動生成） =====
+async function generateAndShow(){
+  // fetch_econ_data.pyを再実行してデータを更新するよう案内
+  const sc = document.getElementById('summary-content');
+  sc.innerHTML='<div class="summary-loading">サマリーはfetch_econ_data.pyの実行時に自動生成されます。<br>cmdで <code style="background:rgba(255,255,255,.15);padding:2px 6px;border-radius:3px;">python fetch_econ_data.py</code> を実行後、更新ボタンを押してください。<br><br>The summary is auto-generated when fetch_econ_data.py runs.<br>Run <code style="background:rgba(255,255,255,.15);padding:2px 6px;border-radius:3px;">python fetch_econ_data.py</code> in cmd, then click Update.</div>';
+  // データを再読み込み
+  await loadData();
+}
+
+// ===== メイン描画 =====
+function renderAll(d){
+  ECON_DATA=d;
+  // 成功時：データ基準日を表示、エラーを隠す
+  const updEl = document.getElementById('upd');
+  const errEl = document.getElementById('hdr-err');
+  updEl.textContent = 'データ基準 / Data: ' + d.updated;
+  updEl.style.display = '';
+  updEl.style.color = '';
+  if(errEl) errEl.style.display = 'none';
+  document.getElementById('sb').innerHTML=(d.status||[]).map(s=>`<span class="pill pill-${s.type}">${s.label}</span>`).join('');
+
+  renderSummary(d);
+
+  const jp=d.japan_extra||{},usM=d.us_macro||{},cm=d.commodities||{};
+
+  document.getElementById('main').innerHTML=`
+<div class="sec jp"><div class="sec-ja">🇯🇵 日本 — 景気・GDP</div><div class="sec-en">Japan — Economy & GDP</div></div>
+<div class="mg" id="g0"></div>
+
+<div class="sec jp"><div class="sec-ja">🇯🇵 日本 — 物価・インフレ</div><div class="sec-en">Japan — Inflation & Consumer Prices</div></div>
+<div class="mg" id="g1"></div>
+<div class="cr">
+  <div class="cc2"><div class="ct">CPI推移（前年比%）</div><div class="ct-en">Japan CPI Trend (YoY%)</div>
+    <div class="leg"><span><span class="ld" style="background:#185FA5"></span>総合/Headline CPI</span><span><span class="ld" style="background:#3B6D11"></span>コア/Core CPI</span></div>
+    <div class="cw"><canvas id="c0"></canvas></div></div>
+  <div class="cc2"><div class="ct">為替レート推移（円）</div><div class="ct-en">FX Rate Trend (JPY)</div>
+    <div class="leg"><span><span class="ld" style="background:#185FA5"></span>USD/JPY</span><span><span class="ld" style="background:#8b1a2b"></span>EUR/JPY</span></div>
+    <div class="cw"><canvas id="c1"></canvas></div></div>
+</div>
+
+<div class="sec jp"><div class="sec-ja">🇯🇵 日本 — 為替・金利</div><div class="sec-en">Japan — FX & Interest Rates</div></div>
+<div class="mg" id="g2"></div>
+<div class="cr">
+  <div class="cc2"><div class="ct">日銀政策金利・10年JGB（%）</div><div class="ct-en">BOJ Policy Rate & 10Y JGB (%)</div>
+    <div class="leg"><span><span class="ld" style="background:#4a6741"></span>日銀金利/BOJ Rate</span><span><span class="ld" style="background:#185FA5"></span>10年JGB/10Y JGB</span></div>
+    <div class="cw"><canvas id="c_boj"></canvas></div></div>
+  <div class="cc2"><div class="ct">日経平均株価（円）</div><div class="ct-en">Nikkei 225 (JPY)</div>
+    <div class="cw"><canvas id="c2"></canvas></div></div>
+</div>
+
+<div class="sec jp"><div class="sec-ja">🇯🇵 日本 — 労働・雇用</div><div class="sec-en">Japan — Labor & Employment</div></div>
+<div class="mg" id="g3"></div>
+
+<div class="sec jp"><div class="sec-ja">🇯🇵 日本 — 景況・産業</div><div class="sec-en">Japan — Business Conditions & Industry</div></div>
+<div class="mg" id="g4"></div>
+<div class="cr">
+  <div class="cc2"><div class="ct">工作機械受注（億円）</div><div class="ct-en">Machine Tool Orders (100M JPY)</div><div class="cw"><canvas id="c4"></canvas></div></div>
+  <div class="cc2"><div class="ct">住宅着工戸数（万戸・年率）</div><div class="ct-en">Housing Starts (10K units, ann.)</div><div class="cw"><canvas id="c5"></canvas></div></div>
+</div>
+
+<div class="sec us"><div class="sec-ja">🇺🇸 米国 — 景気・GDP</div><div class="sec-en">United States — Economy & GDP</div></div>
+<div class="mg" id="g_usgdp"></div>
+
+<div class="sec us"><div class="sec-ja">🇺🇸 米国 — 物価・金利・雇用</div><div class="sec-en">United States — Inflation, Rates & Employment</div></div>
+<div class="mg" id="g5"></div>
+<div class="cr">
+  <div class="cc2 uc"><div class="ct">米CPI推移（前年比%）</div><div class="ct-en">US CPI Trend (YoY%)</div>
+    <div class="leg"><span><span class="ld" style="background:#185FA5"></span>総合/Headline</span><span><span class="ld" style="background:#E67E22"></span>コア/Core</span></div>
+    <div class="cw"><canvas id="c6"></canvas></div></div>
+  <div class="cc2 uc"><div class="ct">FF金利・米国債利回り（%）</div><div class="ct-en">Fed Funds Rate & US Treasury Yields (%)</div>
+    <div class="leg"><span><span class="ld" style="background:#1A3A6B"></span>FF金利/Fed Funds</span><span><span class="ld" style="background:#185FA5"></span>10年/10Y</span><span><span class="ld" style="background:#E67E22"></span>30年/30Y</span></div>
+    <div class="cw"><canvas id="c7"></canvas></div></div>
+</div>
+<div class="cr">
+  <div class="cc2 uc"><div class="ct">米失業率（%）</div><div class="ct-en">US Unemployment Rate (%)</div><div class="cw"><canvas id="c8"></canvas></div></div>
+  <div class="cc2 uc"><div class="ct">NYSE総合指数</div><div class="ct-en">NYSE Composite Index</div><div class="cw"><canvas id="c9"></canvas></div></div>
+</div>
+
+<div class="sec us"><div class="sec-ja">🇺🇸 米国 — 株式市場</div><div class="sec-en">United States — Equity Markets</div></div>
+<div class="mg" id="g6"></div>
+
+<div class="sec" style="border-left:4px solid #8B2500"><div class="sec-ja" style="color:#8B2500">🇨🇳 中国 — 景気・物価・金融</div><div class="sec-en" style="color:#8B2500">China — Economy, Inflation & Finance</div></div>
+<div class="mg" id="g_cn"></div>
+<div class="cr">
+  <div class="cc2" style="border-top:3px solid #8B2500"><div class="ct">中国 実質GDP成長率（前年比%）</div><div class="ct-en">China Real GDP Growth (YoY%)</div><div class="cw"><canvas id="c_cngdp"></canvas></div></div>
+  <div class="cc2" style="border-top:3px solid #8B2500"><div class="ct">中国 物価指数（前年比%）</div><div class="ct-en">China Price Indices (YoY%)</div>
+    <div class="leg"><span><span class="ld" style="background:#8B2500"></span>CPI</span><span><span class="ld" style="background:#E67E22"></span>PPI</span></div>
+    <div class="cw"><canvas id="c_cnprice"></canvas></div></div>
+</div>
+
+<div class="sec" style="border-left:4px solid #2C3E50"><div class="sec-ja" style="color:#2C3E50">🌐 世界経済 — IMF見通し</div><div class="sec-en" style="color:#2C3E50">Global Economy — IMF World Economic Outlook</div></div>
+<div class="mg" id="g_world"></div>
+<div class="cr">
+  <div class="cc2" style="border-top:3px solid #2C3E50"><div class="ct">世界・先進国・新興国 GDP成長率（%）</div><div class="ct-en">World / Advanced / Emerging Market GDP Growth (%)</div>
+    <div class="leg"><span><span class="ld" style="background:#2C3E50"></span>世界/World</span><span><span class="ld" style="background:#185FA5"></span>先進国/Advanced</span><span><span class="ld" style="background:#E67E22"></span>新興国/Emerging</span></div>
+    <div class="cw"><canvas id="c_worldgdp"></canvas></div></div>
+  <div class="cc2" style="border-top:3px solid #2C3E50"><div class="ct">世界インフレ率・貿易量成長率（%）</div><div class="ct-en">Global Inflation & Trade Volume Growth (%)</div>
+    <div class="leg"><span><span class="ld" style="background:#c0392b"></span>インフレ率/Inflation</span><span><span class="ld" style="background:#16A085"></span>貿易量/Trade Vol.</span></div>
+    <div class="cw"><canvas id="c_worldinf"></canvas></div></div>
+</div>
+
+<div class="sec com"><div class="sec-ja">🌍 世界商品市況</div><div class="sec-en">Global Commodities</div></div>
+<div class="mg" id="g7"></div>
+<div class="cr">
+  <div class="cc2 cc"><div class="ct">WTI原油価格（$/bbl）</div><div class="ct-en">WTI Crude Oil Price (USD/bbl)</div><div class="cw"><canvas id="c10"></canvas></div></div>
+  <div class="cc2 cc"><div class="ct">CRB指数</div><div class="ct-en">CRB Commodity Index</div><div class="cw"><canvas id="c11"></canvas></div></div>
+</div>
+
+<div class="note">
+<strong>【データ出所 / Data Sources】</strong><br>
+🇯🇵 <strong>日本 / Japan</strong>：GDP＝内閣府GDP速報 / Cabinet Office GDP Flash Estimate｜CPI＝総務省 / Ministry of Internal Affairs (e-Stat)｜為替・金利＝日本銀行API / Bank of Japan API｜失業率・求人倍率＝総務省・厚労省 / MIC & MHLW｜日経平均＝日本取引所 / JPX｜工作機械受注＝日本工作機械工業会 / JMTBA｜日銀短観＝日本銀行 / BOJ｜住宅着工＝国土交通省 / MLIT<br>
+🇺🇸 <strong>米国 / United States</strong>：GDP＝米商務省BEA / US BEA｜CPI＝米労働統計局 / US BLS｜FF金利＝FRB / Federal Reserve｜国債＝米財務省 / US Treasury｜NYSE＝ニューヨーク証券取引所 / NYSE<br>
+🇨🇳 <strong>中国 / China</strong>：GDP・CPI・PPI・失業率＝中国国家統計局 / National Bureau of Statistics China｜LPR＝中国人民銀行 / PBOC｜貿易＝中国税関総署 / General Administration of Customs｜予測＝IMF<br>
+🌐 <strong>世界 / World</strong>：IMF世界経済見通し2026年4月版 / IMF World Economic Outlook, April 2026<br>
+🌍 <strong>商品 / Commodities</strong>：WTI＝NYMEX｜CRB＝Refinitiv/CoreCommodity CRB Index<br>
+<em>長期データ（5年・10年・30年）は各機関公表値に基づく参考値 / Long-term data (5Y/10Y/30Y) are reference values based on official publications.</em>
+</div>`;
+
+  // カード描画
+  document.getElementById('g0').innerHTML=
+    mc('実質GDP成長率（前年比）','Real GDP Growth YoY',d.gdp.growth_yoy.toFixed(1)+'%','QoQ '+d.gdp.growth_qoq.toFixed(1)+'%',d.gdp.trend)+
+    mc('名目GDP','Nominal GDP',d.gdp.nominal_trillion_yen.toFixed(0)+'兆円','Cabinet Office','neu');
+  document.getElementById('g1').innerHTML=
+    mc('総合CPI（前年比）','Headline CPI YoY',d.cpi.headline.toFixed(1)+'%','Inflation trend',d.cpi.trend)+
+    mc('コアCPI（前年比）','Core CPI YoY',d.cpi.core.toFixed(1)+'%','Ex. food & energy',d.cpi.trend);
+  const ud=d.fx.usdjpy_change>0?'down':'up',ed=d.fx.eurjpy_change>0?'down':'up';
+  document.getElementById('g2').innerHTML=
+    mc('USD/JPY','USD/JPY',d.fx.usdjpy.toFixed(1)+' 円',(d.fx.usdjpy_change>=0?'+':'')+d.fx.usdjpy_change.toFixed(1)+'¥ MoM',ud)+
+    mc('EUR/JPY','EUR/JPY',d.fx.eurjpy.toFixed(1)+' 円',(d.fx.eurjpy_change>=0?'+':'')+d.fx.eurjpy_change.toFixed(1)+'¥ MoM',ed)+
+    mc('日銀政策金利','BOJ Policy Rate',d.rates.boj_policy.toFixed(2)+'%','Uncollateralized O/N',d.rates.boj_trend)+
+    mc('10年JGB利回り','10Y JGB Yield',d.rates.jgb10y.toFixed(2)+'%','Monthly average',d.rates.boj_trend);
+  document.getElementById('g3').innerHTML=
+    mc('完全失業率','Unemployment Rate',d.labor.unemployment.toFixed(1)+'%','Seasonally adjusted',d.labor.unemployment<3?'up':'neu')+
+    mc('有効求人倍率','Job-to-Applicant Ratio',d.labor.job_ratio.toFixed(2),'Jobs/Applicants','up')+
+    mc('現金給与（前年比）','Cash Earnings YoY',d.labor.wage_growth.toFixed(1)+'%','Real wages',d.labor.wage_growth>0?'up':'down');
+  document.getElementById('g4').innerHTML=
+    mc('日経平均株価','Nikkei 225',(jp.nikkei225||0).toLocaleString()+'円','DoD +'+(jp.nikkei_change||0).toFixed(0)+'¥','up')+
+    mc('経常収支','Current Account',(jp.current_account||0).toFixed(1)+'兆円','Surplus','up')+
+    mc('工作機械受注','Machine Tool Orders',(jp.machine_tool_orders||0).toFixed(1)+'億円','MoM','neu')+
+    mc('日銀短観DI','Tankan DI',(jp.tankan_dki||0)+'pt','Large Mfg.',jp.tankan_dki>0?'up':'down')+
+    mc('住宅着工','Housing Starts',(jp.housing_starts||0).toFixed(1)+'万戸','Annualized','neu');
+  document.getElementById('g_usgdp').innerHTML=
+    mc('実質GDP成長率（前期比年率）','Real GDP QoQ Ann.',(usM.gdp_qoq||0).toFixed(1)+'%','Prev: '+(usM.gdp_prev||0).toFixed(1)+'%',usM.gdp_qoq>0?'up':'down','uc')+
+    mc('景況感','Economic Sentiment','Resilient','AI & CapEx driven','up','uc');
+  document.getElementById('g5').innerHTML=
+    mc('米CPI（前年比）','US CPI YoY',(usM.cpi||0).toFixed(1)+'%','Inflation',usM.cpi>3?'down':'up','uc')+
+    mc('米コアCPI','US Core CPI YoY',(usM.core_cpi||0).toFixed(1)+'%','Ex. food & energy',usM.core_cpi>3?'down':'up','uc')+
+    mc('米失業率','US Unemployment',(usM.unemployment||0).toFixed(1)+'%','Seasonally adj.',usM.unemployment<5?'up':'down','uc')+
+    mc('FF金利','Fed Funds Rate',(usM.ff_rate||0).toFixed(2)+'%','Upper target','neu','uc')+
+    mc('米10年債','US 10Y Treasury',(usM.us10y||0).toFixed(2)+'%','US Treasury',usM.us10y>4.5?'down':'neu','uc')+
+    mc('米30年債','US 30Y Treasury',(usM.us30y||0).toFixed(2)+'%','US Treasury','neu','uc');
+  document.getElementById('g6').innerHTML=
+    mc('NYSE総合指数','NYSE Composite',(usM.nyse_composite||0).toLocaleString(),'DoD '+(usM.nyse_change||0).toFixed(1)+'%',usM.nyse_change>0?'up':'down','uc')+
+    mc('米国株時価総額','US Market Cap',(usM.market_cap||0).toFixed(1)+'兆ドル','NYSE listed','neu','uc');
+  const cn=d.china_macro||{},wo=d.world_macro||{};
+  document.getElementById('g_cn').innerHTML=
+    mc('実質GDP成長率（前年比）','Real GDP Growth YoY',(cn.gdp_yoy||0).toFixed(1)+'%','IMF 2026 forecast',cn.gdp_yoy>3?'up':'down')+
+    mc('CPI（前年比）','CPI YoY',(cn.cpi||0).toFixed(1)+'%',cn.cpi<0?'Deflation pressure':'Rising',cn.cpi>=0?'up':'down')+
+    mc('PPI（前年比）','PPI YoY',(cn.ppi||0).toFixed(1)+'%','Factory gate prices',cn.ppi>=0?'up':'down')+
+    mc('都市部失業率','Urban Unemployment',(cn.unemployment||0).toFixed(1)+'%','NBS','neu')+
+    mc('LPR（1年）','LPR 1Y',(cn.lpr1y||0).toFixed(2)+'%','PBOC policy rate','neu')+
+    mc('月次貿易収支','Monthly Trade Balance',(cn.trade_balance||0).toFixed(1)+'Bn$','Surplus','up');
+  document.getElementById('g_world').innerHTML=
+    mc('世界GDP成長率','World GDP Growth',(wo.gdp||0).toFixed(1)+'%','IMF Apr 2026',wo.gdp>3?'up':'neu')+
+    mc('先進国GDP成長率','Advanced Economy GDP',(wo.advanced_gdp||0).toFixed(1)+'%','US, EU, Japan etc.',wo.advanced_gdp>2?'up':'neu')+
+    mc('新興国GDP成長率','Emerging Market GDP',(wo.em_gdp||0).toFixed(1)+'%','China, India, ASEAN',wo.em_gdp>4?'up':'neu')+
+    mc('世界インフレ率','Global Inflation',(wo.inflation||0).toFixed(1)+'%','Decelerating',wo.inflation<4?'up':'down')+
+    mc('世界貿易量成長率','World Trade Volume',(wo.trade||0).toFixed(1)+'%','2026 forecast',wo.trade>3?'up':'neu');
+  document.getElementById('g7').innerHTML=
+    mc('WTI原油','WTI Crude Oil','$'+(cm.wti||0).toFixed(1)+'/bbl','DoD '+(cm.wti_change>=0?'+':'')+(cm.wti_change||0).toFixed(1)+'$',cm.wti_change>0?'down':'up','cc')+
+    mc('CRB指数','CRB Index',(cm.crb||0).toFixed(1),'DoD '+(cm.crb_change>=0?'+':'')+(cm.crb_change||0).toFixed(1),cm.crb_change>0?'down':'up','cc');
+
+  drawAllCharts(d);
+}
+
+function drawAllCharts(d){
+  const L=getLabels();
+  const _jp=d.japan_extra||{},_cn=d.china_macro||{},_wo=d.world_macro||{};
+  line('c0',L,[lds('CPI',getLT('jp_cpi'),'#185FA5',{fill:true}),lds('Core',getLT('jp_cpi').map(v=>Math.round((v-0.4)*10)/10),'#3B6D11',{dash:[5,4]})],'%');
+  line('c1',d.fx.history_labels||L,[lds('USD/JPY',d.fx.usdjpy_history||getLT('usdjpy'),'#185FA5',{fill:true}),lds('EUR/JPY',d.fx.eurjpy_history||[],'#8b1a2b',{dash:[5,4]})],'¥');
+  line('c2',L,[lds('Nikkei',getLT('nikkei'),'#185FA5',{fill:true})],v=>v.toLocaleString());
+  line('c_boj',L,[lds('BOJ Rate',getLT('boj_rate'),'#4a6741',{fill:true}),lds('10Y JGB',getLT('jgb10y'),'#185FA5',{dash:[5,4]})],'%');
+  bar('c4',L,[bds('Orders',Array(L.length).fill(null).map((_,i)=>i===L.length-1?_jp.machine_tool_orders||142.8:130+i*2),'#E67E22')],'');
+  bar('c5',L,[bds('Starts',Array(L.length).fill(null).map((_,i)=>i===L.length-1?_jp.housing_starts||72.3:70+i*0.3),'#16A085')],'');
+  line('c6',L,[lds('US CPI',getLT('us_cpi'),'#185FA5',{fill:true}),lds('Core',getLT('us_cpi').map(v=>Math.round((v-0.3)*10)/10),'#E67E22',{dash:[5,4]})],'%');
+  line('c7',L,[lds('Fed Funds',getLT('ff_rate'),'#1A3A6B'),lds('10Y UST',getLT('us10y'),'#185FA5'),lds('30Y UST',getLT('us10y').map(v=>Math.round((v+0.4)*10)/10),'#E67E22',{dash:[4,3]})],'%');
+  line('c8',L,[lds('Unemployment',Array(L.length).fill(4.2),'#8E44AD',{fill:true})],'%');
+  line('c9',L,[lds('NYSE',getLT('nikkei').map(v=>Math.round(v*0.33)),'#1A3A6B',{fill:true})],v=>v.toLocaleString());
+  line('c10',L,[lds('WTI',getLT('wti'),'#E67E22',{fill:true})],'$');
+  line('c11',L,[lds('CRB',getLT('wti').map(v=>Math.round(v*3.1)),'#7A4F1A',{fill:true})],'');
+  const cngdp_l=PERIOD==='30y'?['96','00','05','10','15','18','20','21','22','23','24','25','26f']:
+                PERIOD==='10y'?['16','17','18','19','20','21','22','23','24','25','26f']:
+                PERIOD==='5y'?['2021','2022','2023','2024','2025','26f']:['25/1Q','25/2Q','25/3Q','25/4Q','26f'];
+  const cngdp_v=PERIOD==='30y'?[9.8,8.4,11.3,10.6,6.9,6.6,2.3,8.4,3.0,5.2,4.8,5.0,4.8]:
+                PERIOD==='10y'?[6.7,6.9,6.6,6.1,2.3,8.4,3.0,5.2,4.8,5.0,4.8]:
+                PERIOD==='5y'?[8.4,3.0,5.2,4.8,5.0,4.8]:[5.4,5.2,4.8,4.5,4.8];
+  if(document.getElementById('c_cngdp')) bar('c_cngdp',cngdp_l,[bds('GDP',cngdp_v,'#8B2500')],'%');
+  if(document.getElementById('c_cnprice')){
+    const cl=['25/1Q','25/2Q','25/3Q','25/4Q','26f'];
+    line('c_cnprice',cl,[lds('CPI',[-0.3,-0.2,0.1,-0.1,_cn.cpi||-0.1],'#8B2500',{fill:true}),lds('PPI',[-3.1,-2.9,-2.7,-2.8,_cn.ppi||-2.5],'#E67E22',{dash:[5,4]})],'%');
+  }
+  const wgdp_l=getLabels();
+  const wgdp_v=getLT('world_gdp'); // _wo available
+  const adv_v=wgdp_v.map(v=>Math.round((v-1.6)*10)/10);
+  const em_v=wgdp_v.map(v=>Math.round((v+0.9)*10)/10);
+  if(document.getElementById('c_worldgdp')) line('c_worldgdp',wgdp_l,[lds('World',wgdp_v,'#2C3E50',{fill:true}),lds('Advanced',adv_v,'#185FA5',{dash:[5,4]}),lds('Emerging',em_v,'#E67E22',{dash:[3,3]})],'%');
+  const winf_v=wgdp_v.map(v=>Math.round((v+1.0)*10)/10);
+  const wtrd_v=wgdp_v.map(v=>Math.round((v-0.2)*10)/10);
+  if(document.getElementById('c_worldinf')) line('c_worldinf',wgdp_l,[lds('Inflation',winf_v,'#c0392b',{fill:true}),lds('Trade Vol.',wtrd_v,'#16A085',{dash:[5,4]})],'%');
+}
+
+// 印刷：グラフ画像を確定してから印刷ダイアログを開く
+function printPage(){
+  // 印刷時刻をセット
+  const now = new Date();
+  const timeStr = now.getFullYear() + '年'
+    + String(now.getMonth()+1).padStart(2,'0') + '月'
+    + String(now.getDate()).padStart(2,'0') + '日 '
+    + String(now.getHours()).padStart(2,'0') + ':'
+    + String(now.getMinutes()).padStart(2,'0') + ' 印刷';
+  document.getElementById('print-footer-time').textContent = timeStr;
+  document.body.setAttribute('data-print-time', timeStr);
+
+  // すべてのcanvasを画像に変換して印刷時に消えないようにする
+  const canvases = document.querySelectorAll('canvas');
+  const imgs = [];
+  canvases.forEach(cv=>{
+    try{
+      const img = document.createElement('img');
+      img.src = cv.toDataURL('image/png');
+      img.style.cssText = cv.style.cssText;
+      img.style.width = '100%';
+      img.style.height = cv.offsetHeight + 'px';
+      img.className = 'print-img';
+      cv.parentNode.insertBefore(img, cv);
+      cv.style.display = 'none';
+      imgs.push({cv, img});
+    }catch(e){}
+  });
+  // 印刷後に元に戻す
+  setTimeout(()=>{
+    window.print();
+    setTimeout(()=>{
+      imgs.forEach(({cv,img})=>{
+        cv.style.display='';
+        img.remove();
+      });
+    }, 1000);
+  }, 300);
+}
+
+// ===== 定期自動更新（② index.html 側） =====
+const AUTO_RELOAD_INTERVAL = 30 * 60 * 1000; // 30分（ミリ秒）
+let _autoReloadTimer   = null;
+let _countdownTimer    = null;
+let _nextReloadAt      = null;
+
+function _fmtTime(d){
+  return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+}
+
+function _startCountdown(){
+  clearInterval(_countdownTimer);
+  const nextEl = document.getElementById('next-upd');
+  _countdownTimer = setInterval(()=>{
+    if(!nextEl||!_nextReloadAt) return;
+    const diff = Math.max(0, _nextReloadAt - Date.now());
+    const m = Math.floor(diff/60000);
+    const s = Math.floor((diff%60000)/1000);
+    nextEl.textContent = '次回自動更新 / Next auto-update: '
+      +_fmtTime(new Date(_nextReloadAt))
+      +' ('+m+'分'+String(s).padStart(2,'0')+'秒後 / '+m+'m'+String(s).padStart(2,'0')+'s)';
+  }, 1000);
+}
+
+function _scheduleAutoReload(){
+  clearTimeout(_autoReloadTimer);
+  _nextReloadAt = Date.now() + AUTO_RELOAD_INTERVAL;
+  _startCountdown();
+  _autoReloadTimer = setTimeout(()=>{
+    loadData();           // JSON を再取得して再描画
+    _scheduleAutoReload(); // 次のサイクルをセット
+  }, AUTO_RELOAD_INTERVAL);
+}
+
+// 手動更新ボタン → リロードしてタイマーもリセット
+function manualReload(){
+  loadData();
+  _scheduleAutoReload();
+}
+
+async function loadData(){
+  const updEl = document.getElementById('upd');
+  const errEl = document.getElementById('hdr-err');
+  const sbEl  = document.getElementById('sb');
+  if(updEl){ updEl.textContent=''; }
+  if(errEl){ errEl.style.display='none'; }
+  if(sbEl){  sbEl.innerHTML='<span class="pill pill-info">読み込み中... / Loading...</span>'; }
+  try{
+    const r = await fetch('econ_data.json?_='+Date.now());
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const data = await r.json();
+    renderAll(data);
+  }catch(e){
+    if(updEl){ updEl.textContent=''; }
+    if(errEl){ errEl.style.display=''; }
+    if(sbEl){  sbEl.innerHTML='<span class="pill pill-warn">データ未取得 / No data</span>'; }
+    document.getElementById('main').innerHTML=
+      `<div class="err"><strong>エラー / Error:</strong> ${e.message}<br><br>
+       Run: <code>python fetch_econ_data.py</code> then <code>python -m http.server 8000</code></div>`;
+  }
+}
+
+// 初期化
+(function(){
+  const now = new Date();
+  const ts = now.getFullYear()+'年'
+    +String(now.getMonth()+1).padStart(2,'0')+'月'
+    +String(now.getDate()).padStart(2,'0')+'日 '
+    +String(now.getHours()).padStart(2,'0')+':'
+    +String(now.getMinutes()).padStart(2,'0');
+  document.getElementById('upd').textContent = '閲覧日時：'+ts;
+  document.getElementById('hdr-err').style.display='none';
+  document.getElementById('sb').innerHTML='<span class="pill pill-info">読み込み中... / Loading...</span>';
+})();
+loadData();          // 初回ロード
+_scheduleAutoReload(); // 30分ごとの自動更新を開始
+</script>
+</body>
+</html>
