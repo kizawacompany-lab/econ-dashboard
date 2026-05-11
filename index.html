@@ -547,7 +547,7 @@ function drawAllCharts(d){
   bar('c5',L,[bds('Starts',Array(L.length).fill(null).map((_,i)=>i===L.length-1?_jp.housing_starts||72.3:70+i*0.3),'#16A085')],'');
   line('c6',L,[lds('US CPI',getLT('us_cpi'),'#185FA5',{fill:true}),lds('Core',getLT('us_cpi').map(v=>Math.round((v-0.3)*10)/10),'#E67E22',{dash:[5,4]})],'%');
   line('c7',L,[lds('Fed Funds',getLT('ff_rate'),'#1A3A6B'),lds('10Y UST',getLT('us10y'),'#185FA5'),lds('30Y UST',getLT('us10y').map(v=>Math.round((v+0.4)*10)/10),'#E67E22',{dash:[4,3]})],'%');
-  line('c8',L,[lds('Unemployment',Array(L.length).fill(4.2),'#8E44AD',{fill:true})],'%');
+  line('c8',L,[lds('Unemployment',getLT('us_unemp'),'#8E44AD',{fill:true})],'%');
   line('c9',L,[lds('NYSE',getLT('nikkei').map(v=>Math.round(v*0.33)),'#1A3A6B',{fill:true})],v=>v.toLocaleString());
   line('c10',L,[lds('WTI',getLT('wti'),'#E67E22',{fill:true})],'$');
   line('c11',L,[lds('CRB',getLT('wti').map(v=>Math.round(v*3.1)),'#7A4F1A',{fill:true})],'');
