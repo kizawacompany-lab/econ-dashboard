@@ -540,7 +540,7 @@ function drawAllCharts(d){
   const L=getLabels();
   const _jp=d.japan_extra||{},_cn=d.china_macro||{},_wo=d.world_macro||{};
   line('c0',L,[lds('CPI',getLT('jp_cpi'),'#185FA5',{fill:true}),lds('Core',getLT('jp_cpi').map(v=>Math.round((v-0.4)*10)/10),'#3B6D11',{dash:[5,4]})],'%');
-  line('c1',d.fx.history_labels||L,[lds('USD/JPY',d.fx.usdjpy_history||getLT('usdjpy'),'#185FA5',{fill:true}),lds('EUR/JPY',d.fx.eurjpy_history||[],'#8b1a2b',{dash:[5,4]})],'¥');
+  line('c1',L,[lds('USD/JPY',getLT('usdjpy'),'#185FA5',{fill:true}),lds('EUR/JPY',getLT('eurjpy'),'#8b1a2b',{dash:[5,4]})],'¥');
   line('c2',L,[lds('Nikkei',getLT('nikkei'),'#185FA5',{fill:true})],v=>v.toLocaleString());
   line('c_boj',L,[lds('BOJ Rate',getLT('boj_rate'),'#4a6741',{fill:true}),lds('10Y JGB',getLT('jgb10y'),'#185FA5',{dash:[5,4]})],'%');
   bar('c4',L,[bds('Orders',getLT('machine_tool'),'#E67E22')],'');
