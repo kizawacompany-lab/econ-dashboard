@@ -499,9 +499,9 @@ function renderAll(d){
   document.getElementById('g4').innerHTML=
     mc('日経平均株価','Nikkei 225',(jp.nikkei225||0).toLocaleString()+'円','DoD +'+(jp.nikkei_change||0).toFixed(0)+'¥','up')+
     mc('経常収支','Current Account',(jp.current_account||0).toFixed(1)+'兆円','Surplus','up')+
-    mc('工作機械受注','Machine Tool Orders',(jp.machine_tool_orders||0).toFixed(1)+'億円','MoM','neu')+
+    mc('工作機械受注','Machine Tool Orders',(jp.machine_tool_orders||0).toFixed(1)+'億円','2026年3月確報','neu')+
     mc('日銀短観DI','Tankan DI',(jp.tankan_dki||0)+'pt','Large Mfg.',jp.tankan_dki>0?'up':'down')+
-    mc('住宅着工','Housing Starts',(jp.housing_starts||0).toFixed(1)+'万戸','Annualized','neu');
+    mc('住宅着工','Housing Starts',(jp.housing_starts||0).toFixed(1)+'万戸','2025年実績 / Annual 2025','neu');
   document.getElementById('g_usgdp').innerHTML=
     mc('実質GDP成長率（前期比年率）','Real GDP QoQ Ann.',(usM.gdp_qoq||0).toFixed(1)+'%','Prev: '+(usM.gdp_prev||0).toFixed(1)+'%',usM.gdp_qoq>0?'up':'down','uc')+
     mc('景況感','Economic Sentiment','Resilient','AI & CapEx driven','up','uc');
