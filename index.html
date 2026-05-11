@@ -560,7 +560,7 @@ function drawAllCharts(d){
   if(document.getElementById('c_cngdp')) bar('c_cngdp',cngdp_l,[bds('GDP',cngdp_v,'#8B2500')],'%');
   if(document.getElementById('c_cnprice')){
     const cl=['25/1Q','25/2Q','25/3Q','25/4Q','26f'];
-    line('c_cnprice',cl,[lds('CPI',[-0.3,-0.2,0.1,-0.1,_cn.cpi||-0.1],'#8B2500',{fill:true}),lds('PPI',[-3.1,-2.9,-2.7,-2.8,_cn.ppi||-2.5],'#E67E22',{dash:[5,4]})],'%');
+    line('c_cnprice',L,[lds('CPI',getLT('cn_cpi'),'#8B2500',{fill:true}),lds('PPI',getLT('cn_ppi'),'#E67E22',{dash:[5,4]})],'%');
   }
   const wgdp_l=getLabels();
   const wgdp_v=getLT('world_gdp'); // _wo available
