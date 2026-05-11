@@ -543,8 +543,8 @@ function drawAllCharts(d){
   line('c1',d.fx.history_labels||L,[lds('USD/JPY',d.fx.usdjpy_history||getLT('usdjpy'),'#185FA5',{fill:true}),lds('EUR/JPY',d.fx.eurjpy_history||[],'#8b1a2b',{dash:[5,4]})],'¥');
   line('c2',L,[lds('Nikkei',getLT('nikkei'),'#185FA5',{fill:true})],v=>v.toLocaleString());
   line('c_boj',L,[lds('BOJ Rate',getLT('boj_rate'),'#4a6741',{fill:true}),lds('10Y JGB',getLT('jgb10y'),'#185FA5',{dash:[5,4]})],'%');
-  bar('c4',L,[bds('Orders',Array(L.length).fill(null).map((_,i)=>i===L.length-1?_jp.machine_tool_orders||142.8:130+i*2),'#E67E22')],'');
-  bar('c5',L,[bds('Starts',Array(L.length).fill(null).map((_,i)=>i===L.length-1?_jp.housing_starts||72.3:70+i*0.3),'#16A085')],'');
+  bar('c4',L,[bds('Orders',getLT('machine_tool'),'#E67E22')],'');
+  bar('c5',L,[bds('Starts',getLT('housing'),'#16A085')],'');
   line('c6',L,[lds('US CPI',getLT('us_cpi'),'#185FA5',{fill:true}),lds('Core',getLT('us_cpi').map(v=>Math.round((v-0.3)*10)/10),'#E67E22',{dash:[5,4]})],'%');
   line('c7',L,[lds('Fed Funds',getLT('ff_rate'),'#1A3A6B'),lds('10Y UST',getLT('us10y'),'#185FA5'),lds('30Y UST',getLT('us10y').map(v=>Math.round((v+0.4)*10)/10),'#E67E22',{dash:[4,3]})],'%');
   line('c8',L,[lds('Unemployment',getLT('us_unemp'),'#8E44AD',{fill:true})],'%');
