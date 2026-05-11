@@ -546,11 +546,11 @@ function drawAllCharts(d){
   bar('c4',L,[bds('Orders',getLT('machine_tool'),'#E67E22')],'');
   bar('c5',L,[bds('Starts',getLT('housing'),'#16A085')],'');
   line('c6',L,[lds('US CPI',getLT('us_cpi'),'#185FA5',{fill:true}),lds('Core',getLT('us_cpi').map(v=>Math.round((v-0.3)*10)/10),'#E67E22',{dash:[5,4]})],'%');
-  line('c7',L,[lds('Fed Funds',getLT('ff_rate'),'#1A3A6B'),lds('10Y UST',getLT('us10y'),'#185FA5'),lds('30Y UST',getLT('us10y').map(v=>Math.round((v+0.4)*10)/10),'#E67E22',{dash:[4,3]})],'%');
+  line('c7',L,[lds('Fed Funds',getLT('ff_rate'),'#1A3A6B'),lds('10Y UST',getLT('us10y'),'#185FA5'),lds('30Y UST',getLT('us30y'),'#E67E22',{dash:[4,3]})],'%');
   line('c8',L,[lds('Unemployment',getLT('us_unemp'),'#8E44AD',{fill:true})],'%');
-  line('c9',L,[lds('NYSE',getLT('nikkei').map(v=>Math.round(v*0.33)),'#1A3A6B',{fill:true})],v=>v.toLocaleString());
+  line('c9',L,[lds('NYSE',getLT('nyse'),'#1A3A6B',{fill:true})],v=>v.toLocaleString());
   line('c10',L,[lds('WTI',getLT('wti'),'#E67E22',{fill:true})],'$');
-  line('c11',L,[lds('CRB',getLT('wti').map(v=>Math.round(v*3.1)),'#7A4F1A',{fill:true})],'');
+  line('c11',L,[lds('CRB',getLT('crb'),'#7A4F1A',{fill:true})],'');
   const cngdp_l=PERIOD==='30y'?['96','00','05','10','15','18','20','21','22','23','24','25','26f']:
                 PERIOD==='10y'?['16','17','18','19','20','21','22','23','24','25','26f']:
                 PERIOD==='5y'?['2021','2022','2023','2024','2025','26f']:['25/1Q','25/2Q','25/3Q','25/4Q','26f'];
