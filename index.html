@@ -481,7 +481,7 @@ function renderAll(d){
 
   // カード描画
   document.getElementById('g0').innerHTML=
-    mc('実質GDP成長率（前年比）','Real GDP Growth YoY',d.gdp.growth_yoy.toFixed(1)+'%','QoQ '+d.gdp.growth_qoq.toFixed(1)+'%',d.gdp.trend)+
+    mc('実質GDP成長率（前期比年率）','Real GDP Growth (QoQ ann.)',d.gdp.growth_yoy.toFixed(1)+'%','QoQ '+d.gdp.growth_qoq.toFixed(1)+'%',d.gdp.trend)+
     mc('名目GDP','Nominal GDP',d.gdp.nominal_trillion_yen.toFixed(0)+'兆円','Cabinet Office','neu');
   document.getElementById('g1').innerHTML=
     mc('総合CPI（前年比）','Headline CPI YoY',d.cpi.headline.toFixed(1)+'%','Inflation trend',d.cpi.trend)+
