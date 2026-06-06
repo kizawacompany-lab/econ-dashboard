@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-06 07:00",
+  "updated": "2026-06-07 07:00",
   "gdp": {
     "growth_yoy": 2.1,
     "growth_qoq": 0.5,
@@ -40,9 +40,9 @@
   },
   "fx": {
     "usdjpy": 160.0,
-    "eurjpy": 185.8,
+    "eurjpy": 184.7,
     "usdjpy_change": 0.2,
-    "eurjpy_change": 0.1,
+    "eurjpy_change": -1.1,
     "history_labels": [
       "26/05",
       "26/05",
@@ -62,13 +62,13 @@
       160.0
     ],
     "eurjpy_history": [
-      185.37,
       185.59,
       185.63,
       185.74,
       185.91,
       185.68,
-      185.77
+      185.77,
+      184.68
     ]
   },
   "rates": {
@@ -83,8 +83,8 @@
     "labor_trend": "flat"
   },
   "japan_extra": {
-    "nikkei225": 67470.69,
-    "nikkei_change": -931.44,
+    "nikkei225": 66588.12,
+    "nikkei_change": -882.57,
     "current_account": 3.5,
     "machine_tool_orders": 1935,
     "tankan_dki": 17,
@@ -104,8 +104,8 @@
     "gdp_prev": 0.5
   },
   "commodities": {
-    "wti": 90.25,
-    "wti_change": -2.79,
+    "wti": 90.54,
+    "wti_change": -2.5,
     "crb": 298.5,
     "crb_change": -3.8
   },
@@ -142,7 +142,7 @@
       "type": "warn"
     },
     {
-      "label": "WTI 90$/bbl",
+      "label": "WTI 91$/bbl",
       "type": "info"
     },
     {
@@ -265,11 +265,11 @@
     ],
     "eurjpy_6m": [
       185.6,
-      185.6,
       185.7,
       185.9,
       185.7,
-      185.8
+      185.8,
+      184.7
     ],
     "eurjpy_1y": [
       166.5,
@@ -282,14 +282,14 @@
       162.5,
       161.8,
       163.2,
-      185.8
+      184.7
     ],
     "eurjpy_5y": [
       122.4,
       143.8,
       159.8,
       163.5,
-      185.8
+      184.7
     ],
     "eurjpy_10y": [
       118.8,
@@ -301,7 +301,7 @@
       143.8,
       159.8,
       163.5,
-      185.8
+      184.7
     ],
     "eurjpy_30y": [
       136.0,
@@ -315,7 +315,7 @@
       143.8,
       159.8,
       163.5,
-      185.8
+      184.7
     ],
     "jp_cpi_6m": [
       2.9,
@@ -601,7 +601,7 @@
       95.2,
       98.3,
       102.3,
-      90.25
+      90.54
     ],
     "wti_1y": [
       78.5,
@@ -614,14 +614,14 @@
       92.5,
       95.2,
       98.3,
-      90.25
+      90.54
     ],
     "wti_5y": [
       68.1,
       94.3,
       77.6,
       77.4,
-      90.25
+      90.54
     ],
     "wti_10y": [
       45.1,
@@ -633,7 +633,7 @@
       94.3,
       77.6,
       77.4,
-      90.25
+      90.54
     ],
     "wti_30y": [
       22.0,
@@ -647,7 +647,7 @@
       94.3,
       77.6,
       77.4,
-      90.25
+      90.54
     ],
     "nikkei_6m": [
       40500,
@@ -655,7 +655,7 @@
       37500,
       36500,
       35200,
-      67471.0
+      66588.0
     ],
     "nikkei_1y": [
       38200,
@@ -668,14 +668,14 @@
       39800,
       38800,
       37500,
-      67471.0
+      66588.0
     ],
     "nikkei_5y": [
       27500,
       26700,
       33400,
       39800,
-      67471.0
+      66588.0
     ],
     "nikkei_10y": [
       18800,
@@ -687,7 +687,7 @@
       26700,
       33400,
       39800,
-      67471.0
+      66588.0
     ],
     "nikkei_30y": [
       20500,
@@ -701,7 +701,7 @@
       26700,
       33400,
       39800,
-      67471.0
+      66588.0
     ],
     "nyse_6m": [
       17500,
@@ -1251,7 +1251,7 @@
       74
     ]
   },
-  "summary": "# キザワ・アンド・カンパニー\n## 月次マクロ経済サマリー（2026年6月）\n\n---\n\n### 【総括】現在の世界経済の全体像と主要リスク\n\n世界経済は3.1%の緩やかな成長を維持していますが、地域間の成長格差が顕著です。米国はインフレ圧力（3.8%）が依然高く、日銀の段階的な利上げにより円相場が160円まで円安が進行しています。最大のリスクは、米中間の金融政策の乖離による為替変動性の高まりと、商品相場の不安定性です。\n\n---\n\n### 【日本経済】日本の景況と注目点\n\n日本経済は好調です。GDP2.1%成長、失業率2.7%と労働市場は逼迫し、短観DIは17ptで企業マインドは前向きです。ただし円安進行（160円）は輸出企業にとって追い風である一方、エネルギー・食料品輸入コスト上昇の圧力となっています。工作機械受注1935億円の堅調さは、製造業の投資意欲の継続を示唆しています。\n\n---\n\n### 【海外経済】米国・中国・世界経済の動向\n\n米国はGDP2.0%で安定成長も、3.8%のインフレが粘着的です。FF金利4.5%の高止まりは今後の利下げ期待を後退させています。中国は4.8%成長予測で底堅いものの、デフレ圧力（CPI-0.1%、PPI-2.5%）が顕著であり、経済の自律的回復力への懸念が残ります。世界貿易量成長2.9%は緩慢です。\n\n---\n\n### 【経営への示唆】コンサルティング会社として経営者へのアドバイス\n\n**1. 円安メリットの活用と原価圧力への対抗準備：** 輸出企業は現在の160円の円安を競争力強化に活かす好機ですが、同時に輸入原価上昇への対策（ヘッジ、サプライチェーン多元化）を急ぎましょう。\n\n**2. 国内投資継続の判断：** 労働市場の逼迫と企業マインドの好調さから、国内への設備投資・人材投資は依然有効です。特に生産性向上技術への投資は、今後の競争力維持に不可欠です。\n\n**3. 米国市場への慎重なポジショニング：** 米国の高金利継続と中国のデフレ圧力は世界需要を抑制する可能性があります。過度な拡大投資より、利益率の維持と財務基盤の強化を優先すべき局面です。",
-  "summary_date": "2026年06月06日 07:00",
-  "summary_en": "# MACROECONOMIC SUMMARY | June 2026\n## Kizawa & Company Board Brief\n\n---\n\n## [OVERVIEW] Global Economic Landscape & Key Risks\n\nGlobal growth remains moderate at 3.1% (IMF forecast), with developed economies (Japan 2.1%, US 2.0%) decelerating while China's growth trajectory faces headwinds. Inflation has stabilized internationally at 3.7%, though deflationary pressures are emerging in China (-0.1% CPI, -2.5% PPI), signaling potential demand weakness in the world's second-largest economy. Currency volatility remains a structural risk, with JPY weakness (160.0) persisting despite BOJ rate adjustments, while geopolitical tensions and commodity price sensitivity (WTI $90.25) continue to pose downside scenarios.\n\n---\n\n## [JAPAN ECONOMY] Domestic Conditions & Key Points\n\nJapan's economic performance remains resilient with 2.1% QoQ ann. GDP growth and stable inflation at 1.4%, though unemployment at 2.7% suggests tight labor markets with wage pressure implications. The Nikkei's strong performance (67,471) reflects market confidence, yet the BOJ's modest rate at 0.73% indicates cautious monetary policy despite inflation near target—suggesting policymakers are monitoring currency weakness and capital outflow risks. Machine tool orders at 1,935B¥ and a Tankan DI of +17pt demonstrate solid business sentiment, though the persistent weak yen (160.0 USD/JPY) creates export advantages offset by input cost inflation for import-dependent sectors.\n\n---\n\n## [GLOBAL ECONOMY] US, China & World Trends\n\nThe US exhibits measured growth (2.0% QoQ annualized) with elevated unemployment (4.3%) and persistent inflation (3.8%), suggesting the Fed's 4.5% rate stance may remain restrictive longer than markets anticipate. China's forecast 4.8% growth masks concerning deflation indicators (CPI -0.1%, PPI -2.5%) and a large trade surplus ($97.4B), pointing to weak domestic demand, potential overcapacity, and possible trade tensions with developed economies. Global trade volume growth at 2.9% lags historical averages, indicating subdued cross-border investment and supply chain normalization rather than expansion.\n\n---\n\n## [STRATEGIC IMPLICATIONS] Executive Recommendations\n\n**Currency & Hedging:** With JPY remaining weak at 160.0, near-term export competitiveness is favorable; however, secure multi-year hedging strategies as normalization risk persists if US inflation moderates faster than expected. **Market Positioning:** China's deflationary environment signals slowing demand for commodities and discretionary goods—reassess supply chain concentration and consider strategic repositioning toward resilient sectors (infrastructure, technology). **Monetary Policy Watch:** BOJ's measured approach and Fed's restrictive stance suggest interest rate peaks are near; prepare balance sheet strategies for declining financing costs in 2H2026 while remaining vigilant on currency fluctuations."
+  "summary": "# キザワ・アンド・カンパニー 月次マクロ経済サマリー\n**報告日：2026年6月7日**\n\n---\n\n## 【総括】現在の世界経済の全体像と主要リスク\n\n世界経済は緩やかな成長基調（3.1%）を維持していますが、地域別に温度差が広がっています。先進国（日本2.1%、米国2.0%）は堅調ながら鈍化傾向、中国（予測4.8%）は持ち直しの兆しを見せています。一方、インフレは依然として3.7%と高止まりしており、特に米国の3.8%は政策金利（4.5%）との逆ざやを示唆するなど、金融引き締めの継続が必至です。商品価格の安定（WTI 90ドル台）は好材料ですが、中国の物価下落（-2.5%）はデフレリスクとして注視が必要です。\n\n---\n\n## 【日本経済】日本の景況と注目点\n\n日本経済は堅実な成長（2.1%）を達成し、労働市場も底堅い（失業率2.7%）状況です。日銀は段階的な金利引き上げ（0.73%）を進めており、10年JGB（2.657%）の上昇は長期金利の正常化を示唆しています。注目すべきは、工作機械受注（1,935億円）と短観DI（17pt）で、製造業の設備投資意欲が中程度に保たれていることです。ただし、CPI（1.4%）の安定と金利上昇の組み合わせは、借入コスト増加への警戒が必要な局面です。\n\n---\n\n## 【海外経済】米国・中国・世界経済の動向\n\n**米国**は持続的な成長（2.0%）を維持しながらも、インフレ率3.8%に対して現実的な金利水準（4.5%）にあり、さらなる利上げは限定的と見込まれます。10年債（4.38%）の水準は企業の資金調達コスト上昇を意味します。**中国**は成長率（4.8%）は回復基調ですが、CPI（-0.1%）とPPI（-2.5%）の二重の物価下落は、内需振興の重要性を浮き彫りにしており、政策支援の継続が必須です。貿易黒字（974億ドル）は健全ですが、その背景にある国内需要の弱さが懸念材料となっています。\n\n---\n\n## 【経営への示唆】コンサルティング会社として経営者へのアドバイス\n\n**金利上昇局面への対応**：日米共に金融引き締め環境が続く中、資金調達コストの上昇を想定した財務計画の見直しが急務です。特に円相場（160円）での米ドル建て負債増加リスクに注意してください。**地域別の成長戦略の再構築**：米国・日本での保守的な経営姿勢に対し、中国市場の回復機会を適切に取り込む差別化が勝負となります。物価下落が続く環境では、付加価値向上型の商品・サービス強化が優先課題です。**調達・価格戦略**：商品",
+  "summary_date": "2026年06月07日 07:00",
+  "summary_en": "# MACROECONOMIC SUMMARY\n**June 2026 | Kizawa & Company Board Report**\n\n---\n\n## [OVERVIEW]\nGlobal economic growth remains moderate at 3.1% (IMF forecast) with synchronized expansion across major economies, though underlying inflation pressures persist unevenly. The world faces a delicate balancing act between supporting growth and managing stubborn price pressures, with trade volumes expanding at a healthy 2.9% pace. Key downside risks include potential Fed policy miscalibration, China's deflationary spiral, and currency volatility (particularly USD strength). Commodity markets remain relatively stable, suggesting controlled inflationary expectations, but geopolitical tensions and supply chain vulnerabilities warrant close monitoring.\n\n---\n\n## [JAPAN ECONOMY]\nJapan's economy is performing robustly with 2.1% QoQ ann. GDP growth and exceptionally tight labor markets (2.7% unemployment), supported by solid manufacturing momentum evidenced by ¥1.935 trillion in machine tool orders. However, inflation remains subdued at 1.4%, suggesting the BOJ's 73bp policy rate may be approaching neutral territory without triggering demand destruction. The Tankan DI at +17 points indicates business confidence is positive but not exuberant, and the 10Y JGB yield of 2.657% suggests market participants expect gradual BOJ normalization rather than aggressive tightening. USD/JPY at 160 reflects sustained yen weakness, which supports export competitiveness but poses risks for imported inflation and capital outflows.\n\n---\n\n## [GLOBAL ECONOMY]\nThe US maintains steady growth (2.0% QoQ annualized) with the Fed holding at 4.5%, though elevated CPI at 3.8% continues to constrain policy flexibility—suggesting limited rate cuts in the near term. China faces structural headwinds with deflation (-0.1% CPI, -2.5% PPI) despite a 4.8% GDP growth forecast, indicating deflationary pressure from excess capacity and weakening domestic demand; the $97.4B trade surplus masks underlying domestic consumption weakness. Global inflation at 3.7% remains elevated relative to central bank targets, creating policy divergence: the Fed maintaining restrictive stance while the BOJ gradually normalizes and China potentially requires stimulus.\n\n---\n\n## [STRATEGIC IMPLICATIONS]\n**For Japanese exporters:** Current yen weakness presents a temporary competitive advantage in price-sensitive markets, but executives should prepare hedging strategies as BOJ normalization may eventually strengthen the currency. **Capital allocation:** The divergence between deflationary China and stable-to-inflationary developed markets suggests selective exposure to Japanese domestic demand and US-exposed sectors, while de-risking exposure to Chinese overcapacity. **Risk management:** Monitor Fed communications closely for policy shifts that could trigger currency volatility; consider diversified geographic revenue streams given synchronized growth masks fragile China recovery. **Near-term focus:** Leverage strong machine tool orders momentum to expand capacity strategically, but maintain disciplined capex given uncertain global inflation trajectory."
 }
