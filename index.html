@@ -238,10 +238,20 @@ function mc(labelJa, labelEn, value, sub, dir, cls=''){
 function kill(id){if(CH[id]){CH[id].destroy();delete CH[id];}}
 function line(id,labels,datasets,yf){
   kill(id);const el=document.getElementById(id);if(!el)return;
+  const fmt=v=>typeof yf==='function'?yf(v):(Math.round(v*100)/100)+yf;
+  const hasY1=datasets.some(ds=>ds.yAxisID==='y1');
+  const scales={y:{ticks:{callback:fmt,font:{size:10},
+        color:hasY1?(datasets.find(ds=>ds.yAxisID!=='y1')||{}).borderColor:undefined},
+      grid:{color:'rgba(0,0,0,0.05)'}},
+    x:{ticks:{font:{size:10},autoSkip:true,maxRotation:0,maxTicksLimit:8}}};
+  if(hasY1){
+    scales.y1={position:'right',ticks:{callback:fmt,font:{size:10},
+        color:(datasets.find(ds=>ds.yAxisID==='y1')||{}).borderColor},
+      grid:{drawOnChartArea:false}};
+  }
   CH[id]=new Chart(el,{type:'line',data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,
     plugins:{legend:{display:false}},
-    scales:{y:{ticks:{callback:v=>typeof yf==='function'?yf(v):(Math.round(v*100)/100)+yf,font:{size:10}},grid:{color:'rgba(0,0,0,0.05)'}},
-            x:{ticks:{font:{size:10},autoSkip:true,maxRotation:0,maxTicksLimit:8}}}}});
+    scales}});
 }
 function bar(id,labels,datasets,yf=''){
   kill(id);const el=document.getElementById(id);if(!el)return;
@@ -252,7 +262,8 @@ function bar(id,labels,datasets,yf=''){
 }
 function lds(lbl,data,col,opts={}){
   return{label:lbl,data,borderColor:col,backgroundColor:opts.fill?col+'22':'transparent',
-    borderWidth:2,pointRadius:PERIOD==='30y'?2:3,fill:!!opts.fill,tension:.3,borderDash:opts.dash||[]};
+    borderWidth:2,pointRadius:PERIOD==='30y'?2:3,fill:!!opts.fill,tension:.3,borderDash:opts.dash||[],
+    yAxisID:opts.axis||'y'};
 }
 function bds(lbl,data,col){return{label:lbl,data,backgroundColor:col+'BB',borderColor:col,borderWidth:1};}
 
@@ -396,7 +407,7 @@ function renderAll(d){
   <div class="cc2"><div class="ct">CPI推移（前年比%）</div><div class="ct-en">Japan CPI Trend (YoY%)</div>
     <div class="leg"><span><span class="ld" style="background:#185FA5"></span>総合/Headline CPI</span><span><span class="ld" style="background:#3B6D11"></span>コア/Core CPI</span></div>
     <div class="cw"><canvas id="c0"></canvas></div></div>
-  <div class="cc2"><div class="ct">為替レート推移（円）</div><div class="ct-en">FX Rate Trend (JPY)</div>
+  <div class="cc2"><div class="ct">為替レート推移（USD/JPY：左軸、EUR/JPY：右軸）</div><div class="ct-en">FX Rate Trend (USD/JPY: left, EUR/JPY: right)</div>
     <div class="leg"><span><span class="ld" style="background:#185FA5"></span>USD/JPY</span><span><span class="ld" style="background:#8b1a2b"></span>EUR/JPY</span></div>
     <div class="cw"><canvas id="c1"></canvas></div></div>
 </div>
@@ -540,14 +551,16 @@ function drawAllCharts(d){
   const L=getLabels();
   const _jp=d.japan_extra||{},_cn=d.china_macro||{},_wo=d.world_macro||{};
   line('c0',L,[lds('CPI',getLT('jp_cpi'),'#185FA5',{fill:true}),lds('Core',getLT('jp_cpi').map(v=>Math.round((v-0.4)*10)/10),'#3B6D11',{dash:[5,4]})],'%');
-  line('c1',L,[lds('USD/JPY',getLT('usdjpy'),'#185FA5',{fill:true}),lds('EUR/JPY',getLT('eurjpy'),'#8b1a2b',{dash:[5,4]})],'¥');
+  const Lfx=(ECON_DATA&&ECON_DATA.long_term&&ECON_DATA.long_term['fx_labels_'+PERIOD])||L;
+  line('c1',Lfx,[lds('USD/JPY',getLT('usdjpy'),'#185FA5',{fill:true}),lds('EUR/JPY',getLT('eurjpy'),'#8b1a2b',{dash:[5,4],axis:'y1'})],'¥');
   line('c2',L,[lds('Nikkei',getLT('nikkei'),'#185FA5',{fill:true})],v=>v.toLocaleString());
   line('c_boj',L,[lds('BOJ Rate',getLT('boj_rate'),'#4a6741',{fill:true}),lds('10Y JGB',getLT('jgb10y'),'#185FA5',{dash:[5,4]})],'%');
   bar('c4',L,[bds('Orders',getLT('machine_tool'),'#E67E22')],'');
   bar('c5',L,[bds('Starts',getLT('housing'),'#16A085')],'');
   line('c6',L,[lds('US CPI',getLT('us_cpi'),'#185FA5',{fill:true}),lds('Core',getLT('us_cpi').map(v=>Math.round((v-0.3)*10)/10),'#E67E22',{dash:[5,4]})],'%');
   line('c7',L,[lds('Fed Funds',getLT('ff_rate'),'#1A3A6B'),lds('10Y UST',getLT('us10y'),'#185FA5'),lds('30Y UST',getLT('us30y'),'#E67E22',{dash:[4,3]})],'%');
-  line('c8',L,[lds('Unemployment',getLT('us_unemp'),'#8E44AD',{fill:true})],'%');
+  const Lue=(ECON_DATA&&ECON_DATA.long_term&&ECON_DATA.long_term['us_unemp_labels_'+PERIOD])||L;
+  line('c8',Lue,[lds('Unemployment',getLT('us_unemp'),'#8E44AD',{fill:true})],'%');
   line('c9',L,[lds('NYSE',getLT('nyse'),'#1A3A6B',{fill:true})],v=>v.toLocaleString());
   line('c10',L,[lds('WTI',getLT('wti'),'#E67E22',{fill:true})],'$');
   line('c11',L,[lds('CRB',getLT('crb'),'#7A4F1A',{fill:true})],'');
