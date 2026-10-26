@@ -389,7 +389,7 @@ const PROV_NAMES={jp_gdp:'日本 GDP',jp_cpi:'日本 CPI',jp_core_cpi:'日本 �
   jp_unemployment:'日本 失業率',jp_job_ratio:'有効求人倍率',jp_wage:'現金給与',nikkei:'日経平均',jp_current_account:'経常収支',jp_machine_tool:'工作機械受注',
   jp_tankan:'日銀短観DI',jp_housing:'住宅着工',us_gdp:'米 GDP',us_cpi:'米 CPI',us_core_cpi:'米 コアCPI',us_unemployment:'米 失業率',us_ff_rate:'FF金利',
   us10y:'米10年債',us30y:'米30年債',nyse:'NYSE総合',cn_gdp:'中国 GDP見通し',cn_cpi:'中国 CPI',cn_ppi:'中国 PPI',cn_unemployment:'中国 失業率',
-  cn_lpr:'中国 LPR',cn_trade:'中国 貿易',world_gdp:'世界 GDP',world_gdp_prev:'世界 GDP（前年）',world_inflation:'世界インフレ率',world_trade:'世界貿易量',
+  cn_lpr:'中国 LPR',jp_cgpi:'企業物価指数',cn_trade:'中国 貿易',world_gdp:'世界 GDP',world_gdp_prev:'世界 GDP（前年）',world_inflation:'世界インフレ率',world_trade:'世界貿易量',
   world_em_gdp:'新興国 GDP',world_advanced_gdp:'先進国 GDP',wti:'WTI原油',commodity_index:'商品指数'};
 function renderProvenance(d){
   const el=document.getElementById('prov'); const p=d.provenance; if(!el||!p) return;
@@ -495,7 +495,7 @@ function renderAll(d){
   <div class="cc2" style="border-top:3px solid #8B2500"><div class="ct">中国 実質GDP成長率（前年比%）</div><div class="ct-en">China Real GDP Growth (YoY%)</div><div class="cw"><canvas id="c_cngdp"></canvas></div></div>
 </div>
 
-<div class="sec" style="border-left:4px solid #2C3E50"><div class="sec-ja" style="color:#2C3E50">🌐 世界経済 — IMF見通し</div><div class="sec-en" style="color:#2C3E50">Global Economy — IMF World Economic Outlook</div></div>
+<div class="sec" style="border-left:4px solid #2C3E50"><div class="sec-ja" style="color:#2C3E50">🌐 世界経済 — IMF・OECD見通し</div><div class="sec-en" style="color:#2C3E50">Global Economy — IMF / OECD Outlook</div></div>
 <div class="mg" id="g_world"></div>
 <div class="cr">
   <div class="cc2" style="border-top:3px solid #2C3E50"><div class="ct">世界・先進国・新興国 GDP成長率（%）— IMF 2026年見通し</div><div class="ct-en">World / Advanced / Emerging Market GDP Growth (%) — IMF 2026 forecast</div>
@@ -530,7 +530,8 @@ function renderAll(d){
     mca('jp_gdp','名目GDP（年率）','Nominal GDP (ann.)',d.gdp.nominal_trillion_yen.toFixed(0)+'兆円',(d.gdp.quarter||'')+'｜内閣府','neu');
   document.getElementById('g1').innerHTML=
     mca('jp_cpi','総合CPI（前年比）','Headline CPI YoY',d.cpi.headline.toFixed(1)+'%','Inflation trend',d.cpi.trend)+
-    mca('jp_core_cpi','コアCPI（前年比）','Core CPI YoY',d.cpi.core.toFixed(1)+'%','Ex. food & energy',d.cpi.trend);
+    mca('jp_core_cpi','コアCPI（前年比）','Core CPI YoY',d.cpi.core.toFixed(1)+'%','生鮮食品を除く総合 / Ex. fresh food',d.cpi.trend)+
+    mca('jp_cgpi','企業物価指数（前年比）','Corporate Goods Price YoY',(d.japan_extra.cgpi_yoy>0?'+':'')+(d.japan_extra.cgpi_yoy||0).toFixed(1)+'%','国内企業物価 '+(d.japan_extra.cgpi_month||'')+'｜日銀',d.japan_extra.cgpi_yoy>3?'down':'neu');
   const ud=d.fx.usdjpy_change>0?'down':'up',ed=d.fx.eurjpy_change>0?'down':'up';
   document.getElementById('g2').innerHTML=
     mca('usdjpy','USD/JPY','USD/JPY',d.fx.usdjpy.toFixed(1)+' 円',(d.fx.usdjpy_change>=0?'+':'')+d.fx.usdjpy_change.toFixed(1)+'¥ MoM',ud,'',d.fx.usdjpy_change>0?'up':d.fx.usdjpy_change<0?'down':'neu')+
@@ -539,8 +540,8 @@ function renderAll(d){
     mca('jgb10y','10年JGB利回り','10Y JGB Yield',d.rates.jgb10y.toFixed(2)+'%','Monthly average',d.rates.boj_trend);
   document.getElementById('g3').innerHTML=
     mca('jp_unemployment','完全失業率','Unemployment Rate',d.labor.unemployment.toFixed(1)+'%',(d.labor.unemployment_basis==='原数値'?('原数値 '+(d.labor.unemployment_month||'')+(d.labor.unemployment_yoy_pt!=null?'｜前年同月比 '+(d.labor.unemployment_yoy_pt>0?'+':'')+d.labor.unemployment_yoy_pt.toFixed(1)+'pt':'')):'Seasonally adjusted'),(d.labor.unemployment_yoy_pt!=null?(d.labor.unemployment_yoy_pt>0?'down':d.labor.unemployment_yoy_pt<0?'up':'neu'):(d.labor.unemployment<3?'up':'neu')),'',(d.labor.unemployment_yoy_pt!=null?(d.labor.unemployment_yoy_pt>0?'up':d.labor.unemployment_yoy_pt<0?'down':'neu'):null))+
-    mca('jp_job_ratio','有効求人倍率','Job-to-Applicant Ratio',d.labor.job_ratio.toFixed(2),'Jobs/Applicants','up')+
-    mca('jp_wage','現金給与（前年比）','Cash Earnings YoY',d.labor.wage_growth.toFixed(1)+'%','Real wages',d.labor.wage_growth>0?'up':'down');
+    mca('jp_job_ratio','有効求人倍率','Job-to-Applicant Ratio',d.labor.job_ratio.toFixed(2)+'倍','季節調整値 '+(d.labor.job_month||'')+'｜厚労省',d.labor.job_ratio>=1?'up':'down')+
+    mca('jp_wage','現金給与総額（前年比）','Cash Earnings YoY',(d.labor.wage_growth>0?'+':'')+d.labor.wage_growth.toFixed(1)+'%','名目 '+(d.labor.wage_month||'')+'｜厚労省',d.labor.wage_growth>0?'up':'down');
   document.getElementById('g4').innerHTML=
     mca('nikkei','日経平均株価','Nikkei 225',(jp.nikkei225||0).toLocaleString()+'円','DoD +'+(jp.nikkei_change||0).toFixed(0)+'¥','up')+
     mca('jp_current_account','経常収支（月次）','Current Account',(jp.current_account||0).toFixed(2)+'兆円',(jp.current_account_month||'')+(jp.current_account>=0?'｜黒字':'｜赤字'),jp.current_account>=0?'up':'down')+
@@ -561,13 +562,14 @@ function renderAll(d){
     mca('us_market_cap','米国株時価総額','US Market Cap',(usM.market_cap||0).toFixed(1)+'兆ドル','NYSE listed','neu','uc');
   const cn=d.china_macro||{},wo=d.world_macro||{};
   document.getElementById('g_cn').innerHTML=
-    mca('cn_gdp','実質GDP成長率（前年比）','Real GDP Growth YoY',(cn.gdp_yoy||0).toFixed(1)+'%','IMF 2026 forecast',cn.gdp_yoy>3?'up':'down')+
+    mca('cn_gdp','実質GDP成長率（見通し）','Real GDP Growth (fcst)',(cn.gdp_yoy||0).toFixed(1)+'%',(cn.gdp_source||'')+' '+new Date().getFullYear()+'年',cn.gdp_yoy>3?'up':'down')+
+    mca('cn_cpi','CPI（前年同月比）','CPI YoY',(cn.cpi_oecd||0).toFixed(1)+'%',(cn.cpi_month||'')+'｜OECD',cn.cpi_oecd<0?'down':'neu')+
     mca('cn_unemployment','都市部失業率','Urban Unemployment',(cn.unemployment||0).toFixed(1)+'%','NBS','neu')+
     mca('cn_lpr','LPR（1年）','LPR 1Y',(cn.lpr1y||0).toFixed(2)+'%','PBOC policy rate','neu')+
     mca('cn_trade','月次貿易収支','Monthly Trade Balance',(cn.trade_balance||0).toFixed(1)+'Bn$','Surplus','up');
   document.getElementById('g_world').innerHTML=
-    mca('world_gdp','世界GDP成長率','World GDP Growth',(wo.gdp||0).toFixed(1)+'%','IMF Oct 2026',wo.gdp>3?'up':'neu')+
-    mca('world_advanced_gdp','先進国GDP成長率','Advanced Economy GDP',(wo.advanced_gdp||0).toFixed(1)+'%','US, EU, Japan etc.',wo.advanced_gdp>2?'up':'neu')+
+    mca('world_gdp','世界GDP成長率（見通し）','World GDP Growth (fcst)',(wo.gdp||0).toFixed(1)+'%',((wo.sources||{}).gdp||'')+' '+new Date().getFullYear()+'年',wo.gdp>3?'up':'neu')+
+    mca('world_advanced_gdp',(((wo.sources||{}).advanced_gdp||'').indexOf('OECD')>=0?'OECD加盟国 GDP成長率':'先進国GDP成長率'),'Advanced / OECD GDP Growth',(wo.advanced_gdp||0).toFixed(1)+'%',((wo.sources||{}).advanced_gdp||'')+' '+new Date().getFullYear()+'年',wo.advanced_gdp>2?'up':'neu')+
     mca('world_em_gdp','新興国GDP成長率','Emerging Market GDP',(wo.em_gdp||0).toFixed(1)+'%','China, India, ASEAN',wo.em_gdp>4?'up':'neu')+
     mca('world_inflation','世界インフレ率','Global Inflation',(wo.inflation||0).toFixed(1)+'%','IMF Oct 2026',wo.inflation<4?'up':'down')+
     mca('world_trade','世界貿易量成長率','World Trade Volume',(wo.trade||0).toFixed(1)+'%','2026 forecast',wo.trade>3?'up':'neu');
@@ -612,12 +614,12 @@ function drawAllCharts(d){
   // 2026-10-26改修：IMF見通しは年次の単一値なので、月次の折れ線ではなく現時点の見通し値を棒グラフで示す
   //（旧版は世界成長率に固定値を足し引きして先進国・新興国・インフレ・貿易量の線を作っていた）
   if(document.getElementById('c_worldgdp')){
-    const ds=bds('IMF 2026',[_wo.gdp,_wo.advanced_gdp,_wo.em_gdp],'#2C3E50');
+    const ds=bds('2026',[provOK('world_gdp')?_wo.gdp:null,provOK('world_advanced_gdp')?_wo.advanced_gdp:null,provOK('world_em_gdp')?_wo.em_gdp:null],'#2C3E50');
     ds.backgroundColor=['#2C3E50BB','#185FA5BB','#E67E22BB']; ds.borderColor=['#2C3E50','#185FA5','#E67E22'];
     bar('c_worldgdp',['世界/World','先進国/Advanced','新興国/Emerging'],[ds],'%');
   }
   if(document.getElementById('c_worldinf')){
-    const ds=bds('IMF 2026',[_wo.inflation,_wo.trade],'#c0392b');
+    const ds=bds('2026',[provOK('world_inflation')?_wo.inflation:null,provOK('world_trade')?_wo.trade:null],'#c0392b');
     ds.backgroundColor=['#c0392bBB','#16A085BB']; ds.borderColor=['#c0392b','#16A085'];
     bar('c_worldinf',['インフレ率/Inflation','貿易量/Trade Vol.'],[ds],'%');
   }
