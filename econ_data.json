@@ -61,24 +61,24 @@
       "asof": ""
     },
     "us_ff_rate": {
-      "mode": "manual",
-      "source": "FRB（FRED DFEDTARU）",
-      "asof": ""
+      "mode": "auto",
+      "source": "ニューヨーク連銀（誘導目標上限）",
+      "asof": "2026/10"
     },
     "us10y": {
-      "mode": "manual",
-      "source": "米財務省（FRED DGS10）",
-      "asof": ""
+      "mode": "auto",
+      "source": "Yahoo Finance（^TNX）",
+      "asof": "2026/10"
     },
     "us30y": {
-      "mode": "manual",
-      "source": "米財務省（FRED DGS30）",
-      "asof": ""
+      "mode": "auto",
+      "source": "Yahoo Finance（^TYX）",
+      "asof": "2026/10"
     },
     "us_core_cpi": {
-      "mode": "manual",
-      "source": "米労働統計局（FRED CPILFESL）",
-      "asof": ""
+      "mode": "auto",
+      "source": "米労働統計局 BLS（CUUR0000SA0L1E）",
+      "asof": "2026/09"
     },
     "us_gdp": {
       "mode": "manual",
@@ -96,9 +96,9 @@
       "asof": ""
     },
     "commodity_index": {
-      "mode": "manual",
-      "source": "商品指数（手入力）",
-      "asof": ""
+      "mode": "auto",
+      "source": "S&P GSCI商品指数（Yahoo Finance ^SPGSCI）",
+      "asof": "2026/10/26"
     },
     "cn_gdp": {
       "mode": "manual",
@@ -186,7 +186,7 @@
       "asof": ""
     }
   },
-  "updated": "2026-10-26 22:04",
+  "updated": "2026-10-26 22:17",
   "gdp": {
     "growth_yoy": 1.4,
     "growth_qoq": 0.4,
@@ -255,7 +255,7 @@
       177.67,
       177.66,
       175.6,
-      176.05
+      176.13
     ]
   },
   "rates": {
@@ -282,8 +282,8 @@
     "core_cpi": 2.6,
     "unemployment": 4.2,
     "ff_rate": 4.0,
-    "us10y": 5.25,
-    "us30y": 5.52,
+    "us10y": 4.98,
+    "us30y": 5.3,
     "nyse_composite": 24117.27,
     "nyse_change": -0.65,
     "market_cap": 54.1,
@@ -291,10 +291,11 @@
     "gdp_prev": 0.5
   },
   "commodities": {
-    "wti": 101.3,
-    "wti_change": -1.97,
-    "crb": 298.5,
-    "crb_change": -3.8
+    "wti": 101.41,
+    "wti_change": -1.86,
+    "crb": 758.13,
+    "crb_change": -3.96,
+    "commodity_name": "S&P GSCI商品指数"
   },
   "china_macro": {
     "gdp_yoy": 4.5,
@@ -505,57 +506,57 @@
       176.1
     ],
     "jp_cpi_6m": [
-      3.6,
-      4.0,
-      3.7,
-      3.6,
+      1.5,
+      1.7,
+      2.0,
+      2.0,
       2.2,
-      2.2
+      null
     ],
     "jp_cpi_1y": [
-      2.8,
-      2.7,
-      3.0,
-      2.5,
-      2.3,
-      2.9,
-      3.6,
-      4.0,
-      3.7,
+      2.1,
+      1.5,
+      1.3,
+      1.5,
+      1.4,
+      1.5,
+      1.7,
+      2.0,
+      2.0,
       2.2,
-      2.2
+      null
     ],
     "jp_cpi_5y": [
-      -0.2,
-      2.5,
-      3.3,
-      2.7,
+      4.0,
+      2.6,
+      3.6,
+      2.1,
       2.2
     ],
     "jp_cpi_10y": [
-      0.0,
-      0.5,
       1.0,
-      0.5,
-      0.0,
-      -0.2,
-      2.5,
-      3.3,
-      2.7,
+      0.3,
+      0.8,
+      -1.2,
+      0.8,
+      4.0,
+      2.6,
+      3.6,
+      2.1,
       2.2
     ],
     "jp_cpi_30y": [
-      0.1,
-      -0.7,
-      -0.3,
-      -0.7,
-      0.8,
-      1.0,
-      0.0,
+      0.6,
       -0.2,
-      2.5,
-      3.3,
-      2.7,
+      -0.1,
+      0.0,
+      0.2,
+      0.3,
+      -1.2,
+      0.8,
+      4.0,
+      2.6,
+      3.6,
       2.2
     ],
     "boj_rate_6m": [
@@ -671,15 +672,15 @@
       3.75,
       3.75,
       3.75,
-      4.0,
+      3.75,
       4.0,
       4.0
     ],
     "ff_rate_1y": [
-      4.75,
-      4.5,
-      4.25,
-      4.0,
+      3.75,
+      3.75,
+      3.75,
+      3.75,
       3.75,
       3.75,
       3.75,
@@ -691,8 +692,8 @@
     "ff_rate_5y": [
       0.25,
       3.83,
-      5.25,
-      5.33,
+      4.5,
+      3.75,
       4.0
     ],
     "ff_rate_10y": [
@@ -703,8 +704,8 @@
       0.25,
       0.25,
       3.83,
-      5.25,
-      5.33,
+      4.5,
+      3.75,
       4.0
     ],
     "ff_rate_30y": [
@@ -718,66 +719,62 @@
       0.25,
       3.83,
       5.25,
-      5.33,
+      4.5,
       4.0
     ],
     "us10y_6m": [
-      4.6,
-      4.8,
-      4.7,
-      5.1,
-      5.25,
-      5.25
+      null,
+      null,
+      5.29,
+      null,
+      null,
+      4.98
     ],
     "us10y_1y": [
-      4.45,
-      4.25,
-      3.85,
-      4.05,
-      4.45,
-      4.6,
-      4.8,
-      4.7,
-      5.1,
-      5.25,
-      5.25
+      null,
+      4.31,
+      null,
+      null,
+      4.42,
+      null,
+      null,
+      5.29,
+      null,
+      null,
+      4.98
     ],
     "us10y_5y": [
-      1.45,
-      3.96,
-      3.97,
-      4.25,
-      4.4,
-      5.25
+      3.88,
+      3.87,
+      4.57,
+      4.16,
+      4.98
     ],
     "us10y_10y": [
-      2.14,
-      2.33,
-      2.91,
-      2.14,
-      0.89,
-      1.45,
-      3.96,
-      3.97,
-      4.25,
-      4.4,
-      4.4,
-      5.25
+      2.4,
+      2.69,
+      1.92,
+      0.92,
+      1.51,
+      3.88,
+      3.87,
+      4.57,
+      4.16,
+      4.98
     ],
     "us10y_30y": [
-      6.44,
+      6.41,
       5.11,
       4.39,
-      3.22,
-      2.14,
-      2.91,
-      0.89,
-      1.45,
-      3.96,
-      3.97,
-      4.25,
-      4.4,
-      5.25
+      3.31,
+      2.27,
+      2.69,
+      0.92,
+      1.51,
+      3.88,
+      3.87,
+      4.57,
+      4.98
     ],
     "wti_6m": [
       92.5,
@@ -785,7 +782,7 @@
       98.3,
       102.3,
       101.11,
-      101.3
+      101.41
     ],
     "wti_1y": [
       82.3,
@@ -798,14 +795,14 @@
       95.2,
       98.3,
       101.11,
-      101.3
+      101.41
     ],
     "wti_5y": [
       68.1,
       94.3,
       77.6,
       77.4,
-      101.3
+      101.41
     ],
     "wti_10y": [
       45.1,
@@ -817,7 +814,7 @@
       94.3,
       77.6,
       77.4,
-      101.3
+      101.41
     ],
     "wti_30y": [
       22.0,
@@ -831,7 +828,7 @@
       94.3,
       77.6,
       77.4,
-      101.3
+      101.41
     ],
     "nikkei_6m": [
       38800,
@@ -942,143 +939,139 @@
       24117.0
     ],
     "us30y_6m": [
-      5.0,
-      5.2,
-      5.05,
-      5.4,
-      5.52,
-      5.52
+      5.28,
+      null,
+      null,
+      5.32,
+      null,
+      5.3
     ],
     "us30y_1y": [
-      4.85,
-      4.65,
-      4.25,
-      4.45,
-      4.85,
-      5.0,
-      5.2,
-      5.05,
-      5.4,
-      5.52,
-      5.52
+      null,
+      null,
+      4.99,
+      null,
+      null,
+      5.28,
+      null,
+      null,
+      5.32,
+      null,
+      5.3
     ],
     "us30y_5y": [
-      1.85,
-      4.2,
-      4.3,
-      4.55,
-      4.7,
-      5.52
+      3.66,
+      4.22,
+      4.81,
+      4.87,
+      5.3
     ],
     "us30y_10y": [
-      2.44,
-      2.58,
-      3.11,
-      2.35,
-      1.35,
-      1.85,
-      4.2,
-      4.3,
-      4.55,
-      4.7,
-      4.7,
-      5.52
+      2.94,
+      3.01,
+      2.02,
+      1.86,
+      2.1,
+      3.66,
+      4.22,
+      4.81,
+      4.87,
+      5.3
     ],
     "us30y_30y": [
       6.8,
-      5.52,
+      5.54,
+      4.68,
+      4.57,
+      2.76,
+      3.01,
+      1.86,
+      2.1,
+      3.66,
+      4.22,
       4.81,
-      3.54,
-      2.35,
-      3.11,
-      1.35,
-      1.85,
-      4.2,
-      4.3,
-      4.55,
-      4.7,
-      5.52
+      5.3
     ],
     "crb_6m": [
-      315,
-      320,
-      318,
-      322,
-      325,
-      298.5
+      null,
+      null,
+      730.4,
+      null,
+      null,
+      758.1
     ],
     "crb_1y": [
-      300,
-      305,
-      308,
-      300,
-      302,
-      310,
-      315,
-      320,
-      318,
-      322,
-      298.5
+      null,
+      745.2,
+      null,
+      null,
+      619.5,
+      null,
+      null,
+      730.4,
+      null,
+      null,
+      758.1
     ],
     "crb_5y": [
-      185,
-      250,
-      290,
-      295,
-      298.5
+      610.1,
+      535.6,
+      549.6,
+      548.5,
+      758.1
     ],
     "crb_10y": [
-      220,
-      190,
-      200,
-      170,
-      150,
-      185,
-      250,
-      290,
-      295,
-      298.5
+      442.4,
+      374.3,
+      436.2,
+      409.5,
+      561.2,
+      610.1,
+      535.6,
+      549.6,
+      548.5,
+      758.1
     ],
     "crb_30y": [
-      230,
-      200,
-      250,
-      310,
-      200,
-      200,
-      150,
-      185,
-      250,
-      290,
-      295,
-      298.5
+      215.3,
+      246.9,
+      431.7,
+      631.8,
+      311.6,
+      374.3,
+      409.5,
+      561.2,
+      610.1,
+      535.6,
+      549.6,
+      758.1
     ],
     "us_cpi_6m": [
-      2.6,
-      2.9,
-      3.0,
+      4.2,
       3.5,
+      3.4,
+      3.4,
       3.7,
-      3.7
+      null
     ],
     "us_cpi_1y": [
-      3.0,
-      2.9,
-      2.5,
-      2.4,
-      2.6,
       2.7,
-      2.9,
-      3.0,
+      2.4,
+      2.4,
+      3.3,
+      3.8,
+      4.2,
       3.5,
+      3.4,
+      3.4,
       3.7,
-      3.7
+      null
     ],
     "us_cpi_5y": [
       4.7,
       8.0,
       4.1,
-      3.2,
+      2.7,
       3.7
     ],
     "us_cpi_10y": [
@@ -1090,7 +1083,7 @@
       4.7,
       8.0,
       4.1,
-      3.2,
+      2.7,
       3.7
     ],
     "us_cpi_30y": [
@@ -1494,6 +1487,60 @@
       2.2,
       null
     ],
+    "us_core_cpi_6m": [
+      2.9,
+      2.6,
+      2.5,
+      2.4,
+      2.6,
+      null
+    ],
+    "us_core_cpi_1y": [
+      2.6,
+      2.5,
+      2.5,
+      2.6,
+      2.8,
+      2.9,
+      2.6,
+      2.5,
+      2.4,
+      2.6,
+      null
+    ],
+    "us_core_cpi_5y": [
+      null,
+      null,
+      null,
+      2.6,
+      2.6
+    ],
+    "us_core_cpi_10y": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      2.6,
+      2.6
+    ],
+    "us_core_cpi_30y": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      2.6
+    ],
     "jp_core_cpi_5y": [
       4.0,
       2.3,
@@ -1528,7 +1575,7 @@
       2.2
     ]
   },
-  "summary": "# キザワ・アンド・カンパニー 月次マクロ経済サマリー\n**作成日：2026年10月26日**\n\n---\n\n## 【総括】世界経済の全体像と主要リスク\n\n世界経済は3.1%の成長を維持する一方で、インフレ圧力（4.7%）が依然として課題となっています。商品価格の堅調性（原油101ドル）と各国の金融引き締め継続により、成長とインフレのバランスが不安定な局面が続いています。リスク要因としては、地政学的緊張の商品価格への波及、先進国での高金利の長期化による信用収縮、中国成長率の減速傾向が挙げられます。\n\n## 【日本経済】景況と注目点\n\n日本経済は1.4%成長で緩やかな拡大基調ですが、実質賃金の伸びが限定的な中でのデフレ圧力が残存しています。日銀の金利1.23%引き上げにもかかわらず、長期金利（10年JGB 3.057%）の上昇が限定的であることは、市場が成長率の持続性に懐疑的であることを示唆しています。工作機械受注（2232億円）と短観DI（24pt）はやや弱含み傾向で、企業の設備投資意欲に警戒が必要です。\n\n## 【海外経済】米国・中国・世界動向\n\n米国は2.0%成長で緩やかな減速傾向にありますが、失業率4.2%の安定と3.7%のCPI水準が、FF金利4.0%維持の正当性を保っています。中国は4.5%の成長が見込まれるものの、PPI 5.0%とCPI 0.9%のギャップが拡大し、構造的な需要不足が懸念されます。貿易量（2.9%）の伸び率が成長率を下回る状況は、グローバルな需要減速を反映しています。\n\n## 【経営への示唆】経営者へのアドバイス\n\n**戦略①：円安活用と為替リスク対策**  \n157円台のドル円相場は日本企業の輸出競争力を有利にしていますが、米国の高金利維持による上値圧力に注意が必要です。中期的な通貨ポジション管理を再点検してください。\n\n**戦略②：国内需要の底堅さの活用**  \n失業率2.5%と景気の比較的安定性を踏まえ、デジタル化・脱炭素投資など構造的ニーズへの事業展開を加速させることをお勧めします。\n\n**戦略③：中国市場の二極化への対応**  \n中国での粗利圧力（PPI高・CPI低）が続く中、低価格競争から高付加価値提供へのシフトが必須です。同時に、米国市場での高金利対策として、適正利益の確保と資本効率の向上に注力してください。",
-  "summary_date": "2026年10月26日 22:04",
-  "summary_en": "# MONTHLY MACROECONOMIC SUMMARY\n## Kizawa & Company Board of Directors\n**Report Date: October 26, 2026**\n\n---\n\n## [Overview] Global Economic Landscape and Key Risks\n\nThe global economy remains on a moderate growth trajectory at 3.1% (IMF forecast), with developed markets showing resilience but differing momentum. Inflation globally stands at 4.7%, reflecting persistent price pressures despite central bank tightening efforts across major economies. Key downside risks include USD/JPY volatility at 158.2 (signaling yen weakness), elevated commodity prices (WTI at $101.3/bbl), and potential trade friction as China's growth faces headwinds. Geopolitical uncertainties and potential policy shifts could further disrupt growth, particularly impacting export-dependent economies.\n\n## [Japan Economy] Japan's Economic Conditions and Key Points\n\nJapan's economy is expanding at a modest 1.4% YoY, outpaced by global averages, with CPI at a manageable 2.2% and unemployment at a healthy 2.5%. The BOJ's policy rate of 1.23% and 10Y JGB yield at 3.057% suggest monetary normalization is progressing, though the yen remains under pressure at 158.2 against the dollar. Positive indicators include a Tankan DI of 24pt (reflecting business sentiment) and machine tool orders at 2,232B¥, signaling continued manufacturing confidence despite modest GDP growth. However, the slower growth rate relative to peers warrants attention to productivity improvements and structural economic factors.\n\n## [Global Economy] US, China, and World Economic Trends\n\nThe US economy demonstrates solid growth at 2.0% QoQ annualized, with the Fed Funds rate steady at 4.0% and the 10Y UST yield at 5.25%, supporting a strong dollar environment. US inflation remains elevated at 3.7% with unemployment at 4.2%, suggesting the labor market remains tight despite Fed tightening cycles. China's forecast 4.5% GDP growth masks underlying structural concerns, as its CPI inflation at only 0.9% contrasts sharply with PPI at 5.0%, indicating producer-level stress and potential margin compression for manufacturers. China's trade surplus of $133.5B underscores ongoing export strength, though internal demand weakness remains a concern.\n\n## [Strategic Implications] Advice for Executives from a Consulting Perspective\n\n**Immediate Actions:** Executives should hedge currency exposure aggressively given USD/JPY volatility; for Japanese exporters, this may create near-term headwinds but could improve competitiveness long-term. Monitor US interest rate trajectory closely—the 5.25% 10Y yield creates attractive financing alternatives to yen-based debt. **Medium-term Strategy:** Diversify supply chains away from China-dependent production; the PPI/CPI divergence signals margin pressures for Chinese suppliers. **Sector Focus:** Prioritize capital equipment and machinery investments (evidenced by strong machine tool orders) while reassessing consumer-facing segments exposed to inflation-sensitive demand. Consider strategic repositioning toward higher-value manufacturing and technology-driven services where Japan maintains competitive advantages."
+  "summary": "# キザワ・アンド・カンパニー 月次マクロ経済サマリー\n## 2026年10月26日版\n\n---\n\n## 【総括】現在の世界経済の全体像と主要リスク\n\n世界経済は IMF 予測 3.1% の成長を維持していますが、地政学的緊張と商品市況の不安定性が増しています。米国のインフレが 3.7% で粘着性を示す一方、中国成長率が 4.5% と鈍化傾向にあり、先進国と新興国の成長格差が縮小しています。**主要リスクは、対中関税強化による供給網混乱、原油高騰（WTI 101$/bbl）による世界インフレ再加速、および米中の経済的分断の深化です。**\n\n---\n\n## 【日本経済】日本の景況と注目点\n\n日本経済は実質 GDP 1.4% の緩やかな成長を継続し、失業率 2.5% で堅調な労働市場を保っています。日銀は金利を 1.23% に据え置き、金融緩和スタンスを維持している一方、**円相場 158.2円はドル強を反映しており、輸出競争力にマイナス影響が懸念されます。** 工作機械受注 2232 億円、日銀短観 DI24pt はモノづくり産業の緩やかな自信を示していますが、過熱感には欠けています。\n\n---\n\n## 【海外経済】米国・中国・世界経済の動向\n\n**米国**は GDP 2.0% で底堅く、FF 金利 4.0% を維持しながらもインフレ 3.7% が粘着しており、FRB の金利据え置きが続く可能性が高まっています。**中国**は GDP 成長予測 4.5% に低下し、CPI 低迷（0.9%）でデフレ懸念が生じているものの、PPI 5.0% の高さは産業部門の価格圧力を示唆しています。世界貿易量は 2.9% の低成長にとどまっており、通商環境の悪化が明白です。\n\n---\n\n## 【経営への示唆】コンサルティング会社として経営者へのアドバイス\n\n**1. 供給網リスク管理の強化：** 対中関税深刻化を見据え、調達先の多元化と国内回帰可能性を今から検討すべき時期です。**2. 円高トレンド対応：** 158 円での円相場が続く場合、製造コスト削減と高付加価値化を急務としてください。**3. 顧客のデジタル化・効率化支援の強化：** インフレ環境下で企業の経営効率化ニーズは高まっており、DX・業務改革コンサルの受託機会が増加するチャンスです。",
+  "summary_date": "2026年10月26日 22:17",
+  "summary_en": "# MACROECONOMIC SUMMARY\n## October 26, 2026\n\n---\n\n## [OVERVIEW] Global Economic Landscape and Key Risks\n\nThe global economy is demonstrating resilience with IMF-forecasted growth of 3.1%, though underlying structural tensions persist. Inflation remains elevated at 4.7% worldwide, with divergent monetary policy responses creating currency volatility and capital flow uncertainties. Key downside risks include geopolitical trade tensions, potential oil price escalation (WTI at $101.41/bbl), and synchronized tightening cycles across major economies creating refinancing pressures. The USD/JPY rate at 158.2 reflects persistent US-Japan rate differentials that may constrain Japanese exporters while benefiting currency hedging strategies.\n\n---\n\n## [JAPAN ECONOMY] Japan's Economic Conditions and Key Points\n\nJapan's economy is growing moderately at 1.4% YoY with inflation well-controlled at 2.2%, indicating successful price stability management. Labor markets remain exceptionally tight at 2.5% unemployment, supporting wage growth and domestic consumption despite modest GDP expansion. The BOJ's measured rate increase to 1.23% reflects confidence in economic normalization, though the 10Y JGB yield of 3.057% suggests bond markets anticipate further normalization. Machine tool orders at 2,232B¥ and a positive Tankan DI of +24pt indicate corporate confidence in investment and future demand, particularly relevant for manufacturing competitiveness.\n\n---\n\n## [GLOBAL ECONOMY] US, China, and World Economic Trends\n\nThe United States maintains solid growth at 2.0% QoQ annualized despite elevated CPI of 3.7%, with the Fed Funds rate holding at 4.0% and 10Y yields at 4.98% signaling a higher-for-longer rate environment. China faces a more challenging outlook with forecasted 4.5% growth—lower than historical trends—while concerning deflationary pressures emerge (CPI 0.9%) despite strong commodity demand evidenced by 5.0% PPI and a substantial $133.5B trade surplus. Global trade volume growth of only 2.9% lags economic expansion, suggesting protectionist headwinds and supply chain fragmentation are constraining international commerce. These dynamics create a bifurcated world economy where developed markets maintain resilience while emerging economies face structural deceleration.\n\n---\n\n## [STRATEGIC IMPLICATIONS] Advice for Executives\n\n**Currency & Treasury Strategy:** Lock in favorable USD/JPY rates for international transactions while the divergential yields remain pronounced; consider JPY-denominated debt issuance given 10Y JGB yields below US equivalents. **Capital Allocation:** The +24pt Tankan DI and machine tool orders validate Japan-based manufacturing expansion—prioritize capex in automation and precision industries to capitalize on tight labor markets and export opportunities. **Geographic Diversification:** China's slowing growth and deflationary pressures warrant cautious exposure; prioritize markets with stronger organic demand (US, Japan) while monitoring China's policy stimulus effectiveness. **Risk Management:** Implement commodity hedging programs against WTI volatility; prepare for potential trade policy shifts given geopolitical tensions; stress-test balance sheets against sustained 4%+ rate environments given refinancing risks."
 }

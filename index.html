@@ -494,16 +494,16 @@ function renderAll(d){
 <div class="mg" id="g7"></div>
 <div class="cr">
   <div class="cc2 cc"><div class="ct">WTI原油価格（$/bbl）</div><div class="ct-en">WTI Crude Oil Price (USD/bbl)</div><div class="cw"><canvas id="c10"></canvas></div></div>
-  <div class="cc2 cc"><div class="ct">ブルームバーグ商品指数</div><div class="ct-en">Bloomberg Commodity Index (BCOM)</div><div class="cw"><canvas id="c11"></canvas></div></div>
+  <div class="cc2 cc"><div class="ct" id="ct_comm">商品指数</div><div class="ct-en">Commodity Index</div><div class="cw"><canvas id="c11"></canvas></div></div>
 </div>
 
 <div class="note">
 <strong>【データ出所 / Data Sources】</strong><br>
 🇯🇵 <strong>日本 / Japan</strong>：GDP＝内閣府GDP速報 / Cabinet Office GDP Flash Estimate｜CPI＝総務省 / Ministry of Internal Affairs (e-Stat)｜為替・金利＝日本銀行API / Bank of Japan API｜失業率・求人倍率＝総務省・厚労省 / MIC & MHLW｜日経平均＝Yahoo Finance（JPX）｜工作機械受注＝日本工作機械工業会 / JMTBA｜日銀短観＝日本銀行 / BOJ｜住宅着工＝国土交通省 / MLIT<br>
-🇺🇸 <strong>米国 / United States</strong>：GDP＝米商務省BEA / US BEA｜CPI＝米労働統計局 / US BLS｜失業率＝米労働統計局BLS API（LNS14000000）｜FF金利＝FRB / Federal Reserve（FRED）｜国債＝米財務省 / US Treasury（FRED）｜コアCPI・GDP＝FRED｜NYSE＝Yahoo Finance（^NYA）<br>
+🇺🇸 <strong>米国 / United States</strong>：GDP＝米商務省BEA / US BEA｜CPI＝米労働統計局 / US BLS｜失業率＝米労働統計局BLS API（LNS14000000）｜FF金利＝ニューヨーク連銀 / NY Fed｜国債＝Yahoo Finance（^TNX・^TYX）｜コアCPI＝米労働統計局BLS｜NYSE＝Yahoo Finance（^NYA）<br>
 🇨🇳 <strong>中国 / China</strong>：GDP・CPI・PPI・失業率＝中国国家統計局 / National Bureau of Statistics China｜LPR＝中国人民銀行 / PBOC｜貿易＝中国税関総署 / General Administration of Customs｜予測＝IMF<br>
 🌐 <strong>世界 / World</strong>：IMF世界経済見通し（最新版、IMF DataMapper API）/ IMF World Economic Outlook (latest, DataMapper API)<br>
-🌍 <strong>商品 / Commodities</strong>：WTI＝NYMEX（Yahoo Finance）｜商品指数＝ブルームバーグ商品指数 / Bloomberg Commodity Index（Yahoo Finance ^BCOM）<br>
+🌍 <strong>商品 / Commodities</strong>：WTI＝NYMEX（Yahoo Finance）｜商品指数＝下記「取得方法」参照<br>
 <em>長期データ（5年・10年・30年）は、自動取得できる指標は各年末の実績値、それ以外は各機関公表値に基づく参考値 / Long-term data use year-end actuals where auto-fetched; others are reference values.</em>
 <div id="prov"></div>
 </div>`;
@@ -560,10 +560,11 @@ function renderAll(d){
     mc('世界貿易量成長率','World Trade Volume',(wo.trade||0).toFixed(1)+'%','2026 forecast',wo.trade>3?'up':'neu');
   document.getElementById('g7').innerHTML=
     mc('WTI原油','WTI Crude Oil','$'+(cm.wti||0).toFixed(1)+'/bbl','DoD '+(cm.wti_change>=0?'+':'')+(cm.wti_change||0).toFixed(1)+'$',cm.wti_change>0?'down':'up','cc',cm.wti_change>0?'up':cm.wti_change<0?'down':'neu')+
-    mc('商品指数（BCOM）','Bloomberg Commodity Index',(cm.crb||0).toFixed(1),'DoD '+(cm.crb_change>=0?'+':'')+(cm.crb_change||0).toFixed(1),cm.crb_change>0?'down':'up','cc',cm.crb_change>0?'up':cm.crb_change<0?'down':'neu');
+    mc(cm.commodity_name||'商品指数','Commodity Index',(cm.crb||0).toFixed(1),'DoD '+(cm.crb_change>=0?'+':'')+(cm.crb_change||0).toFixed(1),cm.crb_change>0?'down':'up','cc',cm.crb_change>0?'up':cm.crb_change<0?'down':'neu');
 
   drawAllCharts(d);
   renderProvenance(d);
+  {const t=document.getElementById('ct_comm'); if(t&&cm.commodity_name) t.textContent=cm.commodity_name;}
 }
 
 function drawAllCharts(d){
