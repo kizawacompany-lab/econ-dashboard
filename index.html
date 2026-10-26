@@ -445,7 +445,6 @@ function renderAll(d){
 <div class="sec jp"><div class="sec-ja">🇯🇵 日本 — 景況・産業</div><div class="sec-en">Japan — Business Conditions & Industry</div></div>
 <div class="mg" id="g4"></div>
 <div class="cr">
-  <div class="cc2"><div class="ct">工作機械受注（億円）</div><div class="ct-en">Machine Tool Orders (100M JPY)</div><div class="cw"><canvas id="c4"></canvas></div></div>
   <div class="cc2"><div class="ct">住宅着工戸数（万戸・年率）</div><div class="ct-en">Housing Starts (10K units, ann.)</div><div class="cw"><canvas id="c5"></canvas></div></div>
 </div>
 
@@ -474,9 +473,6 @@ function renderAll(d){
 <div class="mg" id="g_cn"></div>
 <div class="cr">
   <div class="cc2" style="border-top:3px solid #8B2500"><div class="ct">中国 実質GDP成長率（前年比%）</div><div class="ct-en">China Real GDP Growth (YoY%)</div><div class="cw"><canvas id="c_cngdp"></canvas></div></div>
-  <div class="cc2" style="border-top:3px solid #8B2500"><div class="ct">中国 物価指数（前年比%）</div><div class="ct-en">China Price Indices (YoY%)</div>
-    <div class="leg"><span><span class="ld" style="background:#8B2500"></span>CPI</span><span><span class="ld" style="background:#E67E22"></span>PPI</span></div>
-    <div class="cw"><canvas id="c_cnprice"></canvas></div></div>
 </div>
 
 <div class="sec" style="border-left:4px solid #2C3E50"><div class="sec-ja" style="color:#2C3E50">🌐 世界経済 — IMF見通し</div><div class="sec-en" style="color:#2C3E50">Global Economy — IMF World Economic Outlook</div></div>
@@ -499,9 +495,9 @@ function renderAll(d){
 
 <div class="note">
 <strong>【データ出所 / Data Sources】</strong><br>
-🇯🇵 <strong>日本 / Japan</strong>：GDP＝内閣府GDP速報 / Cabinet Office GDP Flash Estimate｜CPI＝総務省 / Ministry of Internal Affairs (e-Stat)｜為替・金利＝日本銀行API / Bank of Japan API｜失業率・求人倍率＝総務省・厚労省 / MIC & MHLW｜日経平均＝Yahoo Finance（JPX）｜工作機械受注＝日本工作機械工業会 / JMTBA｜日銀短観＝日本銀行 / BOJ｜住宅着工＝国土交通省 / MLIT<br>
+🇯🇵 <strong>日本 / Japan</strong>：GDP＝内閣府GDP速報 / Cabinet Office GDP Flash Estimate｜CPI＝総務省 / Ministry of Internal Affairs (e-Stat)｜為替・金利＝日本銀行API / Bank of Japan API｜失業率・求人倍率＝総務省・厚労省 / MIC & MHLW｜日経平均＝Yahoo Finance（JPX）｜日銀短観＝日本銀行 / BOJ｜住宅着工＝国土交通省 / MLIT<br>
 🇺🇸 <strong>米国 / United States</strong>：GDP＝米商務省BEA / US BEA｜CPI＝米労働統計局 / US BLS｜失業率＝米労働統計局BLS API（LNS14000000）｜FF金利＝ニューヨーク連銀 / NY Fed｜国債＝Yahoo Finance（^TNX・^TYX）｜コアCPI＝米労働統計局BLS｜NYSE＝Yahoo Finance（^NYA）<br>
-🇨🇳 <strong>中国 / China</strong>：GDP・CPI・PPI・失業率＝中国国家統計局 / National Bureau of Statistics China｜LPR＝中国人民銀行 / PBOC｜貿易＝中国税関総署 / General Administration of Customs｜予測＝IMF<br>
+🇨🇳 <strong>中国 / China</strong>：GDP・失業率＝中国国家統計局 / National Bureau of Statistics China｜LPR＝中国人民銀行 / PBOC｜貿易＝中国税関総署 / General Administration of Customs｜予測＝IMF<br>
 🌐 <strong>世界 / World</strong>：IMF世界経済見通し（最新版、IMF DataMapper API）/ IMF World Economic Outlook (latest, DataMapper API)<br>
 🌍 <strong>商品 / Commodities</strong>：WTI＝NYMEX（Yahoo Finance）｜商品指数＝下記「取得方法」参照<br>
 <em>長期データ（5年・10年・30年）は、自動取得できる指標は各年末の実績値、それ以外は各機関公表値に基づく参考値 / Long-term data use year-end actuals where auto-fetched; others are reference values.</em>
@@ -528,7 +524,6 @@ function renderAll(d){
   document.getElementById('g4').innerHTML=
     mc('日経平均株価','Nikkei 225',(jp.nikkei225||0).toLocaleString()+'円','DoD +'+(jp.nikkei_change||0).toFixed(0)+'¥','up')+
     mc('経常収支','Current Account',(jp.current_account||0).toFixed(1)+'兆円','Surplus','up')+
-    mc('工作機械受注','Machine Tool Orders',(jp.machine_tool_orders||0).toLocaleString()+'億円','最新確報 / Latest','neu')+
     mc('日銀短観DI','Tankan DI',(jp.tankan_dki||0)+'pt','Large Mfg.',jp.tankan_dki>0?'up':'down')+
     mc('住宅着工','Housing Starts',(jp.housing_starts||0).toFixed(1)+'万戸','2025年実績 / Annual 2025','neu');
   document.getElementById('g_usgdp').innerHTML=
@@ -547,8 +542,6 @@ function renderAll(d){
   const cn=d.china_macro||{},wo=d.world_macro||{};
   document.getElementById('g_cn').innerHTML=
     mc('実質GDP成長率（前年比）','Real GDP Growth YoY',(cn.gdp_yoy||0).toFixed(1)+'%','IMF 2026 forecast',cn.gdp_yoy>3?'up':'down')+
-    mc('CPI（前年比）','CPI YoY',(cn.cpi||0).toFixed(1)+'%',cn.cpi<0?'Deflation pressure':'Rising',cn.cpi>=0?'up':'down')+
-    mc('PPI（前年比）','PPI YoY',(cn.ppi||0).toFixed(1)+'%','Factory gate prices',cn.ppi>=0?'up':'down')+
     mc('都市部失業率','Urban Unemployment',(cn.unemployment||0).toFixed(1)+'%','NBS','neu')+
     mc('LPR（1年）','LPR 1Y',(cn.lpr1y||0).toFixed(2)+'%','PBOC policy rate','neu')+
     mc('月次貿易収支','Monthly Trade Balance',(cn.trade_balance||0).toFixed(1)+'Bn$','Surplus','up');
