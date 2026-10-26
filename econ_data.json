@@ -1,5 +1,192 @@
 {
-  "updated": "2026-10-26 21:51",
+  "provenance": {
+    "jp_core_cpi": {
+      "mode": "auto",
+      "source": "総務省 消費者物価指数（e-Stat）",
+      "asof": "2026/09"
+    },
+    "jp_cpi": {
+      "mode": "auto",
+      "source": "総務省 消費者物価指数（e-Stat）",
+      "asof": "26/09"
+    },
+    "jp_unemployment": {
+      "mode": "manual",
+      "source": "総務省 労働力調査（手入力）",
+      "asof": ""
+    },
+    "jp_job_ratio": {
+      "mode": "manual",
+      "source": "厚生労働省 一般職業紹介状況（手入力）",
+      "asof": ""
+    },
+    "jp_wage": {
+      "mode": "manual",
+      "source": "厚生労働省 毎月勤労統計（手入力）",
+      "asof": ""
+    },
+    "jp_gdp": {
+      "mode": "manual",
+      "source": "内閣府 四半期GDP速報（手入力）",
+      "asof": ""
+    },
+    "jp_current_account": {
+      "mode": "manual",
+      "source": "財務省・日本銀行 国際収支（手入力）",
+      "asof": ""
+    },
+    "jp_machine_tool": {
+      "mode": "manual",
+      "source": "日本工作機械工業会（手入力）",
+      "asof": ""
+    },
+    "jp_tankan": {
+      "mode": "manual",
+      "source": "日本銀行 短観（手入力）",
+      "asof": ""
+    },
+    "jp_housing": {
+      "mode": "manual",
+      "source": "国土交通省 建築着工統計（手入力）",
+      "asof": ""
+    },
+    "us_cpi": {
+      "mode": "auto",
+      "source": "米労働統計局 BLS",
+      "asof": ""
+    },
+    "us_unemployment": {
+      "mode": "auto",
+      "source": "米労働統計局 BLS",
+      "asof": ""
+    },
+    "us_ff_rate": {
+      "mode": "manual",
+      "source": "FRB（FRED DFEDTARU）",
+      "asof": ""
+    },
+    "us10y": {
+      "mode": "manual",
+      "source": "米財務省（FRED DGS10）",
+      "asof": ""
+    },
+    "us30y": {
+      "mode": "manual",
+      "source": "米財務省（FRED DGS30）",
+      "asof": ""
+    },
+    "us_core_cpi": {
+      "mode": "manual",
+      "source": "米労働統計局（FRED CPILFESL）",
+      "asof": ""
+    },
+    "us_gdp": {
+      "mode": "manual",
+      "source": "米商務省BEA（手入力）",
+      "asof": ""
+    },
+    "nyse": {
+      "mode": "auto",
+      "source": "Yahoo Finance（^NYA）",
+      "asof": "2026/10/26"
+    },
+    "wti": {
+      "mode": "auto",
+      "source": "NYMEX（Yahoo Finance CL=F）",
+      "asof": ""
+    },
+    "commodity_index": {
+      "mode": "manual",
+      "source": "商品指数（手入力）",
+      "asof": ""
+    },
+    "cn_gdp": {
+      "mode": "manual",
+      "source": "IMF世界経済見通し（DataMapper）",
+      "asof": "2026年見通し"
+    },
+    "cn_cpi": {
+      "mode": "manual",
+      "source": "中国国家統計局（手入力）",
+      "asof": ""
+    },
+    "cn_ppi": {
+      "mode": "manual",
+      "source": "中国国家統計局（手入力）",
+      "asof": ""
+    },
+    "cn_unemployment": {
+      "mode": "manual",
+      "source": "中国国家統計局（手入力）",
+      "asof": ""
+    },
+    "cn_lpr": {
+      "mode": "manual",
+      "source": "中国人民銀行（手入力）",
+      "asof": ""
+    },
+    "cn_trade": {
+      "mode": "manual",
+      "source": "中国税関総署（手入力）",
+      "asof": ""
+    },
+    "world_gdp": {
+      "mode": "manual",
+      "source": "IMF世界経済見通し（DataMapper）",
+      "asof": "2026年見通し"
+    },
+    "world_gdp_prev": {
+      "mode": "manual",
+      "source": "IMF世界経済見通し（DataMapper）",
+      "asof": "2025年"
+    },
+    "world_inflation": {
+      "mode": "manual",
+      "source": "IMF世界経済見通し（DataMapper）",
+      "asof": "2026年見通し"
+    },
+    "world_em_gdp": {
+      "mode": "manual",
+      "source": "IMF世界経済見通し（DataMapper）",
+      "asof": "2026年見通し"
+    },
+    "world_advanced_gdp": {
+      "mode": "manual",
+      "source": "IMF世界経済見通し（DataMapper）",
+      "asof": "2026年見通し"
+    },
+    "world_trade": {
+      "mode": "manual",
+      "source": "IMF世界経済見通し（DataMapper）",
+      "asof": "2026年見通し"
+    },
+    "usdjpy": {
+      "mode": "auto",
+      "source": "日本銀行API",
+      "asof": ""
+    },
+    "eurjpy": {
+      "mode": "auto",
+      "source": "Yahoo Finance（EURJPY=X）",
+      "asof": ""
+    },
+    "boj_rate": {
+      "mode": "auto",
+      "source": "日本銀行API（無担保コールO/N）",
+      "asof": ""
+    },
+    "jgb10y": {
+      "mode": "auto",
+      "source": "財務省 国債金利CSV",
+      "asof": ""
+    },
+    "nikkei": {
+      "mode": "auto",
+      "source": "Yahoo Finance／Stooq",
+      "asof": ""
+    }
+  },
+  "updated": "2026-10-26 22:04",
   "gdp": {
     "growth_yoy": 1.4,
     "growth_qoq": 0.4,
@@ -8,49 +195,49 @@
   },
   "cpi": {
     "headline": 2.2,
-    "core": 1.8,
-    "trend": "flat",
+    "core": 2.2,
+    "trend": "up",
     "history_labels": [
+      "26/03",
       "26/04",
       "26/05",
       "26/06",
       "26/07",
       "26/08",
-      "26/09",
-      "26/10"
+      "26/09"
     ],
     "headline_history": [
-      2.3,
-      2.9,
-      3.6,
-      4.0,
-      3.7,
-      3.6,
+      1.5,
+      1.4,
+      1.5,
+      1.7,
+      2.0,
+      2.0,
       2.2
     ],
     "core_history": [
-      2.1,
-      2.7,
-      3.0,
-      3.1,
-      2.9,
-      2.8,
-      1.8
+      1.8,
+      1.4,
+      1.4,
+      1.6,
+      1.8,
+      1.8,
+      2.2
     ]
   },
   "fx": {
     "usdjpy": 158.2,
-    "eurjpy": 175.6,
+    "eurjpy": 176.1,
     "usdjpy_change": -0.2,
-    "eurjpy_change": -2.1,
+    "eurjpy_change": 0.5,
     "history_labels": [
-      "26/04",
-      "26/05",
-      "26/06",
-      "26/07",
-      "26/08",
-      "26/09",
-      "26/10"
+      "10/14",
+      "10/15",
+      "10/16",
+      "10/19",
+      "10/20",
+      "10/21",
+      "10/22"
     ],
     "usdjpy_history": [
       158.4,
@@ -62,19 +249,19 @@
       158.2
     ],
     "eurjpy_history": [
-      176.83,
       177.32,
       177.14,
       177.76,
       177.67,
       177.66,
-      175.6
+      175.6,
+      176.05
     ]
   },
   "rates": {
-    "boj_policy": 1.25,
+    "boj_policy": 1.23,
     "jgb10y": 3.057,
-    "boj_trend": "up"
+    "boj_trend": "flat"
   },
   "labor": {
     "unemployment": 2.5,
@@ -83,8 +270,8 @@
     "labor_trend": "flat"
   },
   "japan_extra": {
-    "nikkei225": 62693.0,
-    "nikkei_change": -214.7,
+    "nikkei225": 62189.65,
+    "nikkei_change": -503.51,
     "current_account": 3.9,
     "machine_tool_orders": 2232,
     "tankan_dki": 24,
@@ -97,15 +284,15 @@
     "ff_rate": 4.0,
     "us10y": 5.25,
     "us30y": 5.52,
-    "nyse_composite": 23932.0,
-    "nyse_change": 0.2,
+    "nyse_composite": 24117.27,
+    "nyse_change": -0.65,
     "market_cap": 54.1,
     "gdp_qoq": 2.0,
     "gdp_prev": 0.5
   },
   "commodities": {
-    "wti": 103.0,
-    "wti_change": 3.8,
+    "wti": 101.3,
+    "wti_change": -1.97,
     "crb": 298.5,
     "crb_change": -3.8
   },
@@ -124,9 +311,9 @@
     "gdp": 3.1,
     "gdp_prev": 3.2,
     "inflation": 4.7,
-    "trade": 2.9,
     "em_gdp": 4.0,
-    "advanced_gdp": 1.6
+    "advanced_gdp": 1.6,
+    "trade": 2.9
   },
   "status": [
     {
@@ -142,7 +329,7 @@
       "type": "warn"
     },
     {
-      "label": "WTI 103$/bbl（高騰）",
+      "label": "WTI 101$/bbl（高騰）",
       "type": "warn"
     },
     {
@@ -150,7 +337,7 @@
       "type": "info"
     },
     {
-      "label": "日銀金利 1.25%",
+      "label": "日銀金利 1.23%",
       "type": "info"
     }
   ],
@@ -269,7 +456,7 @@
       184.6,
       185.6,
       178.5,
-      175.6
+      176.1
     ],
     "eurjpy_1y": [
       183.7,
@@ -282,14 +469,14 @@
       184.6,
       185.6,
       178.5,
-      175.6
+      176.1
     ],
     "eurjpy_5y": [
       122.4,
       143.8,
       159.8,
       163.5,
-      175.6
+      176.1
     ],
     "eurjpy_10y": [
       118.8,
@@ -301,7 +488,7 @@
       143.8,
       159.8,
       163.5,
-      175.6
+      176.1
     ],
     "eurjpy_30y": [
       136.0,
@@ -315,7 +502,7 @@
       143.8,
       159.8,
       163.5,
-      175.6
+      176.1
     ],
     "jp_cpi_6m": [
       3.6,
@@ -377,7 +564,7 @@
       0.5,
       1.0,
       1.23,
-      1.25
+      1.23
     ],
     "boj_rate_1y": [
       0.1,
@@ -390,14 +577,14 @@
       0.5,
       1.0,
       1.23,
-      1.25
+      1.23
     ],
     "boj_rate_5y": [
       -0.1,
       -0.1,
       -0.1,
       0.1,
-      1.25
+      1.23
     ],
     "boj_rate_10y": [
       0.1,
@@ -409,7 +596,7 @@
       -0.1,
       -0.1,
       0.1,
-      1.25
+      1.23
     ],
     "boj_rate_30y": [
       0.5,
@@ -423,7 +610,7 @@
       -0.1,
       -0.1,
       0.1,
-      1.25
+      1.23
     ],
     "jgb10y_6m": [
       1.07,
@@ -598,7 +785,7 @@
       98.3,
       102.3,
       101.11,
-      103.0
+      101.3
     ],
     "wti_1y": [
       82.3,
@@ -611,14 +798,14 @@
       95.2,
       98.3,
       101.11,
-      103.0
+      101.3
     ],
     "wti_5y": [
       68.1,
       94.3,
       77.6,
       77.4,
-      103.0
+      101.3
     ],
     "wti_10y": [
       45.1,
@@ -630,7 +817,7 @@
       94.3,
       77.6,
       77.4,
-      103.0
+      101.3
     ],
     "wti_30y": [
       22.0,
@@ -644,7 +831,7 @@
       94.3,
       77.6,
       77.4,
-      103.0
+      101.3
     ],
     "nikkei_6m": [
       38800,
@@ -652,7 +839,7 @@
       36500,
       35200,
       62286.0,
-      62693.0
+      62190.0
     ],
     "nikkei_1y": [
       40700,
@@ -665,14 +852,14 @@
       38800,
       37500,
       62286.0,
-      62693.0
+      62190.0
     ],
     "nikkei_5y": [
       27500,
       26700,
       33400,
       39800,
-      62693.0
+      62190.0
     ],
     "nikkei_10y": [
       18800,
@@ -684,7 +871,7 @@
       26700,
       33400,
       39800,
-      62693.0
+      62190.0
     ],
     "nikkei_30y": [
       20500,
@@ -698,61 +885,61 @@
       26700,
       33400,
       39800,
-      62693.0
+      62190.0
     ],
     "nyse_6m": [
-      18200,
-      19000,
-      19500,
-      19800,
-      23932,
-      23932
+      null,
+      24462.0,
+      null,
+      null,
+      24117.0,
+      24117.0
     ],
     "nyse_1y": [
-      17000,
-      17200,
-      17500,
-      17800,
-      18000,
-      17500,
-      18200,
-      19000,
-      19500,
-      23932,
-      23932
+      23494.0,
+      null,
+      null,
+      23292.0,
+      null,
+      null,
+      24462.0,
+      null,
+      null,
+      24117.0,
+      24117.0
     ],
     "nyse_5y": [
-      12500,
-      16000,
-      18500,
-      19000,
-      23932
+      15429.0,
+      17607.0,
+      20028.0,
+      23494.0,
+      24117.0
     ],
     "nyse_10y": [
-      9500,
-      11000,
-      13000,
-      12500,
-      11000,
-      12500,
-      16000,
-      18500,
-      19000,
-      23932
+      12653.0,
+      12645.0,
+      12381.0,
+      15010.0,
+      16314.0,
+      15429.0,
+      17607.0,
+      20028.0,
+      23494.0,
+      24117.0
     ],
     "nyse_30y": [
-      5500,
-      6500,
-      8000,
-      10000,
-      9000,
-      13000,
-      11000,
-      12500,
-      16000,
-      18500,
-      19000,
-      23932
+      4393.0,
+      6629.0,
+      8061.0,
+      8439.0,
+      9560.0,
+      12645.0,
+      15010.0,
+      16314.0,
+      15429.0,
+      17607.0,
+      20028.0,
+      24117.0
     ],
     "us30y_6m": [
       5.0,
@@ -1285,8 +1472,63 @@
       "26/07",
       "26/08",
       "26/09"
+    ],
+    "jp_core_cpi_6m": [
+      1.4,
+      1.6,
+      1.8,
+      1.8,
+      2.2,
+      null
+    ],
+    "jp_core_cpi_1y": [
+      2.4,
+      2.0,
+      1.6,
+      1.8,
+      1.4,
+      1.4,
+      1.6,
+      1.8,
+      1.8,
+      2.2,
+      null
+    ],
+    "jp_core_cpi_5y": [
+      4.0,
+      2.3,
+      3.0,
+      2.4,
+      2.2
+    ],
+    "jp_core_cpi_10y": [
+      0.9,
+      0.7,
+      0.7,
+      -1.0,
+      0.5,
+      4.0,
+      2.3,
+      3.0,
+      2.4,
+      2.2
+    ],
+    "jp_core_cpi_30y": [
+      0.3,
+      -0.6,
+      0.1,
+      -0.4,
+      0.1,
+      0.7,
+      -1.0,
+      0.5,
+      4.0,
+      2.3,
+      3.0,
+      2.2
     ]
   },
-  "summary": "",
-  "summary_en": ""
+  "summary": "# キザワ・アンド・カンパニー 月次マクロ経済サマリー\n**作成日：2026年10月26日**\n\n---\n\n## 【総括】世界経済の全体像と主要リスク\n\n世界経済は3.1%の成長を維持する一方で、インフレ圧力（4.7%）が依然として課題となっています。商品価格の堅調性（原油101ドル）と各国の金融引き締め継続により、成長とインフレのバランスが不安定な局面が続いています。リスク要因としては、地政学的緊張の商品価格への波及、先進国での高金利の長期化による信用収縮、中国成長率の減速傾向が挙げられます。\n\n## 【日本経済】景況と注目点\n\n日本経済は1.4%成長で緩やかな拡大基調ですが、実質賃金の伸びが限定的な中でのデフレ圧力が残存しています。日銀の金利1.23%引き上げにもかかわらず、長期金利（10年JGB 3.057%）の上昇が限定的であることは、市場が成長率の持続性に懐疑的であることを示唆しています。工作機械受注（2232億円）と短観DI（24pt）はやや弱含み傾向で、企業の設備投資意欲に警戒が必要です。\n\n## 【海外経済】米国・中国・世界動向\n\n米国は2.0%成長で緩やかな減速傾向にありますが、失業率4.2%の安定と3.7%のCPI水準が、FF金利4.0%維持の正当性を保っています。中国は4.5%の成長が見込まれるものの、PPI 5.0%とCPI 0.9%のギャップが拡大し、構造的な需要不足が懸念されます。貿易量（2.9%）の伸び率が成長率を下回る状況は、グローバルな需要減速を反映しています。\n\n## 【経営への示唆】経営者へのアドバイス\n\n**戦略①：円安活用と為替リスク対策**  \n157円台のドル円相場は日本企業の輸出競争力を有利にしていますが、米国の高金利維持による上値圧力に注意が必要です。中期的な通貨ポジション管理を再点検してください。\n\n**戦略②：国内需要の底堅さの活用**  \n失業率2.5%と景気の比較的安定性を踏まえ、デジタル化・脱炭素投資など構造的ニーズへの事業展開を加速させることをお勧めします。\n\n**戦略③：中国市場の二極化への対応**  \n中国での粗利圧力（PPI高・CPI低）が続く中、低価格競争から高付加価値提供へのシフトが必須です。同時に、米国市場での高金利対策として、適正利益の確保と資本効率の向上に注力してください。",
+  "summary_date": "2026年10月26日 22:04",
+  "summary_en": "# MONTHLY MACROECONOMIC SUMMARY\n## Kizawa & Company Board of Directors\n**Report Date: October 26, 2026**\n\n---\n\n## [Overview] Global Economic Landscape and Key Risks\n\nThe global economy remains on a moderate growth trajectory at 3.1% (IMF forecast), with developed markets showing resilience but differing momentum. Inflation globally stands at 4.7%, reflecting persistent price pressures despite central bank tightening efforts across major economies. Key downside risks include USD/JPY volatility at 158.2 (signaling yen weakness), elevated commodity prices (WTI at $101.3/bbl), and potential trade friction as China's growth faces headwinds. Geopolitical uncertainties and potential policy shifts could further disrupt growth, particularly impacting export-dependent economies.\n\n## [Japan Economy] Japan's Economic Conditions and Key Points\n\nJapan's economy is expanding at a modest 1.4% YoY, outpaced by global averages, with CPI at a manageable 2.2% and unemployment at a healthy 2.5%. The BOJ's policy rate of 1.23% and 10Y JGB yield at 3.057% suggest monetary normalization is progressing, though the yen remains under pressure at 158.2 against the dollar. Positive indicators include a Tankan DI of 24pt (reflecting business sentiment) and machine tool orders at 2,232B¥, signaling continued manufacturing confidence despite modest GDP growth. However, the slower growth rate relative to peers warrants attention to productivity improvements and structural economic factors.\n\n## [Global Economy] US, China, and World Economic Trends\n\nThe US economy demonstrates solid growth at 2.0% QoQ annualized, with the Fed Funds rate steady at 4.0% and the 10Y UST yield at 5.25%, supporting a strong dollar environment. US inflation remains elevated at 3.7% with unemployment at 4.2%, suggesting the labor market remains tight despite Fed tightening cycles. China's forecast 4.5% GDP growth masks underlying structural concerns, as its CPI inflation at only 0.9% contrasts sharply with PPI at 5.0%, indicating producer-level stress and potential margin compression for manufacturers. China's trade surplus of $133.5B underscores ongoing export strength, though internal demand weakness remains a concern.\n\n## [Strategic Implications] Advice for Executives from a Consulting Perspective\n\n**Immediate Actions:** Executives should hedge currency exposure aggressively given USD/JPY volatility; for Japanese exporters, this may create near-term headwinds but could improve competitiveness long-term. Monitor US interest rate trajectory closely—the 5.25% 10Y yield creates attractive financing alternatives to yen-based debt. **Medium-term Strategy:** Diversify supply chains away from China-dependent production; the PPI/CPI divergence signals margin pressures for Chinese suppliers. **Sector Focus:** Prioritize capital equipment and machinery investments (evidenced by strong machine tool orders) while reassessing consumer-facing segments exposed to inflation-sensitive demand. Consider strategic repositioning toward higher-value manufacturing and technology-driven services where Japan maintains competitive advantages."
 }

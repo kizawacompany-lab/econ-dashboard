@@ -384,6 +384,21 @@ async function generateAndShow(){
 }
 
 // ===== メイン描画 =====
+// 指標ごとの取得方法（自動／手入力）と時点の一覧
+const PROV_NAMES={jp_gdp:'日本 GDP',jp_cpi:'日本 CPI',jp_core_cpi:'日本 コアCPI',usdjpy:'USD/JPY',eurjpy:'EUR/JPY',boj_rate:'日銀政策金利',jgb10y:'10年JGB',
+  jp_unemployment:'日本 失業率',jp_job_ratio:'有効求人倍率',jp_wage:'現金給与',nikkei:'日経平均',jp_current_account:'経常収支',jp_machine_tool:'工作機械受注',
+  jp_tankan:'日銀短観DI',jp_housing:'住宅着工',us_gdp:'米 GDP',us_cpi:'米 CPI',us_core_cpi:'米 コアCPI',us_unemployment:'米 失業率',us_ff_rate:'FF金利',
+  us10y:'米10年債',us30y:'米30年債',nyse:'NYSE総合',cn_gdp:'中国 GDP見通し',cn_cpi:'中国 CPI',cn_ppi:'中国 PPI',cn_unemployment:'中国 失業率',
+  cn_lpr:'中国 LPR',cn_trade:'中国 貿易',world_gdp:'世界 GDP',world_gdp_prev:'世界 GDP（前年）',world_inflation:'世界インフレ率',world_trade:'世界貿易量',
+  world_em_gdp:'新興国 GDP',world_advanced_gdp:'先進国 GDP',wti:'WTI原油',commodity_index:'商品指数'};
+function renderProvenance(d){
+  const el=document.getElementById('prov'); const p=d.provenance; if(!el||!p) return;
+  const ks=Object.keys(p); const auto=ks.filter(k=>p[k].mode==='auto'), man=ks.filter(k=>p[k].mode!=='auto');
+  const row=k=>`${PROV_NAMES[k]||k}：${p[k].source}${p[k].asof?'（'+p[k].asof+'）':''}`;
+  el.innerHTML=`<br><strong>【取得方法 / How each figure is obtained】</strong> 自動取得 ${auto.length}項目／手入力 ${man.length}項目<br>`+
+    `<span style="color:var(--text)">● 自動取得 / Auto：</span>${auto.map(row).join('｜')}<br>`+
+    `<span style="color:var(--text)">○ 手入力 / Manual：</span>${man.map(row).join('｜')}`;
+}
 function renderAll(d){
   ECON_DATA=d;
   // 成功時：データ基準日を表示、エラーを隠す
@@ -479,17 +494,18 @@ function renderAll(d){
 <div class="mg" id="g7"></div>
 <div class="cr">
   <div class="cc2 cc"><div class="ct">WTI原油価格（$/bbl）</div><div class="ct-en">WTI Crude Oil Price (USD/bbl)</div><div class="cw"><canvas id="c10"></canvas></div></div>
-  <div class="cc2 cc"><div class="ct">CRB指数</div><div class="ct-en">CRB Commodity Index</div><div class="cw"><canvas id="c11"></canvas></div></div>
+  <div class="cc2 cc"><div class="ct">ブルームバーグ商品指数</div><div class="ct-en">Bloomberg Commodity Index (BCOM)</div><div class="cw"><canvas id="c11"></canvas></div></div>
 </div>
 
 <div class="note">
 <strong>【データ出所 / Data Sources】</strong><br>
 🇯🇵 <strong>日本 / Japan</strong>：GDP＝内閣府GDP速報 / Cabinet Office GDP Flash Estimate｜CPI＝総務省 / Ministry of Internal Affairs (e-Stat)｜為替・金利＝日本銀行API / Bank of Japan API｜失業率・求人倍率＝総務省・厚労省 / MIC & MHLW｜日経平均＝Yahoo Finance（JPX）｜工作機械受注＝日本工作機械工業会 / JMTBA｜日銀短観＝日本銀行 / BOJ｜住宅着工＝国土交通省 / MLIT<br>
-🇺🇸 <strong>米国 / United States</strong>：GDP＝米商務省BEA / US BEA｜CPI＝米労働統計局 / US BLS｜失業率＝米労働統計局BLS API（LNS14000000）｜FF金利＝FRB / Federal Reserve｜国債＝米財務省 / US Treasury｜NYSE＝ニューヨーク証券取引所 / NYSE<br>
+🇺🇸 <strong>米国 / United States</strong>：GDP＝米商務省BEA / US BEA｜CPI＝米労働統計局 / US BLS｜失業率＝米労働統計局BLS API（LNS14000000）｜FF金利＝FRB / Federal Reserve（FRED）｜国債＝米財務省 / US Treasury（FRED）｜コアCPI・GDP＝FRED｜NYSE＝Yahoo Finance（^NYA）<br>
 🇨🇳 <strong>中国 / China</strong>：GDP・CPI・PPI・失業率＝中国国家統計局 / National Bureau of Statistics China｜LPR＝中国人民銀行 / PBOC｜貿易＝中国税関総署 / General Administration of Customs｜予測＝IMF<br>
-🌐 <strong>世界 / World</strong>：IMF世界経済見通し2026年4月版 / IMF World Economic Outlook, April 2026<br>
-🌍 <strong>商品 / Commodities</strong>：WTI＝NYMEX｜CRB＝Refinitiv/CoreCommodity CRB Index<br>
-<em>長期データ（5年・10年・30年）は各機関公表値に基づく参考値 / Long-term data (5Y/10Y/30Y) are reference values based on official publications.</em>
+🌐 <strong>世界 / World</strong>：IMF世界経済見通し（最新版、IMF DataMapper API）/ IMF World Economic Outlook (latest, DataMapper API)<br>
+🌍 <strong>商品 / Commodities</strong>：WTI＝NYMEX（Yahoo Finance）｜商品指数＝ブルームバーグ商品指数 / Bloomberg Commodity Index（Yahoo Finance ^BCOM）<br>
+<em>長期データ（5年・10年・30年）は、自動取得できる指標は各年末の実績値、それ以外は各機関公表値に基づく参考値 / Long-term data use year-end actuals where auto-fetched; others are reference values.</em>
+<div id="prov"></div>
 </div>`;
 
   // カード描画
@@ -544,28 +560,29 @@ function renderAll(d){
     mc('世界貿易量成長率','World Trade Volume',(wo.trade||0).toFixed(1)+'%','2026 forecast',wo.trade>3?'up':'neu');
   document.getElementById('g7').innerHTML=
     mc('WTI原油','WTI Crude Oil','$'+(cm.wti||0).toFixed(1)+'/bbl','DoD '+(cm.wti_change>=0?'+':'')+(cm.wti_change||0).toFixed(1)+'$',cm.wti_change>0?'down':'up','cc',cm.wti_change>0?'up':cm.wti_change<0?'down':'neu')+
-    mc('CRB指数','CRB Index',(cm.crb||0).toFixed(1),'DoD '+(cm.crb_change>=0?'+':'')+(cm.crb_change||0).toFixed(1),cm.crb_change>0?'down':'up','cc',cm.crb_change>0?'up':cm.crb_change<0?'down':'neu');
+    mc('商品指数（BCOM）','Bloomberg Commodity Index',(cm.crb||0).toFixed(1),'DoD '+(cm.crb_change>=0?'+':'')+(cm.crb_change||0).toFixed(1),cm.crb_change>0?'down':'up','cc',cm.crb_change>0?'up':cm.crb_change<0?'down':'neu');
 
   drawAllCharts(d);
+  renderProvenance(d);
 }
 
 function drawAllCharts(d){
   const L=getLabels();
   const _jp=d.japan_extra||{},_cn=d.china_macro||{},_wo=d.world_macro||{};
-  line('c0',L,[lds('CPI',getLT('jp_cpi'),'#185FA5',{fill:true}),lds('Core',getLT('jp_cpi').map(v=>Math.round((v-0.4)*10)/10),'#3B6D11',{dash:[5,4]})],'%');
+  line('c0',L,[lds('CPI',getLT('jp_cpi'),'#185FA5',{fill:true}),lds('Core',(getLT('jp_core_cpi').length?getLT('jp_core_cpi'):getLT('jp_cpi').map(v=>v==null?null:Math.round((v-0.4)*10)/10)),'#3B6D11',{dash:[5,4]})],'%');
   const Lfx=(ECON_DATA&&ECON_DATA.long_term&&ECON_DATA.long_term['fx_labels_'+PERIOD])||L;
   line('c1',Lfx,[lds('USD/JPY',getLT('usdjpy'),'#185FA5',{fill:true}),lds('EUR/JPY',getLT('eurjpy'),'#8b1a2b',{dash:[5,4],axis:'y1'})],'¥');
   line('c2',L,[lds('Nikkei',getLT('nikkei'),'#185FA5',{fill:true})],v=>v.toLocaleString());
   line('c_boj',L,[lds('BOJ Rate',getLT('boj_rate'),'#4a6741',{fill:true}),lds('10Y JGB',getLT('jgb10y'),'#185FA5',{dash:[5,4]})],'%');
   bar('c4',L,[bds('Orders',getLT('machine_tool'),'#E67E22')],'');
   bar('c5',L,[bds('Starts',getLT('housing'),'#16A085')],'');
-  line('c6',L,[lds('US CPI',getLT('us_cpi'),'#185FA5',{fill:true}),lds('Core',getLT('us_cpi').map(v=>Math.round((v-0.3)*10)/10),'#E67E22',{dash:[5,4]})],'%');
+  line('c6',L,[lds('US CPI',getLT('us_cpi'),'#185FA5',{fill:true}),lds('Core',(getLT('us_core_cpi').length?getLT('us_core_cpi'):getLT('us_cpi').map(v=>v==null?null:Math.round((v-0.3)*10)/10)),'#E67E22',{dash:[5,4]})],'%');
   line('c7',L,[lds('Fed Funds',getLT('ff_rate'),'#1A3A6B'),lds('10Y UST',getLT('us10y'),'#185FA5'),lds('30Y UST',getLT('us30y'),'#E67E22',{dash:[4,3]})],'%');
   const Lue=(ECON_DATA&&ECON_DATA.long_term&&ECON_DATA.long_term['us_unemp_labels_'+PERIOD])||L;
   line('c8',Lue,[lds('Unemployment',getLT('us_unemp'),'#8E44AD',{fill:true})],'%');
   line('c9',L,[lds('NYSE',getLT('nyse'),'#1A3A6B',{fill:true})],v=>v.toLocaleString());
   line('c10',L,[lds('WTI',getLT('wti'),'#E67E22',{fill:true})],'$');
-  line('c11',L,[lds('CRB',getLT('crb'),'#7A4F1A',{fill:true})],'');
+  line('c11',L,[lds('BCOM',getLT('crb'),'#7A4F1A',{fill:true})],'');
   const cngdp_l=PERIOD==='30y'?['96','00','05','10','15','18','20','21','22','23','24','25','26f']:
                 PERIOD==='10y'?['16','17','18','19','20','21','22','23','24','25','26f']:
                 PERIOD==='5y'?['2021','2022','2023','2024','2025','26f']:['25/1Q','25/2Q','25/3Q','25/4Q','26f'];
