@@ -223,9 +223,11 @@ let PERIOD='6m';
 let ECON_DATA=null;
 
 // カード生成（和英2段ラベル）
-function mc(labelJa, labelEn, value, sub, dir, cls=''){
+function mc(labelJa, labelEn, value, sub, dir, cls='', arrow=null){
+  // dir＝色（up:好材料／down:悪材料）、arrow＝矢印の向き（数値の増減）。arrow省略時は従来どおりdirに従う
   const cl=dir==='up'?'up':dir==='down'?'down':'neu';
-  const a=dir==='up'?'▲':dir==='down'?'▼':'–';
+  const ad=arrow||dir;
+  const a=ad==='up'?'▲':ad==='down'?'▼':'–';
   return `<div class="card ${cls}">
     <div class="cl-ja">${labelJa}</div>
     <div class="cl-en">${labelEn}</div>
@@ -465,10 +467,10 @@ function renderAll(d){
 <div class="sec" style="border-left:4px solid #2C3E50"><div class="sec-ja" style="color:#2C3E50">🌐 世界経済 — IMF見通し</div><div class="sec-en" style="color:#2C3E50">Global Economy — IMF World Economic Outlook</div></div>
 <div class="mg" id="g_world"></div>
 <div class="cr">
-  <div class="cc2" style="border-top:3px solid #2C3E50"><div class="ct">世界・先進国・新興国 GDP成長率（%）</div><div class="ct-en">World / Advanced / Emerging Market GDP Growth (%)</div>
+  <div class="cc2" style="border-top:3px solid #2C3E50"><div class="ct">世界・先進国・新興国 GDP成長率（%）— IMF 2026年見通し</div><div class="ct-en">World / Advanced / Emerging Market GDP Growth (%) — IMF 2026 forecast</div>
     <div class="leg"><span><span class="ld" style="background:#2C3E50"></span>世界/World</span><span><span class="ld" style="background:#185FA5"></span>先進国/Advanced</span><span><span class="ld" style="background:#E67E22"></span>新興国/Emerging</span></div>
     <div class="cw"><canvas id="c_worldgdp"></canvas></div></div>
-  <div class="cc2" style="border-top:3px solid #2C3E50"><div class="ct">世界インフレ率・貿易量成長率（%）</div><div class="ct-en">Global Inflation & Trade Volume Growth (%)</div>
+  <div class="cc2" style="border-top:3px solid #2C3E50"><div class="ct">世界インフレ率・貿易量成長率（%）— IMF 2026年見通し</div><div class="ct-en">Global Inflation & Trade Volume Growth (%) — IMF 2026 forecast</div>
     <div class="leg"><span><span class="ld" style="background:#c0392b"></span>インフレ率/Inflation</span><span><span class="ld" style="background:#16A085"></span>貿易量/Trade Vol.</span></div>
     <div class="cw"><canvas id="c_worldinf"></canvas></div></div>
 </div>
@@ -499,8 +501,8 @@ function renderAll(d){
     mc('コアCPI（前年比）','Core CPI YoY',d.cpi.core.toFixed(1)+'%','Ex. food & energy',d.cpi.trend);
   const ud=d.fx.usdjpy_change>0?'down':'up',ed=d.fx.eurjpy_change>0?'down':'up';
   document.getElementById('g2').innerHTML=
-    mc('USD/JPY','USD/JPY',d.fx.usdjpy.toFixed(1)+' 円',(d.fx.usdjpy_change>=0?'+':'')+d.fx.usdjpy_change.toFixed(1)+'¥ MoM',ud)+
-    mc('EUR/JPY','EUR/JPY',d.fx.eurjpy.toFixed(1)+' 円',(d.fx.eurjpy_change>=0?'+':'')+d.fx.eurjpy_change.toFixed(1)+'¥ MoM',ed)+
+    mc('USD/JPY','USD/JPY',d.fx.usdjpy.toFixed(1)+' 円',(d.fx.usdjpy_change>=0?'+':'')+d.fx.usdjpy_change.toFixed(1)+'¥ MoM',ud,'',d.fx.usdjpy_change>0?'up':d.fx.usdjpy_change<0?'down':'neu')+
+    mc('EUR/JPY','EUR/JPY',d.fx.eurjpy.toFixed(1)+' 円',(d.fx.eurjpy_change>=0?'+':'')+d.fx.eurjpy_change.toFixed(1)+'¥ MoM',ed,'',d.fx.eurjpy_change>0?'up':d.fx.eurjpy_change<0?'down':'neu')+
     mc('日銀政策金利','BOJ Policy Rate',d.rates.boj_policy.toFixed(2)+'%','Uncollateralized O/N',d.rates.boj_trend)+
     mc('10年JGB利回り','10Y JGB Yield',d.rates.jgb10y.toFixed(2)+'%','Monthly average',d.rates.boj_trend);
   document.getElementById('g3').innerHTML=
@@ -535,14 +537,14 @@ function renderAll(d){
     mc('LPR（1年）','LPR 1Y',(cn.lpr1y||0).toFixed(2)+'%','PBOC policy rate','neu')+
     mc('月次貿易収支','Monthly Trade Balance',(cn.trade_balance||0).toFixed(1)+'Bn$','Surplus','up');
   document.getElementById('g_world').innerHTML=
-    mc('世界GDP成長率','World GDP Growth',(wo.gdp||0).toFixed(1)+'%','IMF Apr 2026',wo.gdp>3?'up':'neu')+
+    mc('世界GDP成長率','World GDP Growth',(wo.gdp||0).toFixed(1)+'%','IMF Oct 2026',wo.gdp>3?'up':'neu')+
     mc('先進国GDP成長率','Advanced Economy GDP',(wo.advanced_gdp||0).toFixed(1)+'%','US, EU, Japan etc.',wo.advanced_gdp>2?'up':'neu')+
     mc('新興国GDP成長率','Emerging Market GDP',(wo.em_gdp||0).toFixed(1)+'%','China, India, ASEAN',wo.em_gdp>4?'up':'neu')+
-    mc('世界インフレ率','Global Inflation',(wo.inflation||0).toFixed(1)+'%','Decelerating',wo.inflation<4?'up':'down')+
+    mc('世界インフレ率','Global Inflation',(wo.inflation||0).toFixed(1)+'%','IMF Oct 2026',wo.inflation<4?'up':'down')+
     mc('世界貿易量成長率','World Trade Volume',(wo.trade||0).toFixed(1)+'%','2026 forecast',wo.trade>3?'up':'neu');
   document.getElementById('g7').innerHTML=
-    mc('WTI原油','WTI Crude Oil','$'+(cm.wti||0).toFixed(1)+'/bbl','DoD '+(cm.wti_change>=0?'+':'')+(cm.wti_change||0).toFixed(1)+'$',cm.wti_change>0?'down':'up','cc')+
-    mc('CRB指数','CRB Index',(cm.crb||0).toFixed(1),'DoD '+(cm.crb_change>=0?'+':'')+(cm.crb_change||0).toFixed(1),cm.crb_change>0?'down':'up','cc');
+    mc('WTI原油','WTI Crude Oil','$'+(cm.wti||0).toFixed(1)+'/bbl','DoD '+(cm.wti_change>=0?'+':'')+(cm.wti_change||0).toFixed(1)+'$',cm.wti_change>0?'down':'up','cc',cm.wti_change>0?'up':cm.wti_change<0?'down':'neu')+
+    mc('CRB指数','CRB Index',(cm.crb||0).toFixed(1),'DoD '+(cm.crb_change>=0?'+':'')+(cm.crb_change||0).toFixed(1),cm.crb_change>0?'down':'up','cc',cm.crb_change>0?'up':cm.crb_change<0?'down':'neu');
 
   drawAllCharts(d);
 }
@@ -575,14 +577,18 @@ function drawAllCharts(d){
     const cl=['25/1Q','25/2Q','25/3Q','25/4Q','26f'];
     line('c_cnprice',L,[lds('CPI',getLT('cn_cpi'),'#8B2500',{fill:true}),lds('PPI',getLT('cn_ppi'),'#E67E22',{dash:[5,4]})],'%');
   }
-  const wgdp_l=getLabels();
-  const wgdp_v=getLT('world_gdp'); // _wo available
-  const adv_v=wgdp_v.map(v=>Math.round((v-1.6)*10)/10);
-  const em_v=wgdp_v.map(v=>Math.round((v+0.9)*10)/10);
-  if(document.getElementById('c_worldgdp')) line('c_worldgdp',wgdp_l,[lds('World',wgdp_v,'#2C3E50',{fill:true}),lds('Advanced',adv_v,'#185FA5',{dash:[5,4]}),lds('Emerging',em_v,'#E67E22',{dash:[3,3]})],'%');
-  const winf_v=wgdp_v.map(v=>Math.round((v+1.0)*10)/10);
-  const wtrd_v=wgdp_v.map(v=>Math.round((v-0.2)*10)/10);
-  if(document.getElementById('c_worldinf')) line('c_worldinf',wgdp_l,[lds('Inflation',winf_v,'#c0392b',{fill:true}),lds('Trade Vol.',wtrd_v,'#16A085',{dash:[5,4]})],'%');
+  // 2026-10-26改修：IMF見通しは年次の単一値なので、月次の折れ線ではなく現時点の見通し値を棒グラフで示す
+  //（旧版は世界成長率に固定値を足し引きして先進国・新興国・インフレ・貿易量の線を作っていた）
+  if(document.getElementById('c_worldgdp')){
+    const ds=bds('IMF 2026',[_wo.gdp,_wo.advanced_gdp,_wo.em_gdp],'#2C3E50');
+    ds.backgroundColor=['#2C3E50BB','#185FA5BB','#E67E22BB']; ds.borderColor=['#2C3E50','#185FA5','#E67E22'];
+    bar('c_worldgdp',['世界/World','先進国/Advanced','新興国/Emerging'],[ds],'%');
+  }
+  if(document.getElementById('c_worldinf')){
+    const ds=bds('IMF 2026',[_wo.inflation,_wo.trade],'#c0392b');
+    ds.backgroundColor=['#c0392bBB','#16A085BB']; ds.borderColor=['#c0392b','#16A085'];
+    bar('c_worldinf',['インフレ率/Inflation','貿易量/Trade Vol.'],[ds],'%');
+  }
 }
 
 // 印刷：グラフ画像を確定してから印刷ダイアログを開く
