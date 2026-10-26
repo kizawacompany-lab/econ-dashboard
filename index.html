@@ -522,7 +522,7 @@ function renderAll(d){
     mc('日銀政策金利','BOJ Policy Rate',d.rates.boj_policy.toFixed(2)+'%','Uncollateralized O/N',d.rates.boj_trend)+
     mc('10年JGB利回り','10Y JGB Yield',d.rates.jgb10y.toFixed(2)+'%','Monthly average',d.rates.boj_trend);
   document.getElementById('g3').innerHTML=
-    mc('完全失業率','Unemployment Rate',d.labor.unemployment.toFixed(1)+'%',(d.labor.unemployment_basis==='原数値'?'原数値（季節調整なし）/ Not seas. adj.':'Seasonally adjusted'),d.labor.unemployment<3?'up':'neu')+
+    mc('完全失業率','Unemployment Rate',d.labor.unemployment.toFixed(1)+'%',(d.labor.unemployment_basis==='原数値'?('原数値 '+(d.labor.unemployment_month||'')+(d.labor.unemployment_yoy_pt!=null?'｜前年同月比 '+(d.labor.unemployment_yoy_pt>0?'+':'')+d.labor.unemployment_yoy_pt.toFixed(1)+'pt':'')):'Seasonally adjusted'),(d.labor.unemployment_yoy_pt!=null?(d.labor.unemployment_yoy_pt>0?'down':d.labor.unemployment_yoy_pt<0?'up':'neu'):(d.labor.unemployment<3?'up':'neu')),'',(d.labor.unemployment_yoy_pt!=null?(d.labor.unemployment_yoy_pt>0?'up':d.labor.unemployment_yoy_pt<0?'down':'neu'):null))+
     mc('有効求人倍率','Job-to-Applicant Ratio',d.labor.job_ratio.toFixed(2),'Jobs/Applicants','up')+
     mc('現金給与（前年比）','Cash Earnings YoY',d.labor.wage_growth.toFixed(1)+'%','Real wages',d.labor.wage_growth>0?'up':'down');
   document.getElementById('g4').innerHTML=
