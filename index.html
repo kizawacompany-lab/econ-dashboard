@@ -395,9 +395,29 @@ function renderProvenance(d){
   const el=document.getElementById('prov'); const p=d.provenance; if(!el||!p) return;
   const ks=Object.keys(p); const auto=ks.filter(k=>p[k].mode==='auto'), man=ks.filter(k=>p[k].mode!=='auto');
   const row=k=>`${PROV_NAMES[k]||k}：${p[k].source}${p[k].asof?'（'+p[k].asof+'）':''}`;
-  el.innerHTML=`<br><strong>【取得方法 / How each figure is obtained】</strong> 自動取得 ${auto.length}項目／手入力 ${man.length}項目<br>`+
-    `<span style="color:var(--text)">● 自動取得 / Auto：</span>${auto.map(row).join('｜')}<br>`+
-    `<span style="color:var(--text)">○ 手入力 / Manual：</span>${man.map(row).join('｜')}`;
+  // この画面には自動取得できた数字だけを表示する。取得できなかった項目は名前だけ示す
+  el.innerHTML=`<br><strong>【取得方法 / How each figure is obtained】</strong> この画面の数字はすべて自動取得です（${auto.length}項目）<br>`+
+    `<span style="color:var(--text)">● 自動取得 / Auto：</span>${auto.map(row).join('｜')}`+
+    (man.length?`<br><span style="color:var(--text)">○ 本日は自動取得できず非表示 / Not shown today：</span>${man.map(k=>PROV_NAMES[k]||k).join('｜')}`:'');
+}
+// ===== 自動取得できた数字だけを表示する（2026-10-26）=====
+// 出典情報（provenance）が auto の項目だけカード・グラフを表示し、手入力・取得失敗の項目は出さない
+function provOK(k){const p=ECON_DATA&&ECON_DATA.provenance;return !!(p&&p[k]&&p[k].mode==='auto');}
+function mca(k,...a){return provOK(k)?mc(...a):'';}
+const CHART_PROV={c0:'jp_cpi',c1:'usdjpy',c_boj:'boj_rate',c2:'nikkei',c4:'jp_machine_tool',c5:'jp_housing',c6:'us_cpi',c7:'us_ff_rate',
+  c8:'us_unemployment',c9:'nyse',c_cngdp:'cn_gdp_history',c_cnprice:'cn_cpi',c_worldgdp:'world_gdp',c_worldinf:'world_inflation',c10:'wti',c11:'commodity_index'};
+function applyAutoOnly(){
+  // グラフ：対応する項目が自動取得でなければ枠ごと隠す
+  Object.keys(CHART_PROV).forEach(id=>{const cv=document.getElementById(id);if(!cv)return;
+    const box=cv.closest('.cc2')||cv.parentElement;box.style.display=provOK(CHART_PROV[id])?'':'none';});
+  // 見出し：次の見出しまでに表示中のカードもグラフもなければ隠す
+  document.querySelectorAll('.sec').forEach(sec=>{let el=sec.nextElementSibling,vis=false;
+    while(el&&!el.classList.contains('sec')&&!el.classList.contains('note')){
+      if(el.classList.contains('mg')&&el.innerHTML.trim())vis=true;
+      if(el.classList.contains('cr')){const bs=[...el.children].filter(c=>c.style.display!=='none');if(bs.length)vis=true;else el.style.display='none';}
+      if(el.querySelector&&el.querySelector('canvas')&&!el.classList.contains('cr')&&el.style.display!=='none'&&provOK(CHART_PROV[(el.querySelector('canvas')||{}).id]))vis=true;
+      el=el.nextElementSibling;}
+    sec.style.display=vis?'':'none';});
 }
 function renderAll(d){
   ECON_DATA=d;
@@ -506,56 +526,57 @@ function renderAll(d){
 
   // カード描画
   document.getElementById('g0').innerHTML=
-    mc('実質GDP成長率（前期比年率）','Real GDP Growth (QoQ ann.)',d.gdp.growth_yoy.toFixed(1)+'%','QoQ '+d.gdp.growth_qoq.toFixed(1)+'%',d.gdp.trend)+
-    mc('名目GDP','Nominal GDP',d.gdp.nominal_trillion_yen.toFixed(0)+'兆円','Cabinet Office','neu');
+    mca('jp_gdp','実質GDP成長率（前期比年率）','Real GDP Growth (QoQ ann.)',d.gdp.growth_yoy.toFixed(1)+'%','QoQ '+d.gdp.growth_qoq.toFixed(1)+'%',d.gdp.trend)+
+    mca('jp_gdp','名目GDP','Nominal GDP',d.gdp.nominal_trillion_yen.toFixed(0)+'兆円','Cabinet Office','neu');
   document.getElementById('g1').innerHTML=
-    mc('総合CPI（前年比）','Headline CPI YoY',d.cpi.headline.toFixed(1)+'%','Inflation trend',d.cpi.trend)+
-    mc('コアCPI（前年比）','Core CPI YoY',d.cpi.core.toFixed(1)+'%','Ex. food & energy',d.cpi.trend);
+    mca('jp_cpi','総合CPI（前年比）','Headline CPI YoY',d.cpi.headline.toFixed(1)+'%','Inflation trend',d.cpi.trend)+
+    mca('jp_core_cpi','コアCPI（前年比）','Core CPI YoY',d.cpi.core.toFixed(1)+'%','Ex. food & energy',d.cpi.trend);
   const ud=d.fx.usdjpy_change>0?'down':'up',ed=d.fx.eurjpy_change>0?'down':'up';
   document.getElementById('g2').innerHTML=
-    mc('USD/JPY','USD/JPY',d.fx.usdjpy.toFixed(1)+' 円',(d.fx.usdjpy_change>=0?'+':'')+d.fx.usdjpy_change.toFixed(1)+'¥ MoM',ud,'',d.fx.usdjpy_change>0?'up':d.fx.usdjpy_change<0?'down':'neu')+
-    mc('EUR/JPY','EUR/JPY',d.fx.eurjpy.toFixed(1)+' 円',(d.fx.eurjpy_change>=0?'+':'')+d.fx.eurjpy_change.toFixed(1)+'¥ MoM',ed,'',d.fx.eurjpy_change>0?'up':d.fx.eurjpy_change<0?'down':'neu')+
-    mc('日銀政策金利','BOJ Policy Rate',d.rates.boj_policy.toFixed(2)+'%','Uncollateralized O/N',d.rates.boj_trend)+
-    mc('10年JGB利回り','10Y JGB Yield',d.rates.jgb10y.toFixed(2)+'%','Monthly average',d.rates.boj_trend);
+    mca('usdjpy','USD/JPY','USD/JPY',d.fx.usdjpy.toFixed(1)+' 円',(d.fx.usdjpy_change>=0?'+':'')+d.fx.usdjpy_change.toFixed(1)+'¥ MoM',ud,'',d.fx.usdjpy_change>0?'up':d.fx.usdjpy_change<0?'down':'neu')+
+    mca('eurjpy','EUR/JPY','EUR/JPY',d.fx.eurjpy.toFixed(1)+' 円',(d.fx.eurjpy_change>=0?'+':'')+d.fx.eurjpy_change.toFixed(1)+'¥ MoM',ed,'',d.fx.eurjpy_change>0?'up':d.fx.eurjpy_change<0?'down':'neu')+
+    mca('boj_rate','日銀政策金利','BOJ Policy Rate',d.rates.boj_policy.toFixed(2)+'%','Uncollateralized O/N',d.rates.boj_trend)+
+    mca('jgb10y','10年JGB利回り','10Y JGB Yield',d.rates.jgb10y.toFixed(2)+'%','Monthly average',d.rates.boj_trend);
   document.getElementById('g3').innerHTML=
-    mc('完全失業率','Unemployment Rate',d.labor.unemployment.toFixed(1)+'%',(d.labor.unemployment_basis==='原数値'?('原数値 '+(d.labor.unemployment_month||'')+(d.labor.unemployment_yoy_pt!=null?'｜前年同月比 '+(d.labor.unemployment_yoy_pt>0?'+':'')+d.labor.unemployment_yoy_pt.toFixed(1)+'pt':'')):'Seasonally adjusted'),(d.labor.unemployment_yoy_pt!=null?(d.labor.unemployment_yoy_pt>0?'down':d.labor.unemployment_yoy_pt<0?'up':'neu'):(d.labor.unemployment<3?'up':'neu')),'',(d.labor.unemployment_yoy_pt!=null?(d.labor.unemployment_yoy_pt>0?'up':d.labor.unemployment_yoy_pt<0?'down':'neu'):null))+
-    mc('有効求人倍率','Job-to-Applicant Ratio',d.labor.job_ratio.toFixed(2),'Jobs/Applicants','up')+
-    mc('現金給与（前年比）','Cash Earnings YoY',d.labor.wage_growth.toFixed(1)+'%','Real wages',d.labor.wage_growth>0?'up':'down');
+    mca('jp_unemployment','完全失業率','Unemployment Rate',d.labor.unemployment.toFixed(1)+'%',(d.labor.unemployment_basis==='原数値'?('原数値 '+(d.labor.unemployment_month||'')+(d.labor.unemployment_yoy_pt!=null?'｜前年同月比 '+(d.labor.unemployment_yoy_pt>0?'+':'')+d.labor.unemployment_yoy_pt.toFixed(1)+'pt':'')):'Seasonally adjusted'),(d.labor.unemployment_yoy_pt!=null?(d.labor.unemployment_yoy_pt>0?'down':d.labor.unemployment_yoy_pt<0?'up':'neu'):(d.labor.unemployment<3?'up':'neu')),'',(d.labor.unemployment_yoy_pt!=null?(d.labor.unemployment_yoy_pt>0?'up':d.labor.unemployment_yoy_pt<0?'down':'neu'):null))+
+    mca('jp_job_ratio','有効求人倍率','Job-to-Applicant Ratio',d.labor.job_ratio.toFixed(2),'Jobs/Applicants','up')+
+    mca('jp_wage','現金給与（前年比）','Cash Earnings YoY',d.labor.wage_growth.toFixed(1)+'%','Real wages',d.labor.wage_growth>0?'up':'down');
   document.getElementById('g4').innerHTML=
-    mc('日経平均株価','Nikkei 225',(jp.nikkei225||0).toLocaleString()+'円','DoD +'+(jp.nikkei_change||0).toFixed(0)+'¥','up')+
-    mc('経常収支','Current Account',(jp.current_account||0).toFixed(1)+'兆円','Surplus','up')+
-    mc('日銀短観DI','Tankan DI',(jp.tankan_dki||0)+'pt','Large Mfg.',jp.tankan_dki>0?'up':'down')+
-    mc('住宅着工','Housing Starts',(jp.housing_starts||0).toFixed(1)+'万戸','2025年実績 / Annual 2025','neu');
+    mca('nikkei','日経平均株価','Nikkei 225',(jp.nikkei225||0).toLocaleString()+'円','DoD +'+(jp.nikkei_change||0).toFixed(0)+'¥','up')+
+    mca('jp_current_account','経常収支','Current Account',(jp.current_account||0).toFixed(1)+'兆円','Surplus','up')+
+    mca('jp_tankan','日銀短観DI','Tankan DI',(jp.tankan_dki||0)+'pt','Large Mfg.',jp.tankan_dki>0?'up':'down')+
+    mca('jp_housing','住宅着工','Housing Starts',(jp.housing_starts||0).toFixed(1)+'万戸','2025年実績 / Annual 2025','neu');
   document.getElementById('g_usgdp').innerHTML=
-    mc('実質GDP成長率（前期比年率）','Real GDP QoQ Ann.',(usM.gdp_qoq||0).toFixed(1)+'%','Prev: '+(usM.gdp_prev||0).toFixed(1)+'%',usM.gdp_qoq>0?'up':'down','uc')+
-    mc('景況感','Economic Sentiment','Resilient','AI & CapEx driven','up','uc');
+    mca('us_gdp','実質GDP成長率（前期比年率）','Real GDP QoQ Ann.',(usM.gdp_qoq||0).toFixed(1)+'%','Prev: '+(usM.gdp_prev||0).toFixed(1)+'%',usM.gdp_qoq>0?'up':'down','uc')+
+    mca('static_text','景況感','Economic Sentiment','Resilient','AI & CapEx driven','up','uc');
   document.getElementById('g5').innerHTML=
-    mc('米CPI（前年比）','US CPI YoY',(usM.cpi||0).toFixed(1)+'%','Inflation',usM.cpi>3?'down':'up','uc')+
-    mc('米コアCPI','US Core CPI YoY',(usM.core_cpi||0).toFixed(1)+'%','Ex. food & energy',usM.core_cpi>3?'down':'up','uc')+
-    mc('米失業率','US Unemployment',(usM.unemployment||0).toFixed(1)+'%','Seasonally adj.',usM.unemployment<5?'up':'down','uc')+
-    mc('FF金利','Fed Funds Rate',(usM.ff_rate||0).toFixed(2)+'%','Upper target','neu','uc')+
-    mc('米10年債','US 10Y Treasury',(usM.us10y||0).toFixed(2)+'%','US Treasury',usM.us10y>4.5?'down':'neu','uc')+
-    mc('米30年債','US 30Y Treasury',(usM.us30y||0).toFixed(2)+'%','US Treasury','neu','uc');
+    mca('us_cpi','米CPI（前年比）','US CPI YoY',(usM.cpi||0).toFixed(1)+'%','Inflation',usM.cpi>3?'down':'up','uc')+
+    mca('us_core_cpi','米コアCPI','US Core CPI YoY',(usM.core_cpi||0).toFixed(1)+'%','Ex. food & energy',usM.core_cpi>3?'down':'up','uc')+
+    mca('us_unemployment','米失業率','US Unemployment',(usM.unemployment||0).toFixed(1)+'%','Seasonally adj.',usM.unemployment<5?'up':'down','uc')+
+    mca('us_ff_rate','FF金利','Fed Funds Rate',(usM.ff_rate||0).toFixed(2)+'%','Upper target','neu','uc')+
+    mca('us10y','米10年債','US 10Y Treasury',(usM.us10y||0).toFixed(2)+'%','US Treasury',usM.us10y>4.5?'down':'neu','uc')+
+    mca('us30y','米30年債','US 30Y Treasury',(usM.us30y||0).toFixed(2)+'%','US Treasury','neu','uc');
   document.getElementById('g6').innerHTML=
-    mc('NYSE総合指数','NYSE Composite',(usM.nyse_composite||0).toLocaleString(),'DoD '+(usM.nyse_change||0).toFixed(1)+'%',usM.nyse_change>0?'up':'down','uc')+
-    mc('米国株時価総額','US Market Cap',(usM.market_cap||0).toFixed(1)+'兆ドル','NYSE listed','neu','uc');
+    mca('nyse','NYSE総合指数','NYSE Composite',(usM.nyse_composite||0).toLocaleString(),'DoD '+(usM.nyse_change||0).toFixed(1)+'%',usM.nyse_change>0?'up':'down','uc')+
+    mca('us_market_cap','米国株時価総額','US Market Cap',(usM.market_cap||0).toFixed(1)+'兆ドル','NYSE listed','neu','uc');
   const cn=d.china_macro||{},wo=d.world_macro||{};
   document.getElementById('g_cn').innerHTML=
-    mc('実質GDP成長率（前年比）','Real GDP Growth YoY',(cn.gdp_yoy||0).toFixed(1)+'%','IMF 2026 forecast',cn.gdp_yoy>3?'up':'down')+
-    mc('都市部失業率','Urban Unemployment',(cn.unemployment||0).toFixed(1)+'%','NBS','neu')+
-    mc('LPR（1年）','LPR 1Y',(cn.lpr1y||0).toFixed(2)+'%','PBOC policy rate','neu')+
-    mc('月次貿易収支','Monthly Trade Balance',(cn.trade_balance||0).toFixed(1)+'Bn$','Surplus','up');
+    mca('cn_gdp','実質GDP成長率（前年比）','Real GDP Growth YoY',(cn.gdp_yoy||0).toFixed(1)+'%','IMF 2026 forecast',cn.gdp_yoy>3?'up':'down')+
+    mca('cn_unemployment','都市部失業率','Urban Unemployment',(cn.unemployment||0).toFixed(1)+'%','NBS','neu')+
+    mca('cn_lpr','LPR（1年）','LPR 1Y',(cn.lpr1y||0).toFixed(2)+'%','PBOC policy rate','neu')+
+    mca('cn_trade','月次貿易収支','Monthly Trade Balance',(cn.trade_balance||0).toFixed(1)+'Bn$','Surplus','up');
   document.getElementById('g_world').innerHTML=
-    mc('世界GDP成長率','World GDP Growth',(wo.gdp||0).toFixed(1)+'%','IMF Oct 2026',wo.gdp>3?'up':'neu')+
-    mc('先進国GDP成長率','Advanced Economy GDP',(wo.advanced_gdp||0).toFixed(1)+'%','US, EU, Japan etc.',wo.advanced_gdp>2?'up':'neu')+
-    mc('新興国GDP成長率','Emerging Market GDP',(wo.em_gdp||0).toFixed(1)+'%','China, India, ASEAN',wo.em_gdp>4?'up':'neu')+
-    mc('世界インフレ率','Global Inflation',(wo.inflation||0).toFixed(1)+'%','IMF Oct 2026',wo.inflation<4?'up':'down')+
-    mc('世界貿易量成長率','World Trade Volume',(wo.trade||0).toFixed(1)+'%','2026 forecast',wo.trade>3?'up':'neu');
+    mca('world_gdp','世界GDP成長率','World GDP Growth',(wo.gdp||0).toFixed(1)+'%','IMF Oct 2026',wo.gdp>3?'up':'neu')+
+    mca('world_advanced_gdp','先進国GDP成長率','Advanced Economy GDP',(wo.advanced_gdp||0).toFixed(1)+'%','US, EU, Japan etc.',wo.advanced_gdp>2?'up':'neu')+
+    mca('world_em_gdp','新興国GDP成長率','Emerging Market GDP',(wo.em_gdp||0).toFixed(1)+'%','China, India, ASEAN',wo.em_gdp>4?'up':'neu')+
+    mca('world_inflation','世界インフレ率','Global Inflation',(wo.inflation||0).toFixed(1)+'%','IMF Oct 2026',wo.inflation<4?'up':'down')+
+    mca('world_trade','世界貿易量成長率','World Trade Volume',(wo.trade||0).toFixed(1)+'%','2026 forecast',wo.trade>3?'up':'neu');
   document.getElementById('g7').innerHTML=
-    mc('WTI原油','WTI Crude Oil','$'+(cm.wti||0).toFixed(1)+'/bbl','DoD '+(cm.wti_change>=0?'+':'')+(cm.wti_change||0).toFixed(1)+'$',cm.wti_change>0?'down':'up','cc',cm.wti_change>0?'up':cm.wti_change<0?'down':'neu')+
-    mc(cm.commodity_name||'商品指数','Commodity Index',(cm.crb||0).toFixed(1),'DoD '+(cm.crb_change>=0?'+':'')+(cm.crb_change||0).toFixed(1),cm.crb_change>0?'down':'up','cc',cm.crb_change>0?'up':cm.crb_change<0?'down':'neu');
+    mca('wti','WTI原油','WTI Crude Oil','$'+(cm.wti||0).toFixed(1)+'/bbl','DoD '+(cm.wti_change>=0?'+':'')+(cm.wti_change||0).toFixed(1)+'$',cm.wti_change>0?'down':'up','cc',cm.wti_change>0?'up':cm.wti_change<0?'down':'neu')+
+    mca('commodity_index',cm.commodity_name||'商品指数','Commodity Index',(cm.crb||0).toFixed(1),'DoD '+(cm.crb_change>=0?'+':'')+(cm.crb_change||0).toFixed(1),cm.crb_change>0?'down':'up','cc',cm.crb_change>0?'up':cm.crb_change<0?'down':'neu');
 
   drawAllCharts(d);
+  applyAutoOnly();
   renderProvenance(d);
   {const t=document.getElementById('ct_comm'); if(t&&cm.commodity_name) t.textContent=cm.commodity_name;}
 }
