@@ -465,7 +465,7 @@ function renderAll(d){
 <div class="sec jp"><div class="sec-ja">🇯🇵 日本 — 景況・産業</div><div class="sec-en">Japan — Business Conditions & Industry</div></div>
 <div class="mg" id="g4"></div>
 <div class="cr">
-  <div class="cc2"><div class="ct">住宅着工戸数（万戸・年率）</div><div class="ct-en">Housing Starts (10K units, ann.)</div><div class="cw"><canvas id="c5"></canvas></div></div>
+  <div class="cc2"><div class="ct">新設住宅着工戸数（万戸・原数値／長期は年計）</div><div class="ct-en">Housing Starts (10K units, NSA; annual totals for long-term)</div><div class="cw"><canvas id="c5"></canvas></div></div>
 </div>
 
 <div class="sec us"><div class="sec-ja">🇺🇸 米国 — 景気・GDP</div><div class="sec-en">United States — Economy & GDP</div></div>
@@ -526,8 +526,8 @@ function renderAll(d){
 
   // カード描画
   document.getElementById('g0').innerHTML=
-    mca('jp_gdp','実質GDP成長率（前期比年率）','Real GDP Growth (QoQ ann.)',d.gdp.growth_yoy.toFixed(1)+'%','QoQ '+d.gdp.growth_qoq.toFixed(1)+'%',d.gdp.trend)+
-    mca('jp_gdp','名目GDP','Nominal GDP',d.gdp.nominal_trillion_yen.toFixed(0)+'兆円','Cabinet Office','neu');
+    mca('jp_gdp','実質GDP成長率（前期比年率）','Real GDP Growth (QoQ ann.)',d.gdp.growth_yoy.toFixed(1)+'%',(d.gdp.quarter||'')+'｜前期比 '+(d.gdp.growth_qoq>0?'+':'')+d.gdp.growth_qoq.toFixed(1)+'%',d.gdp.trend)+
+    mca('jp_gdp','名目GDP（年率）','Nominal GDP (ann.)',d.gdp.nominal_trillion_yen.toFixed(0)+'兆円',(d.gdp.quarter||'')+'｜内閣府','neu');
   document.getElementById('g1').innerHTML=
     mca('jp_cpi','総合CPI（前年比）','Headline CPI YoY',d.cpi.headline.toFixed(1)+'%','Inflation trend',d.cpi.trend)+
     mca('jp_core_cpi','コアCPI（前年比）','Core CPI YoY',d.cpi.core.toFixed(1)+'%','Ex. food & energy',d.cpi.trend);
@@ -543,9 +543,9 @@ function renderAll(d){
     mca('jp_wage','現金給与（前年比）','Cash Earnings YoY',d.labor.wage_growth.toFixed(1)+'%','Real wages',d.labor.wage_growth>0?'up':'down');
   document.getElementById('g4').innerHTML=
     mca('nikkei','日経平均株価','Nikkei 225',(jp.nikkei225||0).toLocaleString()+'円','DoD +'+(jp.nikkei_change||0).toFixed(0)+'¥','up')+
-    mca('jp_current_account','経常収支','Current Account',(jp.current_account||0).toFixed(1)+'兆円','Surplus','up')+
-    mca('jp_tankan','日銀短観DI','Tankan DI',(jp.tankan_dki||0)+'pt','Large Mfg.',jp.tankan_dki>0?'up':'down')+
-    mca('jp_housing','住宅着工','Housing Starts',(jp.housing_starts||0).toFixed(1)+'万戸','2025年実績 / Annual 2025','neu');
+    mca('jp_current_account','経常収支（月次）','Current Account',(jp.current_account||0).toFixed(2)+'兆円',(jp.current_account_month||'')+(jp.current_account>=0?'｜黒字':'｜赤字'),jp.current_account>=0?'up':'down')+
+    mca('jp_tankan','日銀短観DI（大企業製造業）','Tankan DI (Large Mfg.)',(jp.tankan_dki>0?'+':'')+(jp.tankan_dki||0)+'pt',(jp.tankan_label||''),jp.tankan_dki>0?'up':'down')+
+    mca('jp_housing','新設住宅着工（月次）','Housing Starts',(jp.housing_starts||0).toFixed(2)+'万戸','原数値 '+(jp.housing_month||'')+(jp.housing_yoy!=null?'｜前年同月比 '+(jp.housing_yoy>0?'+':'')+jp.housing_yoy.toFixed(1)+'%':''),jp.housing_yoy==null?'neu':(jp.housing_yoy>=0?'up':'down'));
   document.getElementById('g_usgdp').innerHTML=
     mca('us_gdp','実質GDP成長率（前期比年率）','Real GDP QoQ Ann.',(usM.gdp_qoq||0).toFixed(1)+'%','Prev: '+(usM.gdp_prev||0).toFixed(1)+'%',usM.gdp_qoq>0?'up':'down','uc')+
     mca('static_text','景況感','Economic Sentiment','Resilient','AI & CapEx driven','up','uc');
